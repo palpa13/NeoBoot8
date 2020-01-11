@@ -846,8 +846,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
 \t\t\t</screen>""" 
 
 
-    def __init__(self, session):
-		
+    def __init__(self, session):		
         Screen.__init__(self, session)
                        
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
@@ -973,7 +972,6 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             #if getBoxHostName == 'osmio4k':
                     #os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p5 /media/mmc')
 
-
         self.list = []
         self.setTitle('         NeoBoot  %s  - Menu' % PLUGINVERSION + '          ' + 'Ver. update:  %s' % UPDATEVERSION)
         self['device_icon'] = Pixmap()
@@ -1024,13 +1022,11 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             os.system('touch /etc/name')
         self.onShow.append(self.updateList)
 
-    def chackkernel(self):
-		
+    def chackkernel(self):		
                             message = _('NeoBoot wykryl niezgodnos kernela w flash, \nZainstalowac kernel dla flash image ? ?')
                             ybox = self.session.openWithCallback(self.updatekernel, MessageBox, message, MessageBox.TYPE_YESNO)
                             ybox.setTitle(_('Updating ... '))
-    def pomoc(self):
-		
+    def pomoc(self):		
         if fileExists('/.multinfo'):
             mess = _('Information available only when running Flash.')
             self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
@@ -1042,8 +1038,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
         INSTALLbox = self.session.openWithCallback(self.reinstallboot, MessageBox, _('Wybierz Tak, by przeinstalować neoboota.\n     NEOBOOT.'), MessageBox.TYPE_YESNO)
         INSTALLbox.setTitle(_('Zainstalować ponownie neoboota ?'))
                 
-    def reinstallboot(self, answer):
-		        
+    def reinstallboot(self, answer):		        
         if answer is True:
             try:
                 cmd = "echo -e '\n\n%s '" % _('NEOBOOT - Please reinstall NeoBoot....\nPlease wait, done...\nrestart systemu...')
@@ -1059,8 +1054,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             except:
                 False
          
-    def close_exit(self):
-		
+    def close_exit(self):		
         system('touch /tmp/.init_reboot')
         if not fileExists('/.multinfo'):            
             out = open('%sImageBoot/.neonextboot' % getNeoLocation(), 'w' )
@@ -1083,8 +1077,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             out.close()
         self.close()
                         
-    def ReinstallKernel(self):
-		
+    def ReinstallKernel(self):		
         from Plugins.Extensions.NeoBoot.files.tools import ReinstallKernel
         self.session.open(ReinstallKernel)
 
@@ -1093,16 +1086,14 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
 #                self.messagebox = self.session.open(MessageBox, _('Updated unnecessary, you have the latest version. Please try again later.'), MessageBox.TYPE_INFO, 8)
 #                self.close()
     
-    def neoboot_update(self):
-		
+    def neoboot_update(self):		
         if fileExists('/.multinfo'):
             mess = _('Downloading available only from the image Flash.')
             self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
         else:
             out = open('%sImageBoot/.neonextboot' % getNeoLocation() , 'w')
             out.write('Flash')
-            out.close()
-	
+            out.close()	
             message = _('\n\n\n')
             message += _('WARNING !: The update brings with it the risk of errors.\n')
             message += _('Before upgrading it is recommended that you make a backup NeoBoot.\n')
@@ -1111,15 +1102,13 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             ybox = self.session.openWithCallback(self.chackupdate2, MessageBox, message, MessageBox.TYPE_YESNO)
             ybox.setTitle(_('The download neoboot update.'))
 
-    def chackupdate2(self, yesno):
-		
+    def chackupdate2(self, yesno):		
         if yesno:
             self.chackupdate3()
         else:
             self.session.open(MessageBox, _('Canceled update.'), MessageBox.TYPE_INFO, 7)
                                            
-    def chackupdate3(self):
-		
+    def chackupdate3(self):		
         os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot;curl -O --ftp-ssl https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt;sleep 3;cd /')            
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt'):
             os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot;fullwget --no-check-certificate https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt; sleep 3;cd /')
@@ -1138,8 +1127,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
                 os.system('rm /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt')
                 self.session.open(MessageBox, _('Updated unnecessary, you have the latest version. Please try again later.'), MessageBox.TYPE_INFO)
 
-    def aktualizacjamboot(self, yesno):
-		
+    def aktualizacjamboot(self, yesno):		
         if yesno:
             if fileExists('/tmp/*.zip'):
                 os.system('rm /tmp/*.zip')
@@ -1157,7 +1145,6 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
 
                 restartbox = self.session.openWithCallback(self.restartGUI, MessageBox, _('Completed update NeoBoot. You need to restart the E2 !!!\nRestart now ?'), MessageBox.TYPE_YESNO)
                 restartbox.setTitle(_('Restart GUI now ?'))
-
         else:
             os.system('rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt')
             self.session.open(MessageBox, _('The update has been canceled.'), MessageBox.TYPE_INFO, 8)
@@ -1191,24 +1178,21 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             mess = _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install. ' % getNeoLocation() )
             self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
 
-    def MBBackup(self):
-		
+    def MBBackup(self):		
         from Plugins.Extensions.NeoBoot.files.tools import MBBackup
         self.session.open(MBBackup)
 
-    def MBRestore(self):
-		
+    def MBRestore(self):		
         from Plugins.Extensions.NeoBoot.files.tools import MBRestore
         self.session.open(MBRestore)
-
+                                                                
     def updateList(self):        
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location'):                    
+        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location') or not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh'):                    
                 self.session.open(NeoBootInstallation)
         else:
             self.updateListOK()
 
-    def updateListOK(self):
-		
+    def updateListOK(self):		
         self.list = []
         pluginpath = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
         f = open(pluginpath + '/.location', 'r')
@@ -1351,8 +1335,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
         from Plugins.Extensions.NeoBoot.files.tools import MBTools
         self.session.open(MBTools)
 
-    def remove(self):
-		
+    def remove(self):		
         self.mysel = self['config'].getCurrent()
         if 'Flash' in self.mysel:
             self.mysel = 'Flash'
@@ -1537,8 +1520,7 @@ def checkimage():
     return mycheck
 
 
-def main(session, **kwargs):
-	
+def main(session, **kwargs):	
     if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
         pass
     else:
