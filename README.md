@@ -15,7 +15,7 @@ opkg install curl
 curl -kLs https://raw.githubusercontent.com/gutosie/NeoBoot8/master/iNB.sh|sh
 #
 
-Inny sposób na zainstalkowanie, jeśli narzędzie curl nie zadziała poprawnie, to proszę spróbować polecenia :
+Inny sposób na instalacji, jeśli narzędzie curl nie zadziała poprawnie, to proszę spróbować polecenia :
 
 
 opkg update
