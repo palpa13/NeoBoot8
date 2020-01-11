@@ -26,8 +26,7 @@ else
 		LIBDIR=/lib/modules/`ls /lib/modules | tail -n 1`
 	fi
 	
-	if [ `mount | grep /proc | wc -l` -lt 1 ]; then	
-		#/bin/mount -a        	             
+	if [ `mount | grep /proc | wc -l` -lt 1 ]; then	        	             
         /bin/mount -t proc proc /proc > /dev/null 2>&1
         /bin/mount -t sysfs sysfs /sys > /dev/null 2>&1
         /sbin/depmod -Ae > /dev/null 2>&1                 
@@ -37,50 +36,11 @@ else
 	/etc/init.d/mdev > /dev/null 2>&1
 	
 	sleep 5
-	mnttest="nouuid"
-	if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install  ]; then
-        	orgimag1=`mount | sed '/sd/!d' | cut -d" " -f1`
-		selectinstall=`cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install`
-		for item in $orgimag1; do
-			selectmnt=`blkid | sed "/$selectinstall/!d" | cut -d":" -f1`
-			if [ $selectmnt == $item ]; then
-                        	mnttest="uuid"
-				mount $selectmnt `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1
-			fi
-			if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`ImageBoot  ]; then
-				umount `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
-			else
-				break;
-			fi 			
-		done
-	fi	
-	if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG  ]; then
-            mkdir -p /media/hdd > /dev/null 2>&1 
-            mkdir -p /media/usb > /dev/null 2>&1
-	fi
-	if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`  ]; then
-		mkdir `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1
-	fi
-	if [ $mnttest == "nouuid" ] ; then
-		DEVICES1=`find /dev/sd??`
-		for DEVICE in $DEVICES1;
-		do
-			if [ -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`  ]; then
-				mount $DEVICE `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
-			fi
-			if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`ImageBoot  ]; then
-				umount `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
-			else
-				break;
-			fi 
-		done
-	fi
-
+	
 	if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot  ]; then
-        /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom
-        sleep 2               
+        /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom; sleep 2               
 	fi      	
-	               
+        	               
     UPLOAD=ImagesUpload
 	if [ ! -e $NEODEVICE$IMAGEKATALOG ]; then
                 ln -sfn /sbin/init.sysvinit /sbin/init
@@ -139,20 +99,6 @@ else
                         orgimag=`mount | sed '/sd/!d' | cut -d" " -f1`
                         rm -f $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh                      
                         cp -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh                         
-                           for item in $orgimag; do
-                               ohdd=`echo  $item | cut -d"/" -f3`
-                               nhdd=`mount | sed "/\$ohdd/!d" | sed q | cut -d" " -f3`
-                               if [ $nhdd == '$NEODEVICE' ]; then
-                                  echo $nhdd
-                                  echo "mkdir "$nhdd  >> $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh
-                                  echo "mount "$item $nhdd  >> $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh 
-                               else
-                                  echo "umount "$nhdd  >> $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh
-                                  echo "mkdir "$nhdd  >> $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh
-                                  echo "mount "$item $nhdd  >> $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh 
-                                  echo ok 
-                               fi    
-                           done	
                         chmod 755 `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh 
 			#/bin/mount /dev/sda1 $NEODEVICE$IMAGEKATALOG/$TARGET/media/hdd                                                                                                                     
 			if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init.sysvinit ]; then                                                                                                                      
