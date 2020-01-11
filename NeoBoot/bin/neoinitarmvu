@@ -77,7 +77,7 @@ else
 	fi
 
 	if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot  ]; then
-        /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh
+        /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom
         sleep 2               
 	fi      	
 	               
