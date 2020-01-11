@@ -152,8 +152,13 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
                 os.system('echo "Skopiowano kernel.bin STB-ARM DM920 4K."')
 
+#arm Dreambox dm920
+            elif getBoxHostName() == 'ax51': 
+                os.system('mv ' + getNeoLocation() + 'ImagesUpload/hd51/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
+                os.system('echo "Skopiowano kernel.bin STB-ARM AX 4K Box HD51 4K."')
+
 #arm  Ariva 4K Combo
-            elif getBoxHostName() == 'et1x000': #getCPUSoC() == 'bcm7251' or
+            elif getBoxHostName() == 'arivatwin': #getCPUSoC() == 'bcm7251' or
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/e2/update/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
                 os.system('echo "Skopiowano kernel.bin STB-ARM Ariva 4K Combo."')
 
