@@ -47,7 +47,7 @@ import time
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.07'
+UPDATEVERSION = '8.08'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -289,12 +289,20 @@ class Opis(Screen):
         ybox.setTitle(_('Removed successfully.'))
 
     def mbdelete(self, answer):		
-        if answer is True:
+        if answer is True:                                                                
+            if fileExists('/etc/fstab.org'):
+                system('rm -r /etc/fstab; mv /etc/fstab.org /etc/fstab') 
+            if fileExists('/etc/init.d/volatile-media.sh.org'):
+                system(' mv /etc/init.d/volatile-media.sh.org /etc/init.d/volatile-media.sh; rm -r /etc/init.d/volatile-media.sh.org; chmod 755 /etc/init.d/volatile-media.sh ')                                                                 
+            if os.path.isfile('%sImageBoot/.neonextboot' % getNeoLocation()): 
+                os.system('rm -f /etc/neoimage; rm -f /etc/imageboot; rm -f %sImageBoot/.neonextboot; rm -f %sImageBoot/.version; rm -f %sImageBoot/.Flash; ' % (getNeoLocation(), getNeoLocation(), getNeoLocation()) )
+            if os.path.isfile('%sImagesUpload/.kernel ' % getNeoLocation()): 
+                os.system('rm -r %sImagesUpload/.kernel' % getNeoLocation())
             cmd = "echo -e '\n\n%s '" % _('Recovering setting....\n')
-            cmd1 = 'rm -R /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot; rm -R %sImageBoot/.Flash; rm -R %sImageBoot/.neonextboot; rm -R %sImageBoot/.version'
-            cmd2 = 'rm -R /sbin/neoinit*'
+            cmd1 = 'rm -R /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot' 
+            cmd2 = 'rm -R /sbin/neoinit*'                                    
             cmd3 = 'ln -sfn /sbin/init.sysvinit /sbin/init'     
-            cmd4 = 'opkg install volatile-media; sleep 2; killall -9 enigma2'  
+            cmd4 = 'opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade volatile-media; sleep 10; reboot -f'  
             self.session.open(Console, _('NeoBot was removed !!! \nThe changes will be visible only after complete restart of the receiver.'), [cmd,
              cmd1,
              cmd2,
@@ -476,16 +484,13 @@ class NeoBootInstallation(Screen):
         if fileExists('/proc/mounts'):
             with open('/proc/mounts', 'r') as f:
                 for line in f.readlines():
-                    if line.startswith('/dev/sd') and line.find('/media/neoboot') == -1 and (line.find('ext4') != -1 or line.find('ext3') != -1):
+                    if line.startswith('/dev/sd') and line.find('/media/neoboot') == -1 and (line.find('ext4') != -1 or line.find('ext3') != -1 or line.find('ext2') != -1):
                         check = True
                         break
 
         if check == False:
             self.session.open(MessageBox, _('Sorry, there is not any connected devices in your STB.\nPlease connect HDD or USB to install NeoBoot!'), MessageBox.TYPE_INFO)
         else:
-            #if getFSTAB2() != 'OKinstall':
-                #self.session.open(MessageBox, _('Device Manager encountered an error, disk drives not installed correctly !!!'), MessageBox.TYPE_INFO)
-                #self.close()
             self.mysel = self['config'].getCurrent()
             if self.checkReadWriteDir(self.mysel):
                 message = _('Do You really want to install NeoBoot in:\n ') + self.mysel + '?'
@@ -493,8 +498,8 @@ class NeoBootInstallation(Screen):
                 ybox.setTitle(_('Install Confirmation'))
             else:
                 self.close()
-################# Next Install #################
 
+################# Next Install #################
     def install2(self, yesno):		
         print 'yesno:', yesno
         if yesno:                 
@@ -515,18 +520,6 @@ class NeoBootInstallation(Screen):
                     
             if fileExists('/proc/mounts'):
                 fileExists('/proc/mounts')
-                f = open('/proc/mounts', 'r')
-                for line in f.readlines():
-                    if line.find(self.mysel):
-                        mntdev = line.split(' ')[0]
-                f.close()                
-                mntid = os.system('blkid -s UUID -o value ' + mntdev + '>/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')
-                os.system('blkid -s UUID -o value ' + mntdev + '>/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')                
-
-                if getFSTAB() != 'OKinstall':                                  
-                    os.system('blkid -c /dev/null ' + mntdev + ' > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')                    
-                if getFSTAB() != 'OKinstall':                                  
-                    os.system('blkid -c /dev/null /dev/sd* > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')
                 if getFSTAB() != 'OKinstall':                                  
                     os.system('blkid -c /dev/null /dev/sd* > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')                                                                    
                     f2 = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install', 'r')
@@ -534,13 +527,13 @@ class NeoBootInstallation(Screen):
                         if line2.find(self.mysel):
                             mntdev2 = line2.split(' ')[0][0:-1]                              
                     f2.close()                                  
-                    os.system(' echo ' + mntdev2 + '   > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')
+                    os.system(' echo ' + mntdev2 + '   > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install; chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')
+
+            system('blkid -c /dev/null /dev/sd* > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid; chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid ')                                         
                                         
             out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location', 'w')
             out.write(self.mysel)
-            out.close()
-
-            os.system('sleep 2')                                          
+            out.close()                                         
 
             if os.path.isfile('%sImageBoot/.neonextboot' % getNeoLocation()): 
                     os.system('rm -f /etc/neoimage; rm -f /etc/imageboot; rm -f %sImageBoot/.neonextboot; rm -f %sImageBoot/.version; rm -f %sImageBoot/.Flash; ' % (getNeoLocation(), getNeoLocation(), getNeoLocation()) )
@@ -570,13 +563,8 @@ class NeoBootInstallation(Screen):
             out3.write('NeoBoot\n')
             out3.write('NeoBoot-Version: ' + PLUGINVERSION + '\n')
             out3.close() 
-                                                                                 
-            os.system('echo "mount -a" >> /etc/init.d/mdev')
-
-
-            system('opkg update; chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install; blkid -c /dev/null /dev/sd* > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid; chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid ')                                         
-                                           
-            if os.system('opkg list-installed | grep python-subprocess') != 0:
+                                                                                                                            
+            if os.system('opkg update; opkg list-installed | grep python-subprocess') != 0:
                             os.system('opkg install python-subprocess')
             if os.system('opkg list-installed | grep python-argparse') != 0:
                             os.system('opkg install python-argparse')
@@ -873,7 +861,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
             elif getNeoMount2() == 'usb_install_/dev/sde1': 
                     os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sde1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdf1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sdf1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sdf1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')     
 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh'):
             if getINSTALLNeo() == '/dev/sda1':
@@ -908,11 +896,10 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdf1 ' + getNeoLocation() + '  \n')
                     out.close()
-            system('chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh')   
+            system('chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh')  
 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
             os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
-
 
         if fileExists('/tmp/.init_reboot'):
             system('rm /tmp/.init_reboot')
