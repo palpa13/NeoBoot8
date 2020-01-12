@@ -115,6 +115,30 @@ def getINSTALLNeo():
 
     return neoinstall
     
+
+def getLocationMultiboot():    
+    LocationMultiboot='UNKNOWN'
+    if os.path.exists('/media/sda1/ImageBoot'):
+            LocationMultiboot='/dev/sda1'
+    if os.path.exists('/media/sda2/ImageBoot'):
+            LocationMultiboot='/dev/sda2'
+    if os.path.exists('/media/sdb1/ImageBoot'):
+            LocationMultiboot='/dev/sdb1'
+    if os.path.exists('/media/sdb2/ImageBoot'):
+            LocationMultiboot='/dev/sdb2'                        
+    if os.path.exists('/media/sdc1/ImageBoot'):
+            LocationMultiboot='/dev/sdc1'            
+    if os.path.exists('/media/sdd1/ImageBoot'):
+            LocationMultiboot='/dev/sdd1'                        
+    if os.path.exists('/media/sde1/ImageBoot'):
+            LocationMultiboot='/dev/sde1'            
+    if os.path.exists('/media/sdf1/ImageBoot'):
+            LocationMultiboot='/dev/sdf1'   
+
+    return LocationMultiboot
+
+
+
 def getLabelDisck():
     label='UNKNOWN'
     if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid'):
