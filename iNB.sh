@@ -1,10 +1,11 @@
 #!/bin/sh
 #
-#skrypt instaluje neoboot-a
+#skrypt installs neoboot-a
 #
 if `grep -q 'osd.language=pl_PL' </etc/enigma2/settings`; then
   PL=1
 fi
+cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location
 [ -e /tmp/neoboot.zip ] && rm -f /tmp/neoboot.zip
 [ -e /tmp/neoboot-master ] && rm -rf /tmp/neoboot-master
 [ $PL ] && echo "Pobieranie archiwum..." || echo "Downloading archive file..."
