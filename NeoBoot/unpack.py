@@ -230,7 +230,7 @@ class InstallImage(Screen, ConfigListScreen):
 
 
     def check_free_space(self):
-        if Freespace('%sImagesUpload' % getNeoLocation()) < 500000:
+        if Freespace('%sImagesUpload' % getNeoLocation()) < 1000000:
             self.session.open(MessageBox, _('Not enough free space on %s !!\nYou need at least 500Mb free space.\n\nExit plugin.' % getNeoLocation() ), type=MessageBox.TYPE_ERROR)
             return False
         return True
