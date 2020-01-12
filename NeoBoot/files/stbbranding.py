@@ -68,8 +68,8 @@ def getCPUtype():
 #check install
 def getFSTAB():
     install='UNKNOWN'
-    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install'):
-        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install', 'r') as f:
+    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo'):
+        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo', 'r') as f:
             lines = f.read()
             f.close()
         if lines.find('UUID') != -1:
@@ -92,8 +92,8 @@ def getFSTAB2():
 
 def getINSTALLNeo():
     neoinstall='UNKNOWN'
-    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install'):
-        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install', 'r') as f:
+    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo'):
+        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo', 'r') as f:
             lines = f.read()
             f.close()
         if lines.find('/dev/sda1') != -1:
@@ -137,12 +137,10 @@ def getLocationMultiboot():
 
     return LocationMultiboot
 
-
-
 def getLabelDisck():
     label='UNKNOWN'
-    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid'):
-        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installblkid', 'r') as f:
+    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid'):
+        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid', 'r') as f:
             lines = f.read()
             f.close()
         if lines.find('LABEL=') != -1:
@@ -165,6 +163,15 @@ def getNeoMount():
             neo='hdd_install_/dev/sda2'
         elif lines.find('/dev/sdb2 /media/hdd') != -1:
             neo='hdd_install_/dev/sdb2'
+        elif lines.find('/dev/sdc1 /media/hdd') != -1:
+            neo='hdd_install_/dev/sdc1'
+        elif lines.find('/dev/sdd1 /media/hdd') != -1:
+            neo='hdd_install_/dev/sdd1'
+        elif lines.find('/dev/sde1 /media/hdd') != -1:
+            neo='hdd_install_/dev/sde1'
+        elif lines.find('/dev/sdf1 /media/hdd') != -1:
+            neo='hdd_install_/dev/sdf1'
+
     return neo 
 
 def getNeoMount2():
@@ -186,8 +193,23 @@ def getNeoMount2():
         elif lines.find('/dev/sde1 /media/usb') != -1:
             neo='usb_install_/dev/sde1'
         elif lines.find('/dev/sdf1 /media/usb') != -1:
+            neo='usb_install_/dev/sdf1'            
+        elif lines.find('/dev/sda1 /media/usb2') != -1:
+            neo='usb_install_/dev/sda1'
+        elif lines.find('/dev/sdb1 /media/usb2') != -1:
+            neo='usb_install_/dev/sdb1'
+        elif lines.find('/dev/sdb2 /media/usb2') != -1:
+            neo='usb_install_/dev/sdb2'
+        elif lines.find('/dev/sdc1 /media/usb2') != -1:
+            neo='usb_install_/dev/sdc1'
+        elif lines.find('/dev/sdd1 /media/usb2') != -1:
+            neo='usb_install_/dev/sdd1'
+        elif lines.find('/dev/sde1 /media/usb2') != -1:
+            neo='usb_install_/dev/sde1'
+        elif lines.find('/dev/sdf1 /media/usb2') != -1:
             neo='usb_install_/dev/sdf1'
-            
+
+
     return neo
 
 #zwraca typ chipa prcesora    
