@@ -5,7 +5,12 @@
 if `grep -q 'osd.language=pl_PL' </etc/enigma2/settings`; then
   PL=1
 fi
-cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location
+if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh ]; then
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh;
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom;
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh;
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location
+fi
 [ -e /tmp/neoboot.zip ] && rm -f /tmp/neoboot.zip
 [ -e /tmp/neoboot-master ] && rm -rf /tmp/neoboot-master
 [ $PL ] && echo "Pobieranie archiwum..." || echo "Downloading archive file..."
