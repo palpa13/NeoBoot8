@@ -840,7 +840,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
             os.system('touch /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             if getNeoMount() == 'hdd_install_/dev/sda1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\n/bin/mount /dev/sda1 /media/hdd"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/mount /dev/sda1 /media/sda1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb1': 
                     os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\n/bin/mount /dev/sdb1 /media/hdd"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sda2': 
@@ -849,7 +849,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
                     os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\n/bin/mount /dev/sdb2 /media/hdd"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
 
             if getNeoMount2() == 'usb_install_/dev/sdb1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sdb1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')      
+                    os.system('echo "\numount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/usb\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')      
             elif getNeoMount2() == 'usb_install_/dev/sda1': 
                     os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sda1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdb2': 
