@@ -4,7 +4,7 @@
                                  
 #neoboot modules
 from __init__ import _
-from Plugins.Extensions.NeoBoot.files.stbbranding import getLabelDisck, getINSTALLNeo, getNeoLocation, getNeoMount, getNeoMount2, getFSTAB, getFSTAB2, getKernelVersionString, getKernelImageVersion, getCPUtype, getCPUSoC,  getImageNeoBoot, getBoxVuModel, getBoxHostName, getTunerModel                    
+from Plugins.Extensions.NeoBoot.files.stbbranding import getLabelDisck, getINSTALLNeo, getNeoLocation, getLocationMultiboot, getNeoMount, getNeoMount2, getFSTAB, getFSTAB2, getKernelVersionString, getKernelImageVersion, getCPUtype, getCPUSoC,  getImageNeoBoot, getBoxVuModel, getBoxHostName, getTunerModel                    
 from Plugins.Extensions.NeoBoot.files import Harddisk
 from Components.About import about                                                                                                                                                    
 from enigma import getDesktop
@@ -47,7 +47,7 @@ import time
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.08'
+UPDATEVERSION = '8.09'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -840,7 +840,7 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
             os.system('touch /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             if getNeoMount() == 'hdd_install_/dev/sda1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/mount /dev/sda1 /media/sda1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/bin/mount /dev/sda1 /media/sda1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb1': 
                     os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\n/bin/mount /dev/sdb1 /media/hdd"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sda2': 
@@ -864,35 +864,36 @@ valign="center" backgroundColor="black" transparent="1" foregroundColor="white" 
                     os.system('echo "umount /media/usb\nmkdir -p /media/usb\n/bin/mount /dev/sdf1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')     
 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh'):
-            if getINSTALLNeo() == '/dev/sda1':
+            system('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')
+            if getLocationMultiboot() == '/dev/sda1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sda1 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sdb1':
+            elif getLocationMultiboot() == '/dev/sdb1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdb1 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sda2':
+            elif getLocationMultiboot() == '/dev/sda2':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sda2 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sdb2':
+            elif getLocationMultiboot() == '/dev/sdb2':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdb2 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sdc1':
+            elif getLocationMultiboot() == '/dev/sdc1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdc1 ' + getNeoLocation() + '  \n')
                     out.close()                    
-            elif getINSTALLNeo() == '/dev/sdd1':
+            elif getLocationMultiboot() == '/dev/sdd1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdd1 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sde1':
+            elif getLocationMultiboot() == '/dev/sde1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sde1 ' + getNeoLocation() + '  \n')
                     out.close()
-            elif getINSTALLNeo() == '/dev/sdf1':
+            elif getLocationMultiboot() == '/dev/sdf1':
                     out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdf1 ' + getNeoLocation() + '  \n')
                     out.close()
