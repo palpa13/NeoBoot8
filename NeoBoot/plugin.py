@@ -369,9 +369,9 @@ class NeoBootInstallation(Screen):
             system(cmd)
             print '[MULTI-BOOT]: ', cmd
             self.session.open(Console, _('    NeoBot - Available media:'), [message, cmd])
-            if fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
+            if fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
                 if not fileExists('%sImageBoot/.version' % getNeoLocation()):
-                    os.system('mkdir -p %s; sync; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom' % getNeoLocation())
+                    os.system('mkdir -p %s; sync; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh' % getNeoLocation())
             else:
                 pass
         except:
@@ -381,13 +381,14 @@ class NeoBootInstallation(Screen):
         if fileExists('/proc/mounts'):
             with open('/proc/mounts', 'r') as f:
                 for line in f.readlines():
-                    if line.startswith('/dev/sd') and line.find('/media/neoboot') == -1 and (line.find('ext4') != -1 or line.find('ext3') != -1):
+                    if line.startswith('/dev/sd') and line.find('/media/neoboot') == -1 and (line.find('ext4') != -1 or line.find('ext3') != -1 or line.find('ext2') != -1):
                         try: self.list.append(line.split(' ')[1] + '/')
                         except Exception: pass # nie powinno sie zdarzyc, ale w razie czego
         if len(self.list) == 0:
             self['label2'].setText(_('Sorry it seems that there are not Linux formatted devices mounted on your STB. To install NeoBoot you need a Linux formatted part1 device. Click on the blue button to open Devices Panel'))
         self['config'].setList(self.list)
  
+
     def checkReadWriteDir(self, configele):
         from Plugins.Extensions.NeoBoot.files import Harddisk
         import os.path
@@ -680,7 +681,7 @@ class NeoBootInstallation(Screen):
                                                           
             os.system(' ln -sfn ' + getNeoLocation() + 'ImageBoot/.neonextboot /etc/neoimage; chmod 644 ' + getNeoLocation() + 'ImagesUpload/.kernel/*; ln -sfn ' + getNeoLocation() + 'ImageBoot /etc/imageboot; rm -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh ')
 
-            os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; sleep 2; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
+            os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location')                                    
                                               
             if os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location'): 	
                 if getLabelDisck() != 'LABEL=':	
@@ -798,7 +799,7 @@ class NeoBootImageChoose(Screen):
 
 
     def __init__(self, session):		
-        Screen.__init__(self, session)                                             
+        Screen.__init__(self, session)                       
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
             os.system('touch /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
             if getNeoMount() == 'hdd_install_/dev/sda1': 
@@ -825,8 +826,28 @@ class NeoBootImageChoose(Screen):
             elif getNeoMount2() == 'usb_install_/dev/sdf1': 
                     os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdf1\n/bin/mount /dev/sdf1 /media/sdf1\n/bin/mount /dev/sdf1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
                                               
+            elif getNeoMount3() == 'cf_install_/dev/sdb1': 
+                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+            elif getNeoMount3() == 'cf_install_/dev/sdb1': 
+                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+
+            elif getNeoMount4() == 'card_install_/dev/sdb1': 
+                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+            elif getNeoMount4() == 'card_install_/dev/sdb1': 
+                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+
+            elif getNeoMount5() == 'mmc_install_/dev/sdb1': 
+                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+            elif getNeoMount5() == 'mmc_install_/dev/sdb1': 
+                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+
+
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
-            os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
+            if fileExists('/media/sda1' or '/media/sdb1'):
+                self.session.open(MessageBox, _('Uwaga!!!\n---Zrestartuj calkowicie system!!!---'), MessageBox.TYPE_INFO, 10)
+                self.close()
+            else:
+                os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh'):
             system('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
@@ -997,7 +1018,7 @@ class NeoBootImageChoose(Screen):
         if answer is True:
             try:
                 cmd = "echo -e '\n\n%s '" % _('NEOBOOT - Please reinstall NeoBoot....\nPlease wait, done...\nrestart systemu...')
-                cmd1 = 'cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; killall -9 enigma2 '                                                                                       
+                cmd1 = 'cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; killall -9 enigma2 '                                                                                       
             except:                                 
                 False
             self.session.open(Console, _('NeoBoot ARM....'), [cmd, cmd1])
@@ -1015,8 +1036,8 @@ class NeoBootImageChoose(Screen):
             out = open('%sImageBoot/.neonextboot' % getNeoLocation(), 'w' )
             out.write('Flash')
             out.close()
-        if fileExists('/media/sda1' or '/media/sdb1'):       
-                self.session.open(MessageBox, _('Uwaga!!!\n---Zrestartuj calkowicie system!!!---'), MessageBox.TYPE_INFO, 8)
+            if fileExists('/media/sda1' or '/media/sdb1'):       
+                self.session.open(MessageBox, _('Uwaga!!!\n---Zrestartuj calkowicie system!!!---'), MessageBox.TYPE_INFO, 10)
                 self.close()
         self.close()
                         
@@ -1100,6 +1121,7 @@ class NeoBootImageChoose(Screen):
                     os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; cp -rf ./bin/neoinitmipsvu /sbin; chmod 755 /sbin/neoinitmipsvu; cp -rf ./bin/neoinitmips /sbin; chmod 755 /sbin/neoinitmips; cd')                    
                 #elif getCPUtype() == 'ARMv7':
                     #os.system('')                                                                
+                os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh')
                 restartbox = self.session.openWithCallback(self.restartGUI, MessageBox, _('Completed update NeoBoot. You need to restart the E2 !!!\nRestart now ?'), MessageBox.TYPE_YESNO)
                 restartbox.setTitle(_('Restart GUI now ?'))
         else:
