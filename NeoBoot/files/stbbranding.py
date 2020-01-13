@@ -212,6 +212,43 @@ def getNeoMount2():
 
     return neo
 
+def getNeoMount3():
+    neo='UNKNOWN'
+    if os.path.exists('/proc/mounts'):
+        with open('/proc/mounts', 'r') as f:
+            lines = f.read()
+            f.close()
+        if lines.find('/dev/sda1 /media/cf') != -1:
+            neo='cf_install_/dev/sda1'
+        elif lines.find('/dev/sdb1 /media/cf') != -1:
+            neo='cf_install_/dev/sdb1'
+    return neo
+
+def getNeoMount4():
+    neo='UNKNOWN'
+    if os.path.exists('/proc/mounts'):
+        with open('/proc/mounts', 'r') as f:
+            lines = f.read()
+            f.close()            
+        if lines.find('/dev/sda1 /media/card') != -1:
+            neo='card_install_/dev/sda1'
+        elif lines.find('/dev/sdb1 /media/card') != -1:
+            neo='card_install_/dev/sdb1'
+    return neo
+    
+def getNeoMount5():
+    neo='UNKNOWN'
+    if os.path.exists('/proc/mounts'):
+        with open('/proc/mounts', 'r') as f:
+            lines = f.read()
+            f.close()
+        if lines.find('/dev/sda1 /media/mmc') != -1:
+            neo='mmc_install_/dev/sda1'
+        elif lines.find('/dev/sdb1 /media/mmc') != -1:
+            neo='mmc_install_/dev/sdb1'
+    return neo
+
+
 #zwraca typ chipa prcesora    
 def getCPUSoC():
     chipset='UNKNOWN'
