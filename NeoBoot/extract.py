@@ -217,6 +217,21 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
             rc = os.system(cmd)
         os.system('echo "Skopiowano wtyczki."')        
         
+
+        if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
+            cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+            rc = os.system(cmd)
+        cmd = 'grep "config.Nims" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.OpenWebif" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.osd" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+
         if TvList == 'True':
             if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
                 cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
