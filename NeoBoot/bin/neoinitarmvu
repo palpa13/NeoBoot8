@@ -30,7 +30,6 @@ else
                 break;
             fi
 	fi      
-
     
 	LIBDIR=/lib/modules/`uname -r`
 	if [ ! -d $LIBDIR ]; then
@@ -38,23 +37,19 @@ else
 	fi
 	echo "Mount kernel filesystems ..."	
 	if [ `mount | grep /proc | wc -l` -lt 1 ]; then	
-	        /bin/mount -a        	             
+	        /bin/mount -a -t media         	             
 		/bin/mount -t proc proc /proc > /dev/null 2>&1
 		/bin/mount -t sysfs sysfs /sys > /dev/null 2>&1
 		/sbin/depmod -Ae > /dev/null 2>&1                 
 	fi 	
 
-	sleep 5
+	sleep 1
 
 	echo "NeoBoot is starting mdev and mout HDD USB ..."
-	sleep 1
 	echo "/sbin/mdev" > /proc/sys/kernel/hotplug
 	/etc/init.d/mdev > /dev/null 2>&1
-
-
-############..>>>>>>>>
 	
-	sleep 5
+	sleep 2
 	mnttest="nouuid"
 	if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install  ]; then
         	orgimag1=`mount | sed '/sd/!d' | cut -d" " -f1`
@@ -112,52 +107,8 @@ else
 
 	fi
 
-	MODPROBE=/sbin/modprobe
-
-	echo "Load video and frame buffer modules ..."
-        #modprobe dvb
-
-	echo "NeoBoot is loading modules"
-	for mod in dvb; do
-		$MODPROBE $mod
-	done
-	
-	# Hack for loading modules which are not loaded on diffrent kernel images
-	/etc/init.d/modutils.sh
-	#
-
-	echo "Set BOOTLOGO ..."
-        sleep 1	
-                         
-	cat /etc/videomode > /proc/stb/video/videomode
-
-	#we must wait until udev has created the video device
-	(
-	if [ -d /proc/stb ]; then
-		while true; do
-			if [ -e /dev/dvb/adapter0/video0 ]; then
-				break;
-			fi;
-		done;
-	fi;
-	[ -e /etc/dropbear/dropbear_rsa_host_key ] && /usr/bin/showiframe /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/neowait.mvi;
-	) &
-          
-        /etc/init.d/bootlogo > /dev/null 2>&1
-        
-        sleep 2
-        echo "Driverload end"
-
-	if [ -f $LIBDIR/kernel/fs/autofs4/autofs4.ko ]; then
-		/sbin/insmod $LIBDIR/kernel/fs/autofs4/autofs4.ko > /dev/null 2>&1
-	fi
-
-	if [ -e /tmp/init_reboot ]; then
-		  break;
-	fi
-	
         UPLOAD=ImagesUpload
-        mount /dev/sda1 /media/hdd
+#        mount /dev/sda1 /media/hdd
 	if [ ! -e $NEODEVICE$IMAGEKATALOG ]; then
                 echo "Error mounting, Return to image Flash..."
                 sleep 2
@@ -168,12 +119,62 @@ else
                 reboot -f
 	fi
 
-
 	TARGET=Flash
 	if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/.neonextboot ]; then
 	  TARGET=`cat $NEODEVICE$IMAGEKATALOG/.neonextboot`
+	fi                                                                                               
+
+        HOSTNAME=`cat /etc/hostname`
+	if [ ! -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/boot/zImage.$HOSTNAME ]; then
+
+
+            echo "Image launched on a base kernel flash. "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/kernel_flash
+            
+	    MODPROBE=/sbin/modprobe
+
+	    echo "Load video and frame buffer modules ..."
+            #modprobe dvb
+
+	    echo "NeoBoot is loading modules"
+	    for mod in dvb; do
+		    $MODPROBE $mod
+	    done
+	
+	    # Hack for loading modules which are not loaded on diffrent kernel images
+	    /etc/init.d/modutils.sh
+	    #
+
+	    echo "Set BOOTLOGO ..."
+            sleep 1	
+                         
+	    cat /etc/videomode > /proc/stb/video/videomode
+
+    	    #we must wait until udev has created the video device
+	    (
+	    if [ -d /proc/stb ]; then
+		    while true; do
+			    if [ -e /dev/dvb/adapter0/video0 ]; then
+				    break;
+			    fi;
+		    done;
+	    fi;
+	    [ -e /etc/dropbear/dropbear_rsa_host_key ] && /usr/bin/showiframe /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/neowait.mvi;
+	    ) &
+          
+            /etc/init.d/bootlogo > /dev/null 2>&1
+        
+            sleep 2
+            echo "Driverload end"
+
+	    if [ -f $LIBDIR/kernel/fs/autofs4/autofs4.ko ]; then
+		    /sbin/insmod $LIBDIR/kernel/fs/autofs4/autofs4.ko > /dev/null 2>&1
+	    fi
 	fi
-	        
+
+	if [ -e /tmp/init_reboot ]; then
+		  break;
+	fi
+	    	        
 	if [ $TARGET = "Flash" ]; then
 		echo "NEOBOOT is booting image from " $TARGET
 		/bin/umount /media/usb > /dev/null 2>&1

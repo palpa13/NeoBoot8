@@ -119,50 +119,55 @@ else
 		        echo "NEOBOOT mount by UUID"
 	fi
 ###>>>>>>>>>>>>>>>>> 
+        HOSTNAME=`cat /etc/hostname`
+	if [ ! -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/boot/$HOSTNAME.vmlinux.gz ]; then
 
-	MODPROBE=/sbin/modprobe
+            echo "Image launched on a base kernel flash. "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/kernel_flash
 
-	echo "Load video and frame buffer modules ..."
-        modprobe dvb
+	    MODPROBE=/sbin/modprobe
 
-	echo "NeoBoot is loading modules"
-	for mod in dvb; do
-		$MODPROBE $mod
-	done
+	    echo "Load video and frame buffer modules ..."
+            modprobe dvb
+
+	    echo "NeoBoot is loading modules"
+	    for mod in dvb; do
+		    $MODPROBE $mod
+	    done
 	
-	# Hack for loading modules which are not loaded on diffrent kernel images
-	/etc/init.d/modutils.sh
-	#
+	    # Hack for loading modules which are not loaded on diffrent kernel images
+	    /etc/init.d/modutils.sh
+	    #
 
-	echo "Set BOOTLOGO ..."
-        sleep 1	
+	    echo "Set BOOTLOGO ..."
+            sleep 1	
                          
-	cat /etc/videomode > /proc/stb/video/videomode
+	    cat /etc/videomode > /proc/stb/video/videomode
 
-	#we must wait until udev has created the video device
-	(
-	if [ -d /proc/stb ]; then
-		while true; do
-			if [ -e /dev/dvb/adapter0/video0 ]; then
-				break;
-			fi;
-		done;
-	fi;
-	[ -e /etc/dropbear/dropbear_rsa_host_key ] && /usr/bin/showiframe /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/neowait.mvi;
-	) &
+	    #we must wait until udev has created the video device
+	    (
+	    if [ -d /proc/stb ]; then
+		    while true; do
+			    if [ -e /dev/dvb/adapter0/video0 ]; then
+				    break;
+			    fi;
+		    done;
+	    fi;
+	    [ -e /etc/dropbear/dropbear_rsa_host_key ] && /usr/bin/showiframe /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/neowait.mvi;
+	    ) &
           
-        /etc/init.d/bootlogo > /dev/null 2>&1
+            /etc/init.d/bootlogo > /dev/null 2>&1
         
-        sleep 2
-        echo "Driverload end"
+            sleep 2
+            echo "Driverload end"
 
-	if [ -f $LIBDIR/kernel/fs/autofs4/autofs4.ko ]; then
-		/sbin/insmod $LIBDIR/kernel/fs/autofs4/autofs4.ko > /dev/null 2>&1
-	fi
+	    if [ -f $LIBDIR/kernel/fs/autofs4/autofs4.ko ]; then
+		    /sbin/insmod $LIBDIR/kernel/fs/autofs4/autofs4.ko > /dev/null 2>&1
+	    fi
 
-	/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/fbclear > /dev/null 2>&1
+	    /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/fbclear > /dev/null 2>&1
 
- 	
+	fi 	
+
         #dodatkowe szukanie neoboota
         #mount /dev/sdb1 $NEO > /dev/null 2>&1  # <<< tu mozesz zmienic sdb1 i wpisac Twoje montowanie dysku dla neoboot
 
