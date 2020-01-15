@@ -48,7 +48,7 @@ import time
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.10'
+UPDATEVERSION = '8.11'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -844,7 +844,7 @@ class NeoBootImageChoose(Screen):
 
         if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
             if fileExists('/media/sda1' or '/media/sdb1'):
-                self.session.open(MessageBox, _('Uwaga!!!\n---Zrestartuj calkowicie system!!!---'), MessageBox.TYPE_INFO, 10)
+                self.session.open(MessageBox, _('NeoBoot - Restart the system !!!'), MessageBox.TYPE_INFO, 10)
                 self.close()
             else:
                 os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
@@ -1037,7 +1037,7 @@ class NeoBootImageChoose(Screen):
             out.write('Flash')
             out.close()
             if fileExists('/media/sda1' or '/media/sdb1'):       
-                self.session.open(MessageBox, _('Uwaga!!!\n---Zrestartuj calkowicie system!!!---'), MessageBox.TYPE_INFO, 10)
+                self.session.open(MessageBox, _('NeoBoot - Please restart the system !!!'), MessageBox.TYPE_INFO, 10)
                 self.close()
         self.close()
                         
