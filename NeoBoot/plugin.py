@@ -35,6 +35,7 @@ from os import system, listdir, mkdir, chdir, getcwd, rename as os_rename, remov
 from os.path import dirname, isdir, isdir as os_isdir
 import os
 import time
+LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # Copyright (c) , gutosie  license
 # 
 # Redystrybucja wersji programu i dokonywania modyfikacji JEST DOZWOLONE, pod warunkiem zachowania niniejszej informacji o prawach autorskich. 
@@ -48,7 +49,7 @@ import time
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.11'
+UPDATEVERSION = '8.12'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -102,7 +103,7 @@ class MyUpgrade(Screen):
 
     def changever(self):		
         ImageChoose = self.session.open(NeoBootImageChoose)
-        if fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location'):
+        if fileExists('' + LinkNeoBoot + '/.location'):
             out = open('%sImageBoot/.version' % getNeoLocation(), 'w')
             out.write(PLUGINVERSION)
             out.close()
@@ -114,9 +115,9 @@ class MyUpgrade(Screen):
 
     def wybierz(self):
         self.list = []
-        mypath = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
+        mypath = '' + LinkNeoBoot + ''
         if not fileExists(mypath + 'icons'):
-            mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/ok.png'
+            mypixmap = '' + LinkNeoBoot + '/images/ok.png'
         png = LoadPixmap(mypixmap)
         res = (_('Update neoboot in all images ?'), png, 0)
         self.list.append(res)
@@ -163,10 +164,10 @@ class MyUpgrade2(Screen):
             for fn in listdir('%sImageBoot' % getNeoLocation() ):
                 dirfile = '%sImageBoot/ ' % getNeoLocation() + fn
                 if isdir(dirfile):
-                    target = dirfile + '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
+                    target = dirfile + '' + LinkNeoBoot + ''
                     cmd = 'rm -r ' + target + ' > /dev/null 2>&1'
                     system(cmd)
-                    cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot ' + target
+                    cmd = 'cp -r ' + LinkNeoBoot + ' ' + target
                     system(cmd)          
             out = open('%sImageBoot/.version' % getNeoLocation(), 'w')
             out.write(PLUGINVERSION)
@@ -289,7 +290,7 @@ class Opis(Screen):
             if os.path.isfile('%sImagesUpload/.kernel ' % getNeoLocation()): 
                 os.system('rm -r %sImagesUpload/.kernel' % getNeoLocation())
             cmd = "echo -e '\n\n%s '" % _('Recovering setting....\n')
-            cmd1 = 'rm -R /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot' 
+            cmd1 = 'rm -R ' + LinkNeoBoot + '' 
             cmd2 = 'rm -R /sbin/neoinit*'                                    
             cmd3 = 'ln -sfn /sbin/init.sysvinit /sbin/init'     
             cmd4 = 'opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade volatile-media; sleep 10; reboot -f'  
@@ -369,9 +370,9 @@ class NeoBootInstallation(Screen):
             system(cmd)
             print '[MULTI-BOOT]: ', cmd
             self.session.open(Console, _('    NeoBot - Available media:'), [message, cmd])
-            if fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
+            if fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
                 if not fileExists('%sImageBoot/.version' % getNeoLocation()):
-                    os.system('mkdir -p %s; sync; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh' % getNeoLocation())
+                    os.system('mkdir -p %s; sync; chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh; ' + LinkNeoBoot + '/files/mountpoint.sh' % getNeoLocation())
             else:
                 pass
         except:
@@ -501,15 +502,15 @@ class NeoBootInstallation(Screen):
 
     def first_installationNeoBoot(self):
     	    self.mysel = self['config'].getCurrent()	    
-            system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; chmod 0755 ./bin/neoini*; chmod 0755 ./ex_init.py; chmod 0755 ./target/*.sh; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cp -rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoini* /sbin cd;')                                    
+            system('cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*; chmod 0755 ./ex_init.py; chmod 0755 ./target/*.sh; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cp -rf ' + LinkNeoBoot + '/bin/neoini* /sbin cd;')                                    
             cmd1 = 'mkdir ' + self.mysel + 'ImageBoot;mkdir ' + self.mysel + 'ImagesUpload' 
             system(cmd1)
             cmd2 = 'mkdir ' + self.mysel + 'ImageBoot;mkdir ' + self.mysel + 'ImagesUpload/.kernel' 
             system(cmd2)                                               
-            if os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location'): 
-                    os.system('rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location' )                      
-            system('blkid -c /dev/null /dev/sd* > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid; chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid ')                                                                                 
-            out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location', 'w')
+            if os.path.isfile('' + LinkNeoBoot + '/.location'): 
+                    os.system('rm -f ' + LinkNeoBoot + '/.location' )                      
+            system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')                                                                                 
+            out = open('' + LinkNeoBoot + '/.location', 'w')
             out.write(self.mysel)
             out.close()                                         
             if os.path.isfile('%sImageBoot/.neonextboot' % getNeoLocation()): 
@@ -533,7 +534,7 @@ class NeoBootInstallation(Screen):
             out2.write('Flash ')
             out2.close()
 
-            out3 = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.neo_info', 'w')
+            out3 = open('' + LinkNeoBoot + '/.neo_info', 'w')
             out3.write('Kernel\n')
             out3.write('Kernel-Version: ' + about.getKernelVersionString() + '\n')
             out3.write('NeoBoot\n')
@@ -569,32 +570,32 @@ class NeoBootInstallation(Screen):
                                         
             # ARM - OctagonSF4008 - DM900 - Zgemma h7S - Octagon sf 8008 - AX HD60 4K  #gbquad4k  arm , #osmio4k  arm, #Zgemma h9  arm, #Zgemma h7S  arm , #Octagon SF4008         
             if getBoxHostName() == 'ax51' or getBoxHostName() == 'dm920' or getBoxHostName() == 'et1x000' or getBoxHostName() == 'ustym4kpro' or getTunerModel() ==  'ustym4kpro' or getCPUSoC() == 'bcm7251' or getBoxHostName() == 'sf4008' or getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7' or getCPUSoC() == 'bcm7252s' or getBoxHostName() == 'gbquad4k' or getBoxHostName == 'osmio4k' or getBoxHostName() == 'zgemmah9s' or getBoxHostName() == 'ax60' or getBoxHostName() == 'sf8008' or getCPUSoC() == 'bcm7251'  or getCPUSoC() == 'BCM97252SSFF' or getBoxHostName() == 'dm900':
-                        os.system('cp -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; chmod 0755 /sbin/neoinitarm; ln -sfn /sbin/neoinitarm /sbin/init; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/arm_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                        os.system('cp -f ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; chmod 0755 /sbin/neoinitarm; ln -sfn /sbin/neoinitarm /sbin/init; mv ' + LinkNeoBoot + '/target/arm_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                  
             #VUPLUS ARM 
             elif getCPUtype() == 'ARMv7' and getBoxHostName() !=  'ustym4kpro':
                 if getCPUSoC() == '7278' or getBoxHostName() == 'vuduo4k':
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/' )
-#                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarmvu /sbin/neoinitarmvu; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/duo4k_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')  
-                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarmvuDuo4k /sbin/neoinitarmvu; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/duo4k_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')  
+                        os.system('cd ' + LinkNeoBoot + '/' )
+#                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cp -Rf ' + LinkNeoBoot + '/bin/neoinitarmvu /sbin/neoinitarmvu; mv ' + LinkNeoBoot + '/target/duo4k_run.py ' + LinkNeoBoot + '/run.py; cd')  
+                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cp -Rf ' + LinkNeoBoot + '/bin/neoinitarmvuDuo4k /sbin/neoinitarmvu; mv ' + LinkNeoBoot + '/target/duo4k_run.py ' + LinkNeoBoot + '/run.py; cd')  
                         os.system('chmod 755 /sbin/neoinitarm; chmod 755 /sbin/neoinitarmvu')                  
                         os.system('dd if=/dev/mmcblk0p6 of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()))
-                        os.system('mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vuDuo4Kmmcblk0p6.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh; cd')                         
+                        os.system('mv ' + LinkNeoBoot + '/target/vuDuo4Kmmcblk0p6.sh ' + LinkNeoBoot + '/files/kernel.sh; cd')                         
 
                 elif getCPUSoC() == '72604' or getBoxHostName() == 'vuzero4k':
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/' )
-                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarmvu /sbin/neoinitarmvu; cd')  
+                        os.system('cd ' + LinkNeoBoot + '/' )
+                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cp -Rf ' + LinkNeoBoot + '/bin/neoinitarmvu /sbin/neoinitarmvu; cd')  
                         os.system('chmod 755 /sbin/neoinitarm; chmod 755 /sbin/neoinitarmvu')                  
                         os.system('dd if=/dev/mmcblk0p4 of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()))      
-                        os.system('mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vuUno4Kmmcblk0p6.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/zero4k_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                        os.system('mv ' + LinkNeoBoot + '/target/vuUno4Kmmcblk0p6.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/zero4k_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                                                                                                                                                                                                                                                                                                                                                             
                 #Zgemma h7S  arm  
                 elif getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7':
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/' )
-                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; cd') 
+                        os.system('cd ' + LinkNeoBoot + '/' )
+                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cd') 
                         os.system('chmod 755 /sbin/neoinitarm; chmod 755 /sbin/neoinitarm')                 
-                        os.system('python /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/findkerneldevice.py; dd if=/dev/kernel of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()) )
-                        os.system('mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/h7s_kernel.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh;mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/h7s_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                        os.system('python ' + LinkNeoBoot + '/target/findkerneldevice.py; dd if=/dev/kernel of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()) )
+                        os.system('mv ' + LinkNeoBoot + '/target/h7s_kernel.sh ' + LinkNeoBoot + '/files/kernel.sh;mv ' + LinkNeoBoot + '/target/h7s_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                         
                 elif getCPUSoC() or getBoxHostName() == ['7444s', 
                  '7252s',
@@ -603,11 +604,11 @@ class NeoBootInstallation(Screen):
                  'vuuno4k',
                  'vusolo4k',
                  'vuuno4kse'] : 
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/' )
-                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarm /sbin/neoinitarm; cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitarmvu /sbin/neoinitarmvu; cd')  
+                        os.system('cd ' + LinkNeoBoot + '/' )
+                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cp -Rf ' + LinkNeoBoot + '/bin/neoinitarmvu /sbin/neoinitarmvu; cd')  
                         os.system('chmod 755 /sbin/neoinitarm; chmod 755 /sbin/neoinitarmvu')                  
                         os.system('dd if=/dev/mmcblk0p1 of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()) )
-                        os.system('mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_mmcblk0p1.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh;mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu4k_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                        os.system('mv ' + LinkNeoBoot + '/target/vu_mmcblk0p1.sh ' + LinkNeoBoot + '/files/kernel.sh;mv ' + LinkNeoBoot + '/target/vu4k_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                         
             # MIPS                                                                                                                                                                                                                 
             elif getCPUtype() == 'MIPS':
@@ -646,44 +647,44 @@ class NeoBootInstallation(Screen):
                             if fileExists ('/usr/sbin/nanddump'):
                                 os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; /usr/sbin/nanddump /dev/mtd1  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
                             elif not fileExists ('/usr/sbin/nanddump'):
-                                os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/nanddump_mips /dev/mtd1  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
-                            os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_dev_mtd1.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh;mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_mtd1_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                                os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; ' + LinkNeoBoot + '/bin/nanddump_mips /dev/mtd1  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
+                            os.system('cd ' + LinkNeoBoot + '/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv ' + LinkNeoBoot + '/target/vu_dev_mtd1.sh ' + LinkNeoBoot + '/files/kernel.sh;mv ' + LinkNeoBoot + '/target/vu_mtd1_run.py ' + LinkNeoBoot + '/run.py; cd')                         
 
                         #vuplus stb mtd2  
                         elif getBoxHostName() == 'vusolo2' or getBoxHostName() == 'vuduo2' or getBoxHostName() == 'vusolose' or getBoxHostName() == 'vuzero':
                             if fileExists ('/usr/sbin/nanddump'):
                                 os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; /usr/sbin/nanddump /dev/mtd2  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
                             elif not fileExists ('/usr/sbin/nanddump'):
-                                os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/nanddump_mips /dev/mtd2  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
-                            os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_dev_mtd2.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh;mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_mtd2_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                                os.system('cd ' + getNeoLocation() + 'ImagesUpload/.kernel/; ' + LinkNeoBoot + '/bin/nanddump_mips /dev/mtd2  > vmlinux.gz; mv ./vmlinux.gz ./' + getBoxHostName() + '.vmlinux.gz' )
+                            os.system('cd ' + LinkNeoBoot + '/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv ' + LinkNeoBoot + '/target/vu_dev_mtd2.sh ' + LinkNeoBoot + '/files/kernel.sh;mv ' + LinkNeoBoot + '/target/vu_mtd2_run.py ' + LinkNeoBoot + '/run.py; cd')                         
 
                         # mbultra
                         elif  getCPUSoC() == 'bcm7424' or getBoxHostName == 'mbultra' or getTunerModel() == 'ini-8000sv':
                             os.system('cd; cd /media/neoboot/ImagesUpload/.kernel; /usr/sbin/nanddump /dev/mtd2 -o > vmlinux.gz; mv /home/root/vmlinux.gz /media/neoboot/ImagesUpload/.kernel/')
-                            os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_dev_mtd2.sh /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/vu_mtd2_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                            os.system('cd ' + LinkNeoBoot + '/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv ' + LinkNeoBoot + '/target/vu_dev_mtd2.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/vu_mtd2_run.py ' + LinkNeoBoot + '/run.py; cd')                         
 
                         #inne stb                                                                                                                                                                                                                                
                         elif getCPUSoC() == 'bcm7358' or getCPUSoC() == 'bcm7362' or getCPUSoC() == 'BCM7362' or getCPUSoC() == 'bcm7356' or getCPUSoC() == 'bcm7241' or getCPUSoC() == 'bcm7362' or getBoxHostName() == 'mbmini' or getBoxHostName() == 'osmini' or getTunerModel() == 'ini-1000sv' or getTunerModel() == 'h3':
-                            os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; mv ./bin/fontforneoboot.ttf /usr/share/fonts; mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; cp -f ./bin/neoinitmipsvu /sbin/neoinitmipsvu; chmod 0755 /sbin/neoinit*; chmod 0755 ./bin/neobm; chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips; ln -sf /media/neoboot/ImageBoot/.neonextboot /etc/neoimage; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target/mips_run.py /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/run.py; cd')                         
+                            os.system('cd ' + LinkNeoBoot + '/; mv ./bin/fontforneoboot.ttf /usr/share/fonts; mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; cp -f ./bin/neoinitmipsvu /sbin/neoinitmipsvu; chmod 0755 /sbin/neoinit*; chmod 0755 ./bin/neobm; chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips; ln -sf /media/neoboot/ImageBoot/.neonextboot /etc/neoimage; mv ' + LinkNeoBoot + '/target/mips_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                            
  
-                        os.system('cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitmips /sbin/neoinitmips; cp -Rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitmipsvu /sbin/neoinitmipsvu') 
-                        os.system('chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/nfidump; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/nanddump_mips; rm -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/neoinitar*; cd')
-                        os.system('chmod 755 /sbin/neoinitmips; chmod 0755 /sbin/neoinitmipsvu; cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/;mv ./bin/fontforneoboot.ttf /usr/share/fonts;mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; chmod 0755 ./bin/neobm;chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips ')
+                        os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitmips /sbin/neoinitmips; cp -Rf ' + LinkNeoBoot + '/bin/neoinitmipsvu /sbin/neoinitmipsvu') 
+                        os.system('chmod 755 ' + LinkNeoBoot + '/bin/nfidump; chmod 0755 ' + LinkNeoBoot + '/bin/nanddump_mips; rm -r ' + LinkNeoBoot + '/bin/neoinitar*; cd')
+                        os.system('chmod 755 /sbin/neoinitmips; chmod 0755 /sbin/neoinitmipsvu; cd ' + LinkNeoBoot + '/;mv ./bin/fontforneoboot.ttf /usr/share/fonts;mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; chmod 0755 ./bin/neobm;chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips ')
                                                                                                                                                                                                                                                                                                             
             if fileExists('/home/root/vmlinux.gz'):
                             os.system('mv -f /home/root/vmlinux.gz %sImagesUpload/.kernel/%s.vmlinux.gz' % (getNeoLocation(), getBoxHostName()) )  
                                              
             if getCPUtype() == 'ARMv7':                                                                                                                                     
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; mv ./bin/fbcleararm ./bin/fbclear; rm -f ./bin/fbclearmips; mv ./ubi_reader_arm ./ubi_reader; rm -r ./ubi_reader_mips; rm ./bin/neoinitmips; rm ./bin/neoinitmipsvu; rm -r ./bin/nanddump_mips; rm ./bin/nfidump; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; cd')   
+                        os.system('cd ' + LinkNeoBoot + '/; mv ./bin/fbcleararm ./bin/fbclear; rm -f ./bin/fbclearmips; mv ./ubi_reader_arm ./ubi_reader; rm -r ./ubi_reader_mips; rm ./bin/neoinitmips; rm ./bin/neoinitmipsvu; rm -r ./bin/nanddump_mips; rm ./bin/nfidump; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; cd')   
             elif getCPUtype() == 'MIPS':       
-                        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; mv ./bin/fbclearmips ./bin/fbclear; rm -f ./bin/fbcleararm; mv ./ubi_reader_mips ./ubi_reader; rm -r ./ubi_reader_arm; rm -f /bin/neoinitarm; rm -f /bin/neoinitarmvu; rm -r ./bin/nanddump_arm')
+                        os.system('cd ' + LinkNeoBoot + '/; mv ./bin/fbclearmips ./bin/fbclear; rm -f ./bin/fbcleararm; mv ./ubi_reader_mips ./ubi_reader; rm -r ./ubi_reader_arm; rm -f /bin/neoinitarm; rm -f /bin/neoinitarmvu; rm -r ./bin/nanddump_arm')
                                                           
-            os.system(' ln -sfn ' + getNeoLocation() + 'ImageBoot/.neonextboot /etc/neoimage; chmod 644 ' + getNeoLocation() + 'ImagesUpload/.kernel/*; ln -sfn ' + getNeoLocation() + 'ImageBoot /etc/imageboot; rm -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/target; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh ')
+            os.system(' ln -sfn ' + getNeoLocation() + 'ImageBoot/.neonextboot /etc/neoimage; chmod 644 ' + getNeoLocation() + 'ImagesUpload/.kernel/*; ln -sfn ' + getNeoLocation() + 'ImageBoot /etc/imageboot; rm -r ' + LinkNeoBoot + '/target; chmod 0755 ' + LinkNeoBoot + '/files/kernel.sh ')
 
-            os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location')                                    
+            os.system('chmod 0755 ' + LinkNeoBoot + '/files/neo_location')                                    
                                               
-            if os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location'): 	
+            if os.path.isfile('' + LinkNeoBoot + '/.location'): 	
                 if getLabelDisck() != 'LABEL=':	
                     cmd = "echo -e '\n\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
                     cmd1 = "echo -e '\n\n%s '" % _('NeoBoot wykrył że dyski nie mają nadanej nazwy Label.\n') 
@@ -800,91 +801,91 @@ class NeoBootImageChoose(Screen):
 
     def __init__(self, session):		
         Screen.__init__(self, session)                       
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
-            os.system('touch /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+        if not fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
+            os.system('touch ' + LinkNeoBoot + '/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> ' + LinkNeoBoot + '/files/mountpoint.sh; chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh') 
             if getNeoMount() == 'hdd_install_/dev/sda1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/bin/mount /dev/sda1 /media/sda1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/hdd\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/hdd\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sda2': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda2\n/bin/mount /dev/sda2 /media/hdd\n/bin/mount /dev/sda2 /media/sda2"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda2\n/bin/mount /dev/sda2 /media/hdd\n/bin/mount /dev/sda2 /media/sda2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb2': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/hdd\n/bin/mount /dev/sdb2 /media/sdb2"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/hdd\n/bin/mount /dev/sdb2 /media/sdb2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             if getNeoMount2() == 'usb_install_/dev/sdb1': 
-                    os.system('echo "\numount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/usb\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')      
+                    os.system('echo "\numount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/usb\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')      
             elif getNeoMount2() == 'usb_install_/dev/sda1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/sda1\n/bin/mount /dev/sda1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/sda1\n/bin/mount /dev/sda1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdb2': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/sdb2\n/bin/mount /dev/sdb2 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/sdb2\n/bin/mount /dev/sdb2 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdc1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdc1\n/bin/mount /dev/sdc1 /media/sdb2\n/bin/mount /dev/sdc1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdc1\n/bin/mount /dev/sdc1 /media/sdb2\n/bin/mount /dev/sdc1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdd1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdd1\n/bin/mount /dev/sdd1 /media/sdd1\n/bin/mount /dev/sdd1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdd1\n/bin/mount /dev/sdd1 /media/sdd1\n/bin/mount /dev/sdd1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sde1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sde1\n/bin/mount /dev/sde1 /media/sde1\n/bin/mount /dev/sde1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sde1\n/bin/mount /dev/sde1 /media/sde1\n/bin/mount /dev/sde1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdf1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdf1\n/bin/mount /dev/sdf1 /media/sdf1\n/bin/mount /dev/sdf1 /media/usb"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')  
+                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdf1\n/bin/mount /dev/sdf1 /media/sdf1\n/bin/mount /dev/sdf1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
                                               
             elif getNeoMount3() == 'cf_install_/dev/sdb1': 
-                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount3() == 'cf_install_/dev/sdb1': 
-                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             elif getNeoMount4() == 'card_install_/dev/sdb1': 
-                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount4() == 'card_install_/dev/sdb1': 
-                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             elif getNeoMount5() == 'mmc_install_/dev/sdb1': 
-                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount5() == 'mmc_install_/dev/sdb1': 
-                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
+                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
 
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom'):
+        if not fileExists('' + LinkNeoBoot + '/files/neom'):
             if fileExists('/media/sda1' or '/media/sdb1'):
                 self.session.open(MessageBox, _('NeoBoot - Restart the system !!!'), MessageBox.TYPE_INFO, 10)
                 self.close()
             else:
-                os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo_location; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom')                                    
+                os.system('chmod 0755 ' + LinkNeoBoot + '/files/neo_location; ' + LinkNeoBoot + '/files/neo_location; chmod 0755 ' + LinkNeoBoot + '/files/neom')                                    
 
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh'):
-            system('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh') 
-            system('echo ' + getLocationMultiboot() + ' > /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install; chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install')    
+        if not fileExists('' + LinkNeoBoot + '/files/neo.sh'):
+            system('' + LinkNeoBoot + '/files/mountpoint.sh') 
+            system('echo ' + getLocationMultiboot() + ' > ' + LinkNeoBoot + '/bin/install; chmod 0755 ' + LinkNeoBoot + '/bin/install')    
             if getLocationMultiboot() == '/dev/sda1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sda1 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sdb1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdb1 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sda2':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sda2 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sdb2':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdb2 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sdc1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdc1 ' + getNeoLocation() + '  \n')
                     out.close()                    
             elif getLocationMultiboot() == '/dev/sdd1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdd1 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sde1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sde1 ' + getNeoLocation() + '  \n')
                     out.close()
             elif getLocationMultiboot() == '/dev/sdf1':
-                    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh', 'w')
+                    out = open('' + LinkNeoBoot + '/files/neo.sh', 'w')
                     out.write('#!/bin/sh\n#DESCRIPTION=This script by gutosie\n\n/bin/mount /dev/sdf1 ' + getNeoLocation() + '  \n')
                     out.close()
-            system('chmod 755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh')  
+            system('chmod 755 ' + LinkNeoBoot + '/files/neo.sh')  
 
         if fileExists('/tmp/.init_reboot'):
             system('rm /tmp/.init_reboot')
@@ -1018,7 +1019,7 @@ class NeoBootImageChoose(Screen):
         if answer is True:
             try:
                 cmd = "echo -e '\n\n%s '" % _('NEOBOOT - Please reinstall NeoBoot....\nPlease wait, done...\nrestart systemu...')
-                cmd1 = 'cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; killall -9 enigma2 '                                                                                       
+                cmd1 = 'cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; killall -9 enigma2 '                                                                                       
             except:                                 
                 False
             self.session.open(Console, _('NeoBoot ARM....'), [cmd, cmd1])
@@ -1088,22 +1089,22 @@ class NeoBootImageChoose(Screen):
             self.session.open(MessageBox, _('Canceled update.'), MessageBox.TYPE_INFO, 7)
                                            
     def chackupdate3(self):		
-        os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot;curl -O --ftp-ssl https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt;sleep 3;cd /')            
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt'):
-            os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot;fullwget --no-check-certificate https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt; sleep 3;cd /')
-            if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt'):
+        os.system('cd ' + LinkNeoBoot + ';curl -O --ftp-ssl https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt;sleep 3;cd /')            
+        if not fileExists('' + LinkNeoBoot + '/ver.txt'):
+            os.system('cd ' + LinkNeoBoot + ';fullwget --no-check-certificate https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt; sleep 3;cd /')
+            if not fileExists('' + LinkNeoBoot + '/ver.txt'):
                 self.session.open(MessageBox, _('Unfortunately, at the moment not found an update, try again later.'), MessageBox.TYPE_INFO, 8)
         else:
             mypath = ''
-            version = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt', 'r')
+            version = open('' + LinkNeoBoot + '/ver.txt', 'r')
             mypath = float(version.read().strip())
             version.close()
             if float(UPDATEVERSION) != mypath:
                 message = _('NeoBoot has detected update.\nDo you want to update NeoBoota now ?')
                 ybox = self.session.openWithCallback(self.aktualizacjamboot, MessageBox, message, MessageBox.TYPE_YESNO)
                 ybox.setTitle(_('Updating ... '))
-            elif fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt'):
-                os.system('rm /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt')
+            elif fileExists('' + LinkNeoBoot + '/ver.txt'):
+                os.system('rm ' + LinkNeoBoot + '/ver.txt')
                 self.session.open(MessageBox, _('Updated unnecessary, you have the latest version. Please try again later.'), MessageBox.TYPE_INFO)
 
     def aktualizacjamboot(self, yesno):		
@@ -1116,16 +1117,16 @@ class NeoBootImageChoose(Screen):
                     if not fileExists('/tmp/neoboot.zip'):
                         self.session.open(MessageBox, _('Unfortunately, at the moment not found an update, try again later.'), MessageBox.TYPE_INFO, 8)
             else:                                                                                                                                                                                                                                                                                                                                                   
-                os.system('cd /tmp/; unzip -qn ./neoboot.zip; rm -f ./neoboot.zip; cp -rf ./NeoBoot8-master/NeoBoot /usr/lib/enigma2/python/Plugins/Extensions; rm -rf /tmp/NeoBoot8-master;  rm /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt; cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; chmod 0755 ./bin/neoini*;  chmod 0755 ./ex_init.py; chmod 0755 ./target/*; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cd')                    
+                os.system('cd /tmp/; unzip -qn ./neoboot.zip; rm -f ./neoboot.zip; cp -rf ./NeoBoot8-master/NeoBoot /usr/lib/enigma2/python/Plugins/Extensions; rm -rf /tmp/NeoBoot8-master;  rm ' + LinkNeoBoot + '/ver.txt; cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*;  chmod 0755 ./ex_init.py; chmod 0755 ./target/*; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cd')                    
                 if getCPUtype() == 'MIPS':
-                    os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; cp -rf ./bin/neoinitmipsvu /sbin; chmod 755 /sbin/neoinitmipsvu; cp -rf ./bin/neoinitmips /sbin; chmod 755 /sbin/neoinitmips; cd')                    
+                    os.system('cd ' + LinkNeoBoot + '/; cp -rf ./bin/neoinitmipsvu /sbin; chmod 755 /sbin/neoinitmipsvu; cp -rf ./bin/neoinitmips /sbin; chmod 755 /sbin/neoinitmips; cd')                    
                 #elif getCPUtype() == 'ARMv7':
                     #os.system('')                                                                
-                os.system('cd /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh')
+                os.system('cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh')
                 restartbox = self.session.openWithCallback(self.restartGUI, MessageBox, _('Completed update NeoBoot. You need to restart the E2 !!!\nRestart now ?'), MessageBox.TYPE_YESNO)
                 restartbox.setTitle(_('Restart GUI now ?'))
         else:
-            os.system('rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ver.txt')
+            os.system('rm -f ' + LinkNeoBoot + '/ver.txt')
             self.session.open(MessageBox, _('The update has been canceled.'), MessageBox.TYPE_INFO, 8)
 
     def restartGUI(self, answer):		
@@ -1166,14 +1167,14 @@ class NeoBootImageChoose(Screen):
         self.session.open(MBRestore)
                                                                 
     def updateList(self):        
-        if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location') or not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/kernel.sh'):                    
+        if not fileExists('' + LinkNeoBoot + '/.location') or not fileExists('' + LinkNeoBoot + '/files/kernel.sh'):                    
                 self.session.open(NeoBootInstallation)
         else:
             self.updateListOK()
 
     def updateListOK(self):		
         self.list = []
-        pluginpath = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
+        pluginpath = '' + LinkNeoBoot + ''
         f = open(pluginpath + '/.location', 'r')
         mypath = f.readline().strip()
         f.close()
@@ -1189,7 +1190,7 @@ class NeoBootImageChoose(Screen):
         icon = pluginpath + '/images/' + icon
         png = LoadPixmap(icon)
         self['device_icon'].instance.setPixmap(png)                               
-        linesdevice = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location', 'r').readlines()
+        linesdevice = open('' + LinkNeoBoot + '/.location', 'r').readlines()
         deviceneo = linesdevice[0][0:-1]
         device = deviceneo
         ustot = usfree = usperc = ''
@@ -1512,12 +1513,12 @@ def checkimage():
         mycheck = False
     return mycheck
 
-def main(session, **kwargs):	
-    if not fileExists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh'):
+def main(session, **kwargs):	            
+    if not fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
         pass
     else:
         if not fileExists('%sImageBoot/.version' % getNeoLocation()):
-            os.system('chmod 0755 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh; /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh')
+            os.system('chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh; ' + LinkNeoBoot + '/files/mountpoint.sh')
 
     version = 0           
     if fileExists('%sImageBoot/.version' % getNeoLocation()):
@@ -1549,6 +1550,6 @@ def menu(menuid, **kwargs):
 from Plugins.Plugin import PluginDescriptor
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name='NeoBootUstym ', description='NeoBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NeoBoot', description=_('Installing multiple images'), icon='neo.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)]
+    return [PluginDescriptor(name='NeoBoot - change root ', description='NeoBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NeoBoot', description=_('Installing multiple images'), icon='neo.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)]
 
 ####################### _(-_-)_ gutosie _(-_-)_ #######################

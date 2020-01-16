@@ -30,6 +30,7 @@ from os import system, listdir, mkdir, chdir, getcwd, rename as os_rename, remov
 from os.path import dirname, isdir, isdir as os_isdir
 import os
 import time
+LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 
 class InstallImage(Screen, ConfigListScreen):
     screenwidth = getDesktop(0).size().width()
@@ -180,7 +181,7 @@ class InstallImage(Screen, ConfigListScreen):
 
     def imageInstall(self):
         if self.check_free_space():
-            pluginpath = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
+            pluginpath = '' + LinkNeoBoot + ''
             myerror = ''
             source = self.source.value.replace(' ', '')
             target = self.target.value.replace(' ', '')
