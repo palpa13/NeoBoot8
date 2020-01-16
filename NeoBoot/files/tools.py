@@ -27,8 +27,9 @@ import os
 import time
 import sys
 import struct, shutil
+LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 
-PLUGINVERSION = '5.00'
+PLUGINVERSION = '8.00'
 
 neoboot = getNeoLocation()
  
