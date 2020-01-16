@@ -142,6 +142,12 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
                 os.system('echo "Skopiowano kernel.bin STB-ARM Octagon."')   
 
+#arm /uclan/ustym4kpro
+            elif getCPUSoC() == '3798mv200' or getBoxHostName() == 'ustym4kpro':
+                os.system('mv ' + getNeoLocation() + 'ImagesUpload/uclan/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
+                os.system('echo "Skopiowano kernel.bin STB-ARM uclan ustym4kpro."')   
+
+
 #arm Galaxy Innvations ET-11000 4K et1x000
             elif getBoxHostName() == 'et1x000': #getCPUSoC() == 'bcm7251' or
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
@@ -650,8 +656,6 @@ def RemoveUnpackDirs():
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/dm900')
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/hd51'):
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/hd51')
-    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/gigablue'):
-        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/gigablue')
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/miraclebox'):
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/miraclebox')
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/e4hd'):
@@ -663,8 +667,7 @@ def RemoveUnpackDirs():
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/*.nfi'):
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/*.nfi')
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/zgemma'):
-        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/zgemma')                                                                                               
-        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan') 
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/zgemma')                                                                                                       
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler1'):
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/formuler1')
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler3'):
@@ -699,7 +702,30 @@ def RemoveUnpackDirs():
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h9')                      
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/uclan'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/uclan') 
-
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan') 
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/beyonwiz'):
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/apploader.bin ' + getNeoLocation() + 'ImagesUpload/beyonwiz') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/beyonwiz') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/beyonwiz') 
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/beyonwiz')        
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/amiko'):
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/amiko') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/apploader.bin ' + getNeoLocation() + 'ImagesUpload/amiko') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/amiko') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/amiko') 
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/amiko')
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/gigablue'):
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/apploader.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/gigablue')        
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/gigablue')        
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/uclan'):
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/apploader.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/gigablue')  
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan')                
 
 def NEOBootExtract(source, target, ZipDelete, BlackHole):
     RemoveUnpackDirs()
@@ -1227,6 +1253,22 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
             os.system('echo "Please wait. System installation Ferguson Ariva 4K Combo w toku..."')
             cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/dm920; tar -jxvf ' + getNeoLocation() + 'ImagesUpload/dm920/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
             rc = os.system(cmd) 
+        elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/beyonwiz/v2'):
+            os.system('echo "Please wait. System installation beyonwiz v2 4K w toku..."')
+            cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/beyonwiz/v2; tar -jxvf ' + getNeoLocation() + 'ImagesUpload/beyonwiz/v2/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
+            rc = os.system(cmd)             
+        elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/amiko/viper4k'):
+            os.system('echo "Please wait. System installation Amiko viper4k 4K w toku..."')
+            cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/amiko/viper4k; tar -jxvf ' + getNeoLocation() + 'ImagesUpload/amiko/viper4k/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
+            rc = os.system(cmd)             
+        elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/gigablue/trio4k'):
+            os.system('echo "Please wait. System installation trio4k 4K Combo w toku..."')
+            cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/gigablue/trio4k; tar -jxvf ' + getNeoLocation() + 'ImagesUpload/gigablue/trio4k/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
+            rc = os.system(cmd)             
+        elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/gigablue/ip4k'):
+            os.system('echo "Please wait. System installation gbip4k 4K w toku..."')
+            cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/gigablue/ip4k; tar -jxvf ' + getNeoLocation() + 'ImagesUpload/gigablue/ip4k/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
+            rc = os.system(cmd)                                     
         else:
             os.system('echo "NeoBoot wykrył dłąd!!! Prawdopodobnie brak pliku instalacyjnego."')
 
