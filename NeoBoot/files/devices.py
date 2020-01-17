@@ -461,7 +461,7 @@ class DevicesConf(Screen, ConfigListScreen):
                     os.rename(filename2, filename)
                     os.system('echo "mount -a" >> /etc/init.d/udev')
 
-           if fileExists('/etc/init.d/mdev'):
+            if fileExists('/etc/init.d/mdev'):
                 filename = '/etc/init.d/mdev'
                 if os.path.exists(filename):
 
