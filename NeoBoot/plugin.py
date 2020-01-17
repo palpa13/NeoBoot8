@@ -4,7 +4,7 @@
                                  
 #neoboot modules
 from __init__ import _
-from Plugins.Extensions.NeoBoot.files.stbbranding import getLabelDisck, getINSTALLNeo, getNeoLocation, getLocationMultiboot, getNeoMount, getNeoMount2, getFSTAB, getFSTAB2, getKernelVersionString, getKernelImageVersion, getCPUtype, getCPUSoC,  getImageNeoBoot, getBoxVuModel, getBoxHostName, getTunerModel                    
+from Plugins.Extensions.NeoBoot.files.stbbranding import getLabelDisck, getINSTALLNeo, getNeoLocation, getLocationMultiboot, getNeoMount, getNeoMount2, getNeoMount3, getNeoMount4, getFSTAB, getFSTAB2, getKernelVersionString, getKernelImageVersion, getCPUtype, getCPUSoC,  getImageNeoBoot, getBoxVuModel, getBoxHostName, getTunerModel                    
 from Plugins.Extensions.NeoBoot.files import Harddisk
 from Components.About import about                                                                                                                                                    
 from enigma import getDesktop
