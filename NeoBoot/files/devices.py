@@ -430,6 +430,54 @@ class DevicesConf(Screen, ConfigListScreen):
                 line2 = '"' + self.device_uuid2 + '"' + ':' + self.mountp + '\n'
                 out2.write(line2)
                 out2.close()
+
+            if fileExists('/etc/init.d/udev'):
+                filename = '/etc/init.d/udev'
+                if os.path.exists(filename):
+
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('mount -a') != -1:
+                            line = '\n'
+                        out.write(line)
+
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+
+
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('exit 0') != -1:
+                            line = '\n'
+                        out.write(line)
+
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                    os.system('echo "mount -a" >> /etc/init.d/udev; chmod 0755 /etc/init.d/udev ')
+
+           if fileExists('/etc/init.d/mdev'):
+                filename = '/etc/init.d/mdev'
+                if os.path.exists(filename):
+
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('mount -a') != -1:
+                            line = '\n'
+                        out.write(line)
+
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                    
+                    system('echo "" >> /etc/init.d/mdev; echo "mount -a" >> /etc/init.d/mdev; chmod 0755 /etc/init.d/mdev ')
                                                           
 class DeviceManagerSummary(Screen):
     def __init__(self, session, parent):
