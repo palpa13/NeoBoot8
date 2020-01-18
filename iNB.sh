@@ -10,7 +10,8 @@ if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh ]
     rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom;
     rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neo.sh;
     rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location
-    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install   
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install  
+    rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid
 fi
 [ -e /tmp/neoboot.zip ] && rm -f /tmp/neoboot.zip
 [ -e /tmp/neoboot-master ] && rm -rf /tmp/neoboot-master
