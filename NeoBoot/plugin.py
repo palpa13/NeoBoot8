@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.13'
+UPDATEVERSION = '8.14'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -605,11 +605,11 @@ class NeoBootInstallation(Screen):
                                               
             if os.path.isfile('' + LinkNeoBoot + '/.location'): 	
                 if getLabelDisck() != 'LABEL=':	
-                    cmd = "echo -e '\n\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
-                    cmd1 = "echo -e '\n\n%s '" % _('NeoBoot wykrył że dyski nie mają nadanej nazwy Label.\n') 
+                    cmd = "echo -e '\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
+                    cmd1 = "echo -e '\n%s '" % _('NeoBoot wykrył że dyski nie mają nadanej nazwy Label.\nDo poprawnego dzialania neoboot prosze nadac dla dyskow nazwy !!! LABEL\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')
                 elif getLabelDisck() == 'LABEL=':	
-                    cmd = "echo -e '\n\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
-                    cmd1 = "echo -e '\n\n%s '" % _('NeoBoot wykrył że dyski mają nadane nazwy Label.\n')                      
+                    cmd = "echo -e '\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
+                    cmd1 = "echo -e '\n%s '" % _('NeoBoot wykrył że dyski mają nadane nazwy Label.\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')                     
             else:       
                 self.myclose2(_('NeoBoot has not been installed ! :(' ))
                 
