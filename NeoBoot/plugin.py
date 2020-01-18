@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.14'
+UPDATEVERSION = '8.15'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
