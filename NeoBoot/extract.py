@@ -3,17 +3,16 @@
 # ver. gutosie
 import time, sys, os, struct, shutil 
 
-def getFSTAB2():
-    install='UNKNOWN'
-    if os.path.exists('/etc/fstab'):
-        with open('/etc/fstab', 'r') as f:
-            lines = f.read()
-            f.close()
-        if lines.find('UUID') != -1:
-            install='OKinstall'
-        elif not lines.find('UUID') != -1:
-            install='NOinstall'
-    return install 
+def LanguageUsed():
+    language = ''
+    lang = open('/etc/enigma2/settings', 'r')
+    usedlang = 'config.osd.language=pl_PL'
+    bak = lang.read().find(usedlang)
+    if bak != -1:
+        language = 'Yes'
+    else:
+        language = 'No'
+    return language
 
 def getBoxHostName():
     if os.path.exists('/etc/hostname'):
@@ -238,6 +237,9 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
         cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
 
+        cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
+        rc = os.system(cmd)
+
         if TvList == 'True':
             if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
                 cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
@@ -267,8 +269,6 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                 rc = os.system(cmd)
             cmd = 'cp -r /etc/fstab %s/ImageBoot/%s/etc/fstab' % (media, target)
             rc = os.system(cmd)
-#            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
-#            rc = os.system(cmd)
 
             if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
                 filename = '%s/ImageBoot/%s/etc/init.d/udev' % (media, target)
@@ -632,11 +632,11 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
             os.system('rm -r ' + getNeoLocation() + '/ImageBoot/%s' % target )
 
     if os.path.exists('' + getNeoLocation() + 'ubi'):
-        os.system('rm -rf ' + getNeoLocation() + 'ubi')          
+        os.system('rm -r ' + getNeoLocation() + 'ubi')          
     if os.path.exists('' + getNeoLocation() + 'image_cache/'):
-        os.system('rm ' + getNeoLocation() + 'image_cache')
+        os.system('rm -r' + getNeoLocation() + 'image_cache')
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
-        os.system('rm ' + getNeoLocation() + 'ImageBoot/.without_copying') 
+        os.system('rm -r' + getNeoLocation() + 'ImageBoot/.without_copying') 
 
     rc = RemoveUnpackDirs()
     if os.path.exists('/tmp/init4'):
