@@ -46,7 +46,7 @@ chmod -R +x ./ubi_reader/*
 if [ $PL ] ; then
   echo ""
   echo "#####################################################"
-  echo "#          NEOBOOT ZOSTAL ZAINSTALOWANY             #"
+  echo "#          NEOBOOT ZOSTAŁ ZAINSTALOWANY             #"
   echo "#####################################################"
   echo "#                ZRESTARTUJ TUNER                   #"
   echo "#####################################################"
