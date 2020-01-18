@@ -63,6 +63,7 @@ class MyUpgrade(Screen):
         skin = """<screen position="center,center" size="1280,570" title="Tools Neoboot"><ePixmap position="594,226" zPosition="-2" size="623,313" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" /><widget source="list" render="Listbox" position="33,127" size="1229,82" scrollbarMode="showOnDemand"><convert type="TemplatedMultiContent">\{"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),],"fonts": [gFont("Regular", 40)],"itemHeight": 66}</convert></widget><eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" /><eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" /></screen>"""
     else:
         skin = """<screen position="center,center" size="1127,569" title="Tools NeoBoot"><ePixmap position="492,223" zPosition="-2" size="589,298" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" /><widget source="list" render="Listbox" position="18,122" size="1085,82" scrollbarMode="showOnDemand"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),],"fonts": [gFont("Regular", 40)],"itemHeight": 66}</convert></widget><eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99 wtyczki. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" /><eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" /></screen>"""
+
     __module__ = __name__
 
     def __init__(self, session):
@@ -158,6 +159,7 @@ class MyHelp(Screen):
         skin = """<screen position="center,center" size="1920,1080" borderWidth="0" borderColor="transpBlack" flags="wfNoBorder"><eLabel text="INFORMACJE NeoBoot" font="Regular; 35" position="71,20" size="1777,112" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" /><widget name="lab1" position="69,134" size="1780,913" font="Regular;35"    /></screen>"""
     else:
         skin = """<screen position="center,center" size="1280,720" title="NeoBoot - Informacje"><widget name="lab1" position="18,19" size="1249,615" font="Regular;20" backgroundColor="black" transparent="1" /></screen>"""
+
     __module__ = __name__
 
     def __init__(self, session):		
@@ -257,7 +259,6 @@ class NeoBootInstallation(Screen):
         skin = """<screen position="410,138" size="1200,850" title="NeoBoot"><widget name="label3" position="10,632" size="1178,114" zPosition="1" halign="center" font="Regular;35" backgroundColor="black" transparent="1" foregroundColor="blue" /><ePixmap position="643,282" zPosition="-2" size="531,331" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" /><eLabel position="15,76" size="1177,2" backgroundColor="blue" foregroundColor="blue" name="linia" /><eLabel position="10,622" size="1168,3" backgroundColor="blue" foregroundColor="blue" name="linia" /><eLabel position="14,752" size="1168,3" backgroundColor="blue" foregroundColor="blue" name="linia" /><eLabel position="15,276" size="1183,2" backgroundColor="blue" foregroundColor="blue" name="linia" /><widget name="label1" position="14,4" size="1180,62" zPosition="1" halign="center" font="Regular;35" backgroundColor="black" transparent="1" foregroundColor="red" /><widget name="label2" position="15,82" size="1178,190" zPosition="1" halign="center" font="Regular;35" backgroundColor="black" transparent="1" foregroundColor="blue" /><widget name="config" position="15,285" size="641,329" font="Regular; 32" itemHeight="42" selectionPixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/selektor.png" scrollbarMode="showOnDemand" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/redcor.png" position="48,812" size="140,28" alphatest="on" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/greencor.png" position="311,816" size="185,28" alphatest="on" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/yellowcor.png" position="614,815" size="150,28" alphatest="on" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/bluecor.png" position="958,817" size="140,26" alphatest="on" /><widget name="key_red" position="19,760" zPosition="1" size="221,47" font="Regular; 35" halign="center" valign="center" backgroundColor="red" transparent="1" foregroundColor="red" /><widget name="key_green" position="289,761" zPosition="1" size="227,47" font="Regular; 35" halign="center" valign="center" backgroundColor="green" transparent="1" foregroundColor="green" /><widget name="key_yellow" position="583,760" zPosition="1" size="224,51" font="Regular; 35" halign="center" valign="center" backgroundColor="yellow" transparent="1" foregroundColor="yellow" /><widget name="key_blue" position="856,761" zPosition="1" size="326,52" font="Regular; 35" halign="center" valign="center" backgroundColor="blue" transparent="1" foregroundColor="blue" /></screen>"""
     else:
         skin = """<screen position="center, center" size="835, 500" title="NeoBoot"><ePixmap position="0,0" zPosition="-1" size="835,500" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/frame835x500.png"  /><widget name="label1" position="10,15" size="840,30" zPosition="1" halign="center" font="Regular;25" foregroundColor="red" backgroundColor="black" transparent="1" />\n  <widget name="label2" position="7,100" size="840,296" zPosition="1" halign="center" font="Regular;20" backgroundColor="black" foregroundColor="#58ccff" transparent="1"/><widget name="config" position="220,200" size="440,207" backgroundColor="black" selectionPixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/selektor1.png" scrollbarMode="showOnDemand"  /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/redcor.png" position="48,406" size="140,40" alphatest="on"    />\n  <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/greencor.png" position="246,406" size="140,40" alphatest="on" />\n  <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/yellowcor.png" position="474,406" size="150,40" alphatest="on" />\n  <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/bluecor.png" position="675,406" size="140,40" alphatest="on" />\n  <widget name="key_red" position="48,406" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="red" transparent="1" />\n  <widget name="key_green" position="248,406" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="green" transparent="1" />\n  <widget name="key_yellow" position="474,406" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="yellow" transparent="1" />\n  <widget name="key_blue" position="672,415" zPosition="1" size="145,45" font="Regular;20" halign="center" valign="center" backgroundColor="blue" transparent="1" />\n  <widget name="label3" position="20,339" size="816,61" zPosition="1" halign="center" font="Regular;24" backgroundColor="black" transparent="1" foregroundColor="#58ccff" /></screen>"""
-
     def __init__(self, session):
         Screen.__init__(self, session)
         self.list = []
@@ -584,11 +585,10 @@ class NeoBootInstallation(Screen):
                             os.system('cd; cd /media/neoboot/ImagesUpload/.kernel; /usr/sbin/nanddump /dev/mtd2 -o > vmlinux.gz; mv /home/root/vmlinux.gz /media/neoboot/ImagesUpload/.kernel/')
                             os.system('cd ' + LinkNeoBoot + '/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv ' + LinkNeoBoot + '/target/vu_dev_mtd2.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/vu_mtd2_run.py ' + LinkNeoBoot + '/run.py; cd')                         
 
-                        #inne stb                                                                                                                                                                                                                                 
+                        #inne stb                                                                                                                                                                                                                                
                         elif getCPUSoC() == 'bcm73625' or getCPUSoC() == 'bcm7358' or getCPUSoC() == 'bcm7362' or getCPUSoC() == 'BCM7362' or getCPUSoC() == 'bcm7356' or getCPUSoC() == 'bcm7241' or getCPUSoC() == 'bcm7362' or getBoxHostName() == 'formuler4turbo' or getBoxHostName() == 'mbmini' or getBoxHostName() == 'osmini' or getTunerModel() == 'ini-1000sv' or getTunerModel() == 'h3':
                             os.system('cd ' + LinkNeoBoot + '/; mv ./bin/fontforneoboot.ttf /usr/share/fonts; mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; cp -f ./bin/neoinitmipsvu /sbin/neoinitmipsvu; chmod 0755 /sbin/neoinit*; chmod 0755 ./bin/neobm; chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips; ln -sf /media/neoboot/ImageBoot/.neonextboot /etc/neoimage; mv ' + LinkNeoBoot + '/target/mips_run.py ' + LinkNeoBoot + '/run.py; cd')                         
-                                                           
- 
+                                                                                                                       
                         os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitmips /sbin/neoinitmips; cp -Rf ' + LinkNeoBoot + '/bin/neoinitmipsvu /sbin/neoinitmipsvu') 
                         os.system('chmod 755 ' + LinkNeoBoot + '/bin/nfidump; chmod 0755 ' + LinkNeoBoot + '/bin/nanddump_mips; rm -r ' + LinkNeoBoot + '/bin/neoinitar*; cd')
                         os.system('chmod 755 /sbin/neoinitmips; chmod 0755 /sbin/neoinitmipsvu; cd ' + LinkNeoBoot + '/;mv ./bin/fontforneoboot.ttf /usr/share/fonts;mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; chmod 0755 ./bin/neobm;chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips ')
@@ -605,13 +605,13 @@ class NeoBootInstallation(Screen):
 
             os.system('chmod 0755 ' + LinkNeoBoot + '/files/neo_location')                                    
                                               
-            if os.path.isfile('' + LinkNeoBoot + '/.location'): 	
+            if os.path.isfile('' + LinkNeoBoot + '/.location'): 		
                 if getLabelDisck() != 'LABEL=':	
                     cmd = "echo -e '\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
-                    cmd1 = "echo -e '\n%s '" % _('NeoBoot wykrył że dyski nie mają nadanej nazwy Label.\nDo poprawnego dzialania neoboot prosze nadac dla dyskow nazwy !!! LABEL\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')
+                    cmd1 = "echo -e '\n%s '" % _('NeoBoot has detected that the disks do not have a Label name.\nDo poprawnego dzialania neoboot prosze nadac dla dyskow nazwy !!! LABEL\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')
                 elif getLabelDisck() == 'LABEL=':	
                     cmd = "echo -e '\n%s '" % _('NeoBoot has been installed succesfully !') 							                                      
-                    cmd1 = "echo -e '\n%s '" % _('NeoBoot wykrył że dyski mają nadane nazwy Label.\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')                     
+                    cmd1 = "echo -e '\n%s '" % _('NeoBoot has detected that the disks have been labeled.\nZalecany calkowity rstart tunera ' + getBoxHostName() + '\nNeoBoot zainstalowano w lokalizacji: ' + getNeoLocation() + '\n')                     
             else:       
                 self.myclose2(_('NeoBoot has not been installed ! :(' ))
                 
@@ -637,8 +637,7 @@ class NeoBootImageChoose(Screen):
 	    skin = """
       <screen name="NeoBootImageChoose" position="center,center" size="1280, 720" backgroundColor="transpBlack">\n\t\t\t\t\t\t\t <ePixmap position="0,0" zPosition="-1" size="1280,720" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/1frame_base-fs8.png"  />\n\t\t\t\t\t\t\t <widget source="session.VideoPicture" render="Pig" position=" 836,89" size="370,208" zPosition="3" backgroundColor="#ff000000"/>\n\t\t\t\t\t\t\t        <ePixmap position="870,304" zPosition="-1" size="300,14"  pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/1chan_p1_bar.png" alphatest="on" />\n\t\t\t\t\t\t\t     <widget source="Title" render="Label"  position="0,5" size="800,30" font="Regular;28" halign="left" foregroundColor="#58bcff" backgroundColor="transpBlack" transparent="1"/>\n\t\t\t\t\t\t\t  <widget name="label9" position="100,45" zPosition="10" size="800,30" font="Regular;24"  foregroundColor="#58bcff" backgroundColor="black" halign="left"  transparent="1" /><widget name="config"  enableWrapAround="1" position="30,150" size="270,370" itemHeight="25" font="Regular;18" zPosition="2"  selectionPixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/1channel_sel.png" foregroundColor="#00cc99" scrollbarMode="showNever" transparent="1" /><widget name="device_icon" position="530,80" size="146,136" alphatest="on" zPosition="2" /><widget name="progreso" position="400,200" size="300,10" borderWidth="1" zPosition="3" foregroundColor="white" /><widget name="label3" position="380,230" zPosition="1" size="450,60" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="#58ccff" /><ePixmap position="300,310" zPosition="4" size="500,4" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/separator.png" alphatest="blend" transparent="1"  /><widget name="label2" position="310,340" zPosition="1" size="400,22" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="label5" position="630,340" zPosition="1" size="340,22" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="#58ccff" /><widget name="label4" position="310,370" zPosition="1" size="606,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="label6" position="630,370" zPosition="1" size="516,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="#58ccff" /><widget name="label8" position="310,400" zPosition="1" size="466,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="label7" position="660,400" zPosition="1" size="308,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="#58ccff" /><eLabel backgroundColor="black" font="Regular; 20" foregroundColor="#58ccff" position="310,450" size="60,25" text="1 &gt;" transparent="1" /><eLabel backgroundColor="black" font="Regular; 20" foregroundColor="#58ccff" position="310,480" size="60,25" text="2 &gt;" transparent="1" /><eLabel backgroundColor="black" font="Regular; 20" foregroundColor="#58ccff" position="310,510" size="60,25" text="3 &gt;" transparent="1" /><eLabel backgroundColor="black" font="Regular; 20" foregroundColor="#58ccff" position="310,540" size="60,25" text="4 &gt;" transparent="1" /> <widget name="key_1" position="360,450" zPosition="1" size="300,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="key_2" position="360,480" zPosition="1" size="350,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="key_3" position="360,510" zPosition="1" size="300,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><widget name="label19" position="360,540" zPosition="1" size="450,25" font="Regular;20" halign="left" valign="center" backgroundColor="black" transparent="1" foregroundColor="white" /><ePixmap position="920,480" zPosition="1" size="228,130" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/1matrix.png" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/red25.png" position="0,650" size="250,40" alphatest="blend" /><widget name="key_red" position="0,670" zPosition="2" size="250,40"  font="Regular; 20" halign="center" backgroundColor="transpBlack" transparent="1" foregroundColor="white" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/green25.png" position="200,650" size="230,36" alphatest="blend" /><widget name="key_green" position="200,670" size="230,38" zPosition="1" font="Regular; 20"  halign="center" backgroundColor="transpBlack" transparent="1" foregroundColor="white" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/yellow25.png" position="400,650" size="230,36" alphatest="blend" /><widget name="key_yellow" position="400,670" size="230,38" zPosition="1" font="Regular; 20"  halign="center" backgroundColor="transpBlack" transparent="1" foregroundColor="white" /><ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/blue25.png" position="600,650" size="230,36" alphatest="blend" /><widget name="key_blue" position="600,670" size="230,38" zPosition="1" font="Regular; 20" halign="center" backgroundColor="transpBlack" transparent="1" foregroundColor="white" /><widget name="key_menu" position="950,640" zPosition="1" size="249,45" font="Regular;22" halign="center" valign="center" backgroundColor="black" transparent="1" foregroundColor="#58bcff" /><eLabel backgroundColor="black" font="Regular; 24" foregroundColor="white" position="900,650" size="155,41" text="MENU &gt;" transparent="1" /><ePixmap position="20,135" zPosition="1" size="280,400" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/border_menu1.png"  /><widget source="global.CurrentTime" render="Label" position="780,30" size="450,55" font="RegularAA;24" valign="center" halign="center" backgroundColor="transpBlack" foregroundColor="#58bcff"  zPosition="10" transparent="1"><convert type="ClockToText">Format:%A  %e  %B  %Y </convert></widget>\t\t\t</screen>""" 
 
- 
-    def __init__(self, session):		
+    def __init__(self, session):				
         Screen.__init__(self, session)                       
         if not fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
             os.system('touch ' + LinkNeoBoot + '/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> ' + LinkNeoBoot + '/files/mountpoint.sh; chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh') 
@@ -840,7 +839,7 @@ class NeoBootImageChoose(Screen):
         self.onShow.append(self.updateList)
 
     def chackkernel(self):		
-                            message = _('NeoBoot wykryl niezgodnos kernela w flash, \nZainstalowac kernel dla flash image ? ?')
+                            message = _('NeoBoot detected a kernel mismatch in flash, \nInstall a kernel for flash image??')
                             ybox = self.session.openWithCallback(self.updatekernel, MessageBox, message, MessageBox.TYPE_YESNO)
                             ybox.setTitle(_('Updating ... '))
     def pomoc(self):		
@@ -851,7 +850,7 @@ class NeoBootImageChoose(Screen):
             self.session.open(Opis)
 
     def ReinstallNeoBoot(self):		
-        INSTALLbox = self.session.openWithCallback(self.reinstallboot, MessageBox, _('Wybierz Tak, by przeinstalować neoboota.\n     NEOBOOT.'), MessageBox.TYPE_YESNO)
+        INSTALLbox = self.session.openWithCallback(self.reinstallboot, MessageBox, _('Select Yes to reinstall the neoboot.\n     NEOBOOT.'), MessageBox.TYPE_YESNO)
         INSTALLbox.setTitle(_('Zainstalować ponownie neoboota ?'))
                 
     def reinstallboot(self, answer):		        
@@ -865,7 +864,7 @@ class NeoBootImageChoose(Screen):
             self.close()
         else:
             try:
-                self.session.open(MessageBox, _('Rezygnacja.'), MessageBox.TYPE_INFO, 4)
+                self.session.open(MessageBox, _('Resignation.'), MessageBox.TYPE_INFO, 4)
                 self.close()
             except:
                 False
@@ -1204,11 +1203,11 @@ class NeoBootImageChoose(Screen):
 
     def ImageInstall(self):		
         if fileExists('/.multinfo'):
-                    message = _('Instalacja nowego oprogramowania do neoboot, zalecane tylko z poziomu Flash!!!\n---Kontynuowac ?---')
+                    message = _('Installing new neoboot software, only recommended from Flash!!!\n---Continue ?---')
                     ybox = self.session.openWithCallback(self.installation_image, MessageBox, message, MessageBox.TYPE_YESNO)
                     ybox.setTitle(_('Installation with risk '))
         else:
-                    message = _('Instalacja z poziomu Flash!!!\n---Kontynuowac ?---')
+                    message = _('Installation from Flash!!!\n---Continue ?---')
                     ybox = self.session.openWithCallback(self.installation_image, MessageBox, message, MessageBox.TYPE_YESNO)
                     ybox.setTitle(_('Installation new image. '))
 #            self.installation_image()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -1260,10 +1259,10 @@ class NeoBootImageChoose(Screen):
              'formuler4turbo']:                   
                 self.extractImage()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
             else:
-                self.messagebox = self.session.open(MessageBox, _('Tuner nie jest wspierany przez NeoBoota.\nSkontaktuj sie z autorem.\nNie wykryto odpowiedniego STB do instalacji !!!!'), MessageBox.TYPE_INFO, 8)
+                self.messagebox = self.session.open(MessageBox, _('The tuner is not supported by NeoBoot.\nContact the author.\nNo proper STB for installation !!!!'), MessageBox.TYPE_INFO, 8)
                 self.close()
         else:
-                self.messagebox = self.session.open(MessageBox, _('Zaleca sie instalacje nowego oprogramowania tylko z poziomu systemu flash.\n---NEOBOOT EXIT---'), MessageBox.TYPE_INFO, 10)
+                self.messagebox = self.session.open(MessageBox, _('It is recommended to install new software only from a flash system.\n---NEOBOOT EXIT---'), MessageBox.TYPE_INFO, 10)
                 self.close()
             
     def extractImage(self):		
@@ -1353,7 +1352,7 @@ def checkimage():
         mycheck = False
     return mycheck
 
-def main(session, **kwargs):	            
+def main(session, **kwargs):	
     if not fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
         pass
     else:
@@ -1375,7 +1374,7 @@ def main(session, **kwargs):
             else:
                 session.open(NeoBootImageChoose)
         else:
-            session.open(MessageBox, _('Sorry: Wrong image in flash found. You have to install in flash Vu+ or Octagon-sf4008 Image !!!'), MessageBox.TYPE_INFO, 10)
+            session.open(MessageBox, _('Sorry: Wrong image in flash found. You have to install in flash. !!!'), MessageBox.TYPE_INFO, 10)
     else:  
         session.open(NeoBootInstallation)
 
@@ -1390,6 +1389,6 @@ def menu(menuid, **kwargs):
 from Plugins.Plugin import PluginDescriptor
 
 def Plugins(**kwargs):
-    return [PluginDescriptor(name='NeoBoot', description='NeoBoot MultiBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NeoBoot', description=_('Installing multiple images'), icon='neo.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)]
+    return [PluginDescriptor(name='NeoBoot', description='NeoBoot', where=PluginDescriptor.WHERE_MENU, fnc=menu), PluginDescriptor(name='NeoBoot', description=_('Installing multiple images'), icon='neo.png', where=PluginDescriptor.WHERE_PLUGINMENU, fnc=main)]
 
 ####################### _(-_-)_ gutosie _(-_-)_ #######################
