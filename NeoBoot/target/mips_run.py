@@ -118,10 +118,12 @@ class StartImage(Screen):
              'bcm7356',
              'bcm7241',
              'bcm7362',
+             'bcm73625'
              'mbmini',
              'h3',
              'ini-1000sv',
-             'osmini' ] :                                
+             'osmini' 
+             'formuler4turbo'] :                                
                         if getImageNeoBoot() == 'Flash':                                        
                             self.session.open(TryQuitMainloop, 2)
                         elif getImageNeoBoot() != 'Flash':  
