@@ -13,6 +13,12 @@ if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh ]
     rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install  
     rm -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid
 fi
+if [ -e /etc/fstab.org ]; then
+    rm -r /etc/fstab; mv /etc/fstab.org /etc/fstab 
+fi    
+if [ -e /etc/init.d/volatile-media.sh.org ]; then
+    mv /etc/init.d/volatile-media.sh.org /etc/init.d/volatile-media.sh; rm -r /etc/init.d/volatile-media.sh.org; chmod 755 /etc/init.d/volatile-media.sh 
+fi
 [ -e /tmp/neoboot.zip ] && rm -f /tmp/neoboot.zip
 [ -e /tmp/neoboot-master ] && rm -rf /tmp/neoboot-master
 [ $PL ] && echo "Pobieranie archiwum..." || echo "Downloading archive file..."
