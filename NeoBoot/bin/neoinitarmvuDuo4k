@@ -212,9 +212,7 @@ else
 			mkdir $NEODEVICE$IMAGEKATALOG/$TARGET$NEODEVICE > /dev/null 2>&1
 
                         rm -f $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh                      
-                        cp -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh 
                                                     
-                       	if [ ! -e $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh ]; then
                             orgimag=`mount | sed '/sd/!d' | cut -d" " -f1`
                                for item in $orgimag; do
                                    ohdd=`echo  $item | cut -d"/" -f3`
@@ -230,6 +228,8 @@ else
                                       echo ok 
                                    fi    
                                done	
+                       	if [ ! -e $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh ]; then
+                            cp -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh 
                        	fi
                         chmod 755 `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/usr/bin/enigma2_pre_start.sh                                                                        
                         echo "NeoBOOT created the file mount enigma2_pre_start.sh " 
