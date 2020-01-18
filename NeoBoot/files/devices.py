@@ -265,7 +265,7 @@ class DevicesConf(Screen, ConfigListScreen):
         Screen.setTitle(self, _('Choose where to mount your devices to:'))
         self['key_green'] = Label(_('Save'))
         self['key_red'] = Label(_('Cancel'))
-        self['Linconn'] = Label(_('Wait please while scanning your %s %s devices...n\\ Szukam dysku...'))
+        self['Linconn'] = Label(_('Wait please while scanning your %s %s devices...n\\ Looking for a disk...'))
         self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'green': self.saveMypoints,
          'red': self.close,
          'back': self.close})
