@@ -685,10 +685,6 @@ class NeoBootImageChoose(Screen):
 
 
         if not fileExists('' + LinkNeoBoot + '/files/neom'):
-            if fileExists('/media/sda1' or '/media/sdb1'):
-                self.session.open(MessageBox, _('NeoBoot - Restart the system !!!'), MessageBox.TYPE_INFO, 10)
-                self.close()
-            else:
                 os.system('chmod 0755 ' + LinkNeoBoot + '/files/neo_location; ' + LinkNeoBoot + '/files/neo_location; chmod 0755 ' + LinkNeoBoot + '/files/neom')                                    
 
         if not fileExists('' + LinkNeoBoot + '/files/neo.sh'):
