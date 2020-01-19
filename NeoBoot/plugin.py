@@ -656,7 +656,7 @@ class NeoBootImageChoose(Screen):
       <widget name="key_blue" position="1470,1010" zPosition="1" size="276,45" font="Regular;35" halign="center" valign="center" backgroundColor="black" transparent="1" foregroundColor="blue" />
       <widget name="config" position="1300,256" size="580,380" selectionPixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/selektor.png" font="Regular;32" foregroundColor="cyan" backgroundColor="black" itemHeight="42" scrollbarMode="showOnDemand" zPosition="3" transparent="1" />
       <eLabel name="select_image" position="1300,256" size="580,380" />
-      <widget name="key_menu" position="254,419" zPosition="1" size="249,45" font="Regular;33" halign="center" valign="center" backgroundColor="black" transparent="1" foregroundColor="un99ffff" />
+      <widget name="key_menu" position="254,419" zPosition="1" size="249,45" font="Regular;33" halign="center" valign="center" backgroundColor="black" transparent="1" foregroundColor="#99FFFF" />
       <eLabel backgroundColor="black" font="Regular; 35" foregroundColor="red" position="60,23" size="443,45" text=" NeoBoot ARM  -  MENU" transparent="1" />
       <eLabel backgroundColor="black" font="Regular; 30" foregroundColor="yellow" position="110,424" size="155,41" text="MENU &gt;" transparent="1" />
       <eLabel backgroundColor="black" font="Regular; 35" foregroundColor="unc0c0c0" position="90,659" size="80,46" text="1 &gt;" transparent="1" />
