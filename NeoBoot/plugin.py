@@ -428,11 +428,14 @@ class NeoBootInstallation(Screen):
             cmd2 = 'mkdir ' + self.mysel + 'ImageBoot;mkdir ' + self.mysel + 'ImagesUpload/.kernel' 
             system(cmd2)                                               
             if os.path.isfile('' + LinkNeoBoot + '/.location'): 
-                    os.system('rm -f ' + LinkNeoBoot + '/.location' )                      
+                    os.system('rm -f ' + LinkNeoBoot + '/.location' )  
+		
             system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')                                                                                 
-            out = open('' + LinkNeoBoot + '/.location', 'w')
+            
+	    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location', 'w')
             out.write(self.mysel)
-            out.close()                                         
+            out.close()     
+	
             if os.path.isfile('%sImageBoot/.neonextboot' % getNeoLocation()): 
                     os.system('rm -f /etc/neoimage; rm -f /etc/imageboot; rm -f %sImageBoot/.neonextboot; rm -f %sImageBoot/.version; rm -f %sImageBoot/.Flash; ' % (getNeoLocation(), getNeoLocation(), getNeoLocation()) )
             if os.path.isfile('%sImagesUpload/.kernel/zImage*.ipk or %sImagesUpload/.kernel/zImage*.bin' % ( getNeoLocation(),getNeoLocation()) ): 
