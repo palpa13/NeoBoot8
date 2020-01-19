@@ -18,7 +18,6 @@ if [ -f /etc/init.d/inadyn-mt ] ; then
     /etc/init.d/inadyn-mt start
 fi
 
-
 if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot  ]; then
 	    if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh  ]; then
                 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh
