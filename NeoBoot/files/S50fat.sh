@@ -20,8 +20,8 @@ fi
 
 
 if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot  ]; then
-	    if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom  ]; then
-                /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/neom
+	    if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh  ]; then
+                /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh
 	    fi                
 
 fi                   
