@@ -445,7 +445,8 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                     rc = os.system(cmd)
                     cmd = 'echo "exit 0" >> %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
                     rc = os.system(cmd)
-
+                    cmd = 'chmod 755 %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
+                    rc = os.system(cmd)
 
         namefile = media + '/ImageBoot/' + target + '/etc/fstab'
         namefile2 = namefile + '.tmp'
@@ -638,9 +639,9 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
     if os.path.exists('' + getNeoLocation() + 'ubi'):
         os.system('rm -r ' + getNeoLocation() + 'ubi')          
     if os.path.exists('' + getNeoLocation() + 'image_cache/'):
-        os.system('rm -r' + getNeoLocation() + 'image_cache')
+        os.system('rm -r ' + getNeoLocation() + 'image_cache')
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
-        os.system('rm -r' + getNeoLocation() + 'ImageBoot/.without_copying') 
+        os.system('rm -f ' + getNeoLocation() + 'ImageBoot/.without_copying') 
 
     rc = RemoveUnpackDirs()
     if os.path.exists('/tmp/init4'):
@@ -724,19 +725,19 @@ def RemoveUnpackDirs():
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/gigablue')        
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/gigablue')        
-    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/uclan'):
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/gigablue'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/apploader.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/gigablue') 
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/gigablue')  
-        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan')                
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/gigablue')                
 
 def NEOBootExtract(source, target, ZipDelete, BlackHole):
     RemoveUnpackDirs()
     os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file..."')
 
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
-        os.system('rm ' + getNeoLocation() + 'ImageBoot/.without_copying') 
+        os.system('rm -f ' + getNeoLocation() + 'ImageBoot/.without_copying') 
     if os.path.exists('' + getNeoLocation() + 'image_cache'):
         os.system('rm -rf ' + getNeoLocation() + 'image_cache')
 
