@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.00'
-UPDATEVERSION = '8.16'
+UPDATEVERSION = '8.17'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -384,11 +384,11 @@ class NeoBootInstallation(Screen):
 
     def install(self):
         if checkInternet():
-        #if getFSTAB2() != 'OKinstall':
-            #self.session.open(MessageBox, _('NeoBot - First use the Device Manager and mount the drives correctly !!!'), MessageBox.TYPE_INFO, 7)
-            #self.close()
-        #else:
-            self.first_installation()
+            if getFSTAB2() != 'OKinstall':
+                self.session.open(MessageBox, _('NeoBot - First use the Device Manager and mount the drives correctly !!!'), MessageBox.TYPE_INFO, 8)
+                self.close()
+            else:
+                self.first_installation()
         else:
             session.open(MessageBox, "Geen internet - Brak internetu", MessageBox.TYPE_INFO)
 
@@ -566,7 +566,8 @@ class NeoBootInstallation(Screen):
                  'h3',
                  'ini-1000sv',
                  'ini-8000sv'
-                 'formuler4turbo']:                    
+                 'formuler4turbo'
+                 'formuler3']:                    
                         #vuplus stb mtd1
                         if getBoxHostName() == 'bm750' or getBoxHostName() == 'vuduo' or getBoxHostName() == 'vusolo' or getBoxHostName() == 'vuuno' or getBoxHostName() == 'vuultimo':
                             if fileExists ('/usr/sbin/nanddump'):
@@ -589,7 +590,7 @@ class NeoBootInstallation(Screen):
                             os.system('cd ' + LinkNeoBoot + '/; rm ./bin/neobm; rm ./bin/fontforneoboot.ttf; rm ./bin/libpngneo; mv ' + LinkNeoBoot + '/target/vu_dev_mtd2.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/vu_mtd2_run.py ' + LinkNeoBoot + '/run.py; cd')                         
 
                         #inne stb                                                                                                                                                                                                                                
-                        elif getCPUSoC() == 'bcm73625' or getCPUSoC() == 'bcm7358' or getCPUSoC() == 'bcm7362' or getCPUSoC() == 'BCM7362' or getCPUSoC() == 'bcm7356' or getCPUSoC() == 'bcm7241' or getCPUSoC() == 'bcm7362' or getBoxHostName() == 'formuler4turbo' or getBoxHostName() == 'mbmini' or getBoxHostName() == 'osmini' or getTunerModel() == 'ini-1000sv' or getTunerModel() == 'h3':
+                        elif getCPUSoC() == 'bcm73625' or getCPUSoC() == 'bcm7358' or getCPUSoC() == 'bcm7362' or getCPUSoC() == 'BCM7362' or getCPUSoC() == 'bcm7356' or getCPUSoC() == 'bcm7241' or getCPUSoC() == 'bcm7362' or getBoxHostName() == 'formuler3' or getBoxHostName() == 'formuler4turbo' or getBoxHostName() == 'mbmini' or getBoxHostName() == 'osmini' or getTunerModel() == 'ini-1000sv' or getTunerModel() == 'h3':
                             os.system('cd ' + LinkNeoBoot + '/; mv ./bin/fontforneoboot.ttf /usr/share/fonts; mv ./bin/libpngneo /usr/lib; cp -f ./bin/neoinitmips /sbin/neoinitmips; cp -f ./bin/neoinitmipsvu /sbin/neoinitmipsvu; chmod 0755 /sbin/neoinit*; chmod 0755 ./bin/neobm; chmod 0755 /usr/lib/libpngneo; cd; chmod 0755 /sbin/neoinitmips; ln -sf /media/neoboot/ImageBoot/.neonextboot /etc/neoimage; mv ' + LinkNeoBoot + '/target/mips_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                                                                                        
                         os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitmips /sbin/neoinitmips; cp -Rf ' + LinkNeoBoot + '/bin/neoinitmipsvu /sbin/neoinitmipsvu') 
@@ -874,9 +875,8 @@ class NeoBootImageChoose(Screen):
             out = open('%sImageBoot/.neonextboot' % getNeoLocation(), 'w' )
             out.write('Flash')
             out.close()
-            if fileExists('/media/sda1' or '/media/sdb1'):       
-                self.session.open(MessageBox, _('NeoBoot - Please restart the system !!!'), MessageBox.TYPE_INFO, 10)
-                self.close()
+#            if fileExists('/media/sda1' or '/media/sdb1'):       
+#                self.session.open(MessageBox, _('NeoBoot - Please restart the system !!!'), MessageBox.TYPE_INFO, 10)
             self.close()
                         
         elif fileExists('/.multinfo'):            
@@ -1002,13 +1002,16 @@ class NeoBootImageChoose(Screen):
         from Plugins.Extensions.NeoBoot.files.tools import MBRestore
         self.session.open(MBRestore)
                                                                 
-    def updateList(self):        
-        if not fileExists('' + LinkNeoBoot + '/.location') or not fileExists('' + LinkNeoBoot + '/files/kernel.sh'):                    
-                self.session.open(NeoBootInstallation)
-        else:
-            self.updateListOK()
+#    def updateList(self):        
+#        if not fileExists('/.multinfo'):
+#            if not fileExists('' + LinkNeoBoot + '/.location'): # or not fileExists('' + LinkNeoBoot + '/files/kernel.sh'):                    
+#                self.session.open(NeoBootInstallation)
+#            else:
+#                self.updateListOK()
+#        else:
+#            self.updateListOK()
 
-    def updateListOK(self):		
+    def updateList(self):		
         self.list = []
         pluginpath = '' + LinkNeoBoot + ''
         f = open(pluginpath + '/.location', 'r')
@@ -1255,7 +1258,8 @@ class NeoBootImageChoose(Screen):
              'mbultra',
              'ustym4kpro'             
              'h3'
-             'formuler4turbo']:                   
+             'formuler4turbo'
+             'formuler3']:                   
                 self.extractImage()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
             else:
                 self.messagebox = self.session.open(MessageBox, _('The tuner is not supported by NeoBoot.\nContact the author.\nNo proper STB for installation !!!!'), MessageBox.TYPE_INFO, 8)
@@ -1352,12 +1356,12 @@ def checkimage():
     return mycheck
 
 def main(session, **kwargs):	
-    if not fileExists('' + LinkNeoBoot + '/files/neo.sh'):
+    if not fileExists('' + LinkNeoBoot + '/.location'):
         pass
     else:
         if not fileExists('%sImageBoot/.version' % getNeoLocation()):
-            os.system('chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh; ' + LinkNeoBoot + '/files/mountpoint.sh')
-
+            if fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
+                os.system('chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh; ' + LinkNeoBoot + '/files/mountpoint.sh')
     version = 0           
     if fileExists('%sImageBoot/.version' % getNeoLocation()):
         f = open('%sImageBoot/.version' % getNeoLocation())
@@ -1373,7 +1377,7 @@ def main(session, **kwargs):
             else:
                 session.open(NeoBootImageChoose)
         else:
-            session.open(MessageBox, _('Sorry: Wrong image in flash found. You have to install in flash. !!!'), MessageBox.TYPE_INFO, 10)
+            session.open(MessageBox, _('Sorry: Wrong image in flash found. You have to install in flash Enigma2 !!!'), MessageBox.TYPE_INFO, 10)
     else:  
         session.open(NeoBootInstallation)
 

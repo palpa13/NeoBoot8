@@ -92,7 +92,7 @@ class InstallImage(Screen, ConfigListScreen):
         self.CopyFiles = ConfigYesNo(default=True)
         self.CopyKernel = ConfigYesNo(default=True)       
         self.TvList = ConfigYesNo(default=False) 
-        self.Montowanie = ConfigYesNo(default=False)         
+        self.Montowanie = ConfigYesNo(default=True)         
         self.LanWlan = ConfigYesNo(default=False)
         self.Sterowniki = ConfigYesNo(default=False)                                                
         self.InstallSettings = ConfigYesNo(default=False)        

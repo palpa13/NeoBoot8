@@ -93,7 +93,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
      'rm ' + media_target + media + dev_null,
      'rmdir ' + media_target + media + dev_null,
      'mkdir -p ' + media_target + media + dev_null,
-     'cp /etc/passwd ' + media_target + '/etc/passwd' + dev_null,
+     #'cp /etc/passwd ' + media_target + '/etc/passwd' + dev_null,
      'cp /etc/hostname ' + media_target + '/etc/hostname' + dev_null,       
      #'cp -rf /etc/init.d/vuplus-platform-util ' + media_target + '/etc/init.d/vuplus-platform-util' + dev_null,       
      'cp -rf ' + extensions_path + 'NeoBoot ' + media_target + extensions_path + 'NeoBoot' + dev_null]
@@ -236,7 +236,6 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
         rc = os.system(cmd)
         cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
-
         cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
         rc = os.system(cmd)
 
@@ -254,22 +253,9 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
             rc = os.system(cmd)
             os.system('echo "Skopiowano list\xc4\x99 tv."')
 
-        if Montowanie == 'True':
-            if os.path.exists('%s/ImageBoot/%s/etc/fstab' % (media, target)):
-                cmd = 'mv %s/ImageBoot/%s/etc/fstab %s/ImageBoot/%s/etc/fstab.org' % (media,
-                 target,
-                 media,
-                 target)
-                rc = os.system(cmd)
-            if os.path.exists('%s/ImageBoot/%s/etc/init.d/volatile-media.sh' % (media, target)):
-                cmd = 'mv %s/ImageBoot/%s/etc/init.d/volatile-media.sh %s/ImageBoot/%s/etc/init.d/volatile-media.sh.org' % (media,
-                 target,
-                 media,
-                 target)
-                rc = os.system(cmd)
-            cmd = 'cp -r /etc/fstab %s/ImageBoot/%s/etc/fstab' % (media, target)
+        if Montowanie == 'True':                
+            cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
             rc = os.system(cmd)
-
             if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
                 filename = '%s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                 if os.path.exists(filename):
