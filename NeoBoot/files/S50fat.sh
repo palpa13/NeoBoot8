@@ -11,6 +11,9 @@ if [ ! -e /usr/bin/ipkg-cl ]; then
 fi
 
 #echo "Start network and telnet ..."
+if [ -f /tmp/ver.txt ] ; then
+    rm -f/tmp/ver.txt
+fi 
 cd /tmp; curl -O --ftp-ssl https://raw.githubusercontent.com/gutosie/NeoBoot8/master/ver.txt; cd /
 if [ ! -f /tmp/ver.txt ] ; then
     /etc/init.d/networking stop; sync; /etc/init.d/networking start;
