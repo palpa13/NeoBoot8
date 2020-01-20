@@ -92,8 +92,6 @@ class InstallImage(Screen, ConfigListScreen):
         self.CopyFiles = ConfigYesNo(default=True)
         self.CopyKernel = ConfigYesNo(default=True)       
         self.TvList = ConfigYesNo(default=False) 
-        self.Montowanie = ConfigYesNo(default=True)         
-        self.LanWlan = ConfigYesNo(default=False)
         self.Sterowniki = ConfigYesNo(default=False)                                                
         self.InstallSettings = ConfigYesNo(default=False)        
         self.ZipDelete = ConfigYesNo(default=False)                 
@@ -136,8 +134,6 @@ class InstallImage(Screen, ConfigListScreen):
         self.list.append(getConfigListEntry(_('Copy files from Flash to the installed image ?'), self.CopyFiles ))         
         self.list.append(getConfigListEntry(_('Copy the kernel of the installed system (recommended ?'), self.CopyKernel ))         
         self.list.append(getConfigListEntry(_('Copy the channel list ?'), self.TvList))          
-        self.list.append(getConfigListEntry(_('Copy mounting disks ? (Recommended)'), self.Montowanie))         
-        self.list.append(getConfigListEntry(_('Copy network settings LAN-WLAN ?'), self.LanWlan))
         self.list.append(getConfigListEntry(_('Copy the drivers ? (Recommended only other image.)'), self.Sterowniki))                                                                
         self.list.append(getConfigListEntry(_('Copy Settings to the new Image'), self.InstallSettings))                                                                                
         self.list.append(getConfigListEntry(_('Delete Image zip after Install ?'), self.ZipDelete)) 
@@ -210,15 +206,13 @@ class InstallImage(Screen, ConfigListScreen):
                 message += _('Please, wait...\n')                
                 message += "'"
                 cmd1 = 'python ' + pluginpath + '/ex_init.py'
-                cmd = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s' % (cmd1,
+                cmd = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s ' % (cmd1,
                  source,
                  target.replace(' ', '.'),
                  str(self.stopenigma.value),                  
                  str(self.CopyFiles.value),                 
                  str(self.CopyKernel.value),                 
                  str(self.TvList.value),                
-                 str(self.Montowanie.value),                 
-                 str(self.LanWlan.value),
                  str(self.Sterowniki.value),                                                                                                                        
                  str(self.InstallSettings.value), 
                  str(self.ZipDelete.value),                                                                    

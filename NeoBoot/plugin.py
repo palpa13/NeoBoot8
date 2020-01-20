@@ -48,7 +48,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # save this copyright notice. This document/program is distributed WITHOUT any
 # warranty, use at YOUR own risk.
 
-PLUGINVERSION = '8.00'
+PLUGINVERSION = '8.01'
 UPDATEVERSION = '8.17'
 
 def Freespace(dev):

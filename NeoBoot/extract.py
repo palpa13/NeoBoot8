@@ -71,7 +71,7 @@ mediahome = media + '/ImageBoot/'
 extensions_path = '/usr/lib/enigma2/python/Plugins/Extensions/'
 dev_null = ' > /dev/null 2>&1'
 
-def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Montowanie, LanWlan, Sterowniki, InstallSettings, ZipDelete, RepairFTP, SoftCam, MediaPortal, BlackHole):
+def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Sterowniki, InstallSettings, ZipDelete, RepairFTP, SoftCam, MediaPortal, BlackHole):
     media_target = mediahome + target
     list_one = ['rm -r ' + media_target + dev_null, 'mkdir ' + media_target + dev_null, 'chmod -R 0777 ' + media_target]
     for command in list_one:
@@ -222,41 +222,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
             rc = os.system(cmd)
         os.system('echo "Skopiowano wtyczki."')        
         
-
-        if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
-            cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-            rc = os.system(cmd)
-        cmd = 'grep "config.Nims" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-        rc = os.system(cmd)
-        cmd = 'grep "config.OpenWebif" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-        rc = os.system(cmd)
-        cmd = 'grep "config.osd" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-        rc = os.system(cmd)
-        cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-        rc = os.system(cmd)
-        cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
-        rc = os.system(cmd)
-
-        if TvList == 'True':
-            if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
-                cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
-                rc = os.system(cmd)
-            cmd = 'cp /etc/enigma2/*.tv %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'cp /etc/enigma2/*.radio %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'cp /etc/enigma2/*.tv %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'cp /etc/enigma2/lamedb %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            os.system('echo "Skopiowano list\xc4\x99 tv."')
-
-        if Montowanie == 'True':                
-            cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
-            rc = os.system(cmd)
-            if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
+        if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
                 filename = '%s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                 if os.path.exists(filename):
                     filename2 = filename + '.tmp'
@@ -278,37 +244,27 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                     cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                     rc = os.system(cmd)
                     
-            if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
+        if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
                     cmd = 'echo " " >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)
                     cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)
                     cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)
-                    
-        if LanWlan == 'True':
-            if os.path.exists('%s/ImageBoot/%s/etc/vtiversion.info' % (media, target)):
-                os.system('echo "Nie skopiowano LAN-WLAN, nie zalecane dla tego image."')
-            elif os.path.exists('/etc/vtiversion.info') and os.path.exists('%s/usr/lib/enigma2/python/Plugins/PLi' % (media, target)):
-                os.system('echo "Nie skopiowano LAN-WLAN, nie zalecane dla tego image."')
-            elif os.path.exists('/etc/bhversion') and os.path.exists('%s/usr/lib/enigma2/python/Plugins/PLi' % (media, target)):
-                os.system('echo "Nie skopiowano LAN-WLAN, nie zalecane dla tego image."')
-            else:                
-                if os.path.exists('/etc/wpa_supplicant.wlan0.conf'):
-                    cmd = 'cp -Rpf /etc/wpa_supplicant.wlan0.conf %s/ImageBoot/%s/etc/wpa_supplicant.wlan0.conf > /dev/null 2>&1' % (media, target)
-                    rc = os.system(cmd)
-                if os.path.exists('/etc/network/interfaces'):
-                    cmd = 'cp -r /etc/network/interfaces %s/ImageBoot/%s/etc/network/interfaces > /dev/null 2>&1' % (media, target)
-                    rc = os.system(cmd)
-                if os.path.exists('/etc/wpa_supplicant.conf'):
-                    cmd = 'cp -Rpf /etc/wpa_supplicant.conf %s/ImageBoot/%s/etc/wpa_supplicant.conf > /dev/null 2>&1' % (media, target)
-                    rc = os.system(cmd)
-                if os.path.exists('/etc/resolv.conf'):
-                    cmd = 'cp -Rpf /etc/resolv.conf %s/ImageBoot/%s/etc/resolv.conf > /dev/null 2>&1' % (media, target)
-                    rc = os.system(cmd)
-                if os.path.exists('/etc/wl.conf.wlan3'):
-                    cmd = 'cp -r /etc/wl.conf.wlan3 %s/ImageBoot/%s/etc/wl.conf.wlan3 > /dev/null 2>&1' % (media, target)
-                    rc = os.system(cmd)
+
+        if TvList == 'True':
+            if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
+                cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
+                rc = os.system(cmd)
+            cmd = 'cp /etc/enigma2/*.tv %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'cp /etc/enigma2/*.radio %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'cp /etc/enigma2/*.tv %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'cp /etc/enigma2/lamedb %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            os.system('echo "Skopiowano list\xc4\x99 tv."')
 
         if Sterowniki == 'True':
             if os.path.exists('%s/ImageBoot/%s/lib/modules' % (media, target)):
@@ -412,7 +368,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
 
 # for all image:
     if not os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):         
-        if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
+        if os.path.exists('%s/ImageBoot/%s/etc/init.d' % (media, target)):
                 filename = '%s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
                 if os.path.exists(filename):
                     filename2 = filename + '.tmp'
@@ -433,6 +389,24 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                     rc = os.system(cmd)
                     cmd = 'chmod 755 %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
                     rc = os.system(cmd)
+
+        if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
+            cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+            rc = os.system(cmd)
+        cmd = 'grep "config.Nims" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.OpenWebif" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.osd" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
+        rc = os.system(cmd)
+        cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
+        rc = os.system(cmd)
 
         namefile = media + '/ImageBoot/' + target + '/etc/fstab'
         namefile2 = namefile + '.tmp'
@@ -1094,6 +1068,16 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
                 #xp1000
                 if os.path.exists('' + getNeoLocation() + 'ImagesUpload/xp1000'):
                     os.chdir('xp1000')
+
+                if os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler1'):
+                    os.chdir('formuler1')
+                if os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler2'):
+                    os.chdir('formuler2')
+                if os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler3'):
+                    os.chdir('formuler3')
+                if os.path.exists('' + getNeoLocation() + 'ImagesUpload/formuler4turbo'):
+                    os.chdir('formuler4turbo')
+
 
                 #Instalacja image ubi_reader  
                 os.system('echo "Instalacja - ubi_reader w toku..."')            
