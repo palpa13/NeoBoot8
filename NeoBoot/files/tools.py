@@ -453,6 +453,9 @@ class MenagerDevices(Screen):
         try:
                 from Plugins.Extensions.NeoBoot.files.devices import ManagerDevice
                 self.session.open(ManagerDevice)
+#                from Plugins.Extensions.NeoBoot.files.devices import DevicesConf
+#                self.session.open(DevicesConf)
+
         except:
             False
 

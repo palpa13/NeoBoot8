@@ -6,17 +6,20 @@ from Plugins.Plugin import PluginDescriptor
 from Screens.ChoiceBox import ChoiceBox
 from Screens.InputBox import InputBox
 from Screens.Screen import Screen
-from enigma import eTimer
 from Screens.MessageBox import MessageBox
 from Screens.Standby import TryQuitMainloop
-from Components.ActionMap import ActionMap
+from enigma import eTimer
+from Components.ActionMap import ActionMap, NumberActionMap
+from Components.Button import Button
 from Components.Label import Label
+from Components.MenuList import MenuList
 from Components.Pixmap import Pixmap
 from Components.ConfigList import ConfigListScreen
 from Components.config import getConfigListEntry, config, ConfigSelection, NoSave, configfile
 from Components.Console import Console
 from Components.Sources.List import List
 from Components.Sources.StaticText import StaticText
+from commands import getoutput
 from Plugins.Extensions.NeoBoot.files.Harddisk import Harddisk
 from Tools.LoadPixmap import LoadPixmap
 from Tools.Directories import fileExists, resolveFilename, SCOPE_CURRENT_SKIN
@@ -25,6 +28,16 @@ from time import sleep
 import fileinput
 import re
 import os
+from Screens.VirtualKeyBoard import VirtualKeyBoard
+import gettext, os
+from Plugins.Extensions.NeoBoot.files.stbbranding import getTunerModel 
+
+
+try:
+    cat = gettext.translation('lang', '/usr/lib/enigma2/python/Plugins/Extensions/files/po', [config.osd.language.getText()])
+    _ = cat.gettext
+except IOError:
+    pass
 
 class ManagerDevice(Screen):
     screenwidth = getDesktop(0).size().width()
@@ -73,7 +86,6 @@ class ManagerDevice(Screen):
             except:
                 name = ''
                 desc = ''
-
         else:
             name = ''
             desc = ''
@@ -180,6 +192,10 @@ class ManagerDevice(Screen):
             self.list.append(res)
 
     def SetupMounts(self):
+        if not fileExists('/etc/fstab.org'):
+            os.system('cp -f /etc/fstab /etc/fstab.org')
+        elif fileExists('/etc/fstab.org'):
+            os.system('cp /etc/fstab.org /etc/fstab')
         self.session.openWithCallback(self.updateList, DevicesConf)
 
     def Format(self):
@@ -270,7 +286,7 @@ class DevicesConf(Screen, ConfigListScreen):
          'red': self.close,
          'back': self.close})
         self.updateList()
-
+        
     def updateList(self):
         self.list = []
         list2 = []
@@ -428,7 +444,7 @@ class DevicesConf(Screen, ConfigListScreen):
                 line2 = '"' + self.device_uuid2 + '"' + ':' + self.mountp + '\n'
                 out2.write(line2)
                 out2.close()
-
+                    
             if fileExists('/etc/init.d/udev'):
                 filename = '/etc/init.d/udev'
                 if os.path.exists(filename):
@@ -437,8 +453,8 @@ class DevicesConf(Screen, ConfigListScreen):
                     out = open(filename2, 'w')
                     f = open(filename, 'r')
                     for line in f.readlines():
-                        if line.find('mount -a') != -1:
-                            line = '\n'
+                        if line.find('mount -a /media/hdd; mount -a /media/usb') != -1:
+                            line = ''
                         out.write(line)
 
                     f.close()
@@ -451,13 +467,13 @@ class DevicesConf(Screen, ConfigListScreen):
                     f = open(filename, 'r')
                     for line in f.readlines():
                         if line.find('exit 0') != -1:
-                            line = '\n'
+                            line = ''
                         out.write(line)
 
                     f.close()
                     out.close()
                     os.rename(filename2, filename)
-                    os.system('echo "mount -a" >> /etc/init.d/udev; chmod 0755 /etc/init.d/udev ')
+                    os.system('echo "mount -a /media/hdd; mount -a /media/usb" >> /etc/init.d/udev; chmod 0755 /etc/init.d/udev ')
 
             if fileExists('/etc/init.d/mdev'):
                 filename = '/etc/init.d/mdev'
@@ -467,16 +483,154 @@ class DevicesConf(Screen, ConfigListScreen):
                     out = open(filename2, 'w')
                     f = open(filename, 'r')
                     for line in f.readlines():
-                        if line.find('mount -a') != -1:
-                            line = '\n'
+                        if line.find('mount -a /media/hdd; mount -a /media/usb') != -1:
+                            line = ''
                         out.write(line)
 
                     f.close()
                     out.close()
                     os.rename(filename2, filename)
                     
-                    system('echo "" >> /etc/init.d/mdev; echo "mount -a" >> /etc/init.d/mdev; chmod 0755 /etc/init.d/mdev ')
+                    system('echo "" >> /etc/init.d/mdev; echo "mount -a /media/hdd; mount -a /media/usb" >> /etc/init.d/mdev; chmod 0755 /etc/init.d/mdev ')
                                                           
+
+class SetDiskLabel(Screen):
+    skin = '\n\t\t<screen position="center,center" size="600,200" title="Set Disk Label v1.1" >\n\t\t<widget name="infoTXT" position="25,20" zPosition="1" size="310,25" font="Regular;20" halign="left" valign="center" backgroundColor="transpBlack" transparent="1"/>\n\t\t<widget name="devlist" position="400,20" size="125,25" />\n\t\t<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/buttons/k_left.png" position="350,15" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/buttons/k_right.png" position="550,15" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/buttons/k_up.png" position="350,105" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/buttons/k_down.png" position="550,105" size="40,40" alphatest="on" />\n\t\t<widget name="labelname" position="25,65" zPosition="1" size="310,25" font="Regular;20" halign="left" valign="center" backgroundColor="transpBlack" transparent="1"/>\n\t\t<widget name="disklabel" position="400,65" size="125,25" zPosition="1" font="Regular;20" halign="center" valign="left"/>\n\t\t<widget name="labeltoset" position="25,110" zPosition="1" size="310,25" font="Regular;20" halign="left" valign="center" backgroundColor="transpBlack" transparent="1"/>\n\t\t<widget name="listlabel" position="400,110" size="125,25" zPosition="1" font="Regular;20" halign="center" valign="left"/>\n\t\t<ePixmap pixmap="skin_default/buttons/key_red.png" position="40,167" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="skin_default/buttons/key_green.png" position="170,167" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="skin_default/buttons/key_yellow.png" position="300,167" size="40,40" alphatest="on" />\n\t\t<ePixmap pixmap="skin_default/buttons/key_blue.png" position="430,167" size="40,40" alphatest="on" />\n\t\t<widget name="key_red" position="70,160" zPosition="1" size="90,40" font="Regular;14" halign="center" valign="left" backgroundColor="transpBlack" transparent="1" />\n\t\t<widget name="key_green" position="200,160" zPosition="1" size="90,40" font="Regular;14" halign="center" valign="left" backgroundColor="transpBlack" transparent="1" />\n\t\t<widget name="key_yellow" position="330,160" zPosition="1" size="90,40" font="Regular;14" halign="center" valign="left" backgroundColor="transpBlack" transparent="1" />\n\t\t<widget name="key_blue" position="460,160" zPosition="1" size="90,40" font="Regular;14" halign="center" valign="left" backgroundColor="transpBlack" transparent="1" />\n\t</screen>'
+
+    def __init__(self, session):
+        global liczymy
+        Screen.__init__(self, session)
+        self.labList = ['hdd', 'usb']
+        self.list = []
+        self.sprDev()
+        self.devlist = []
+        self.disklabel = []
+        self['devlist'] = MenuList(self.devlist)
+        self['disklabel'] = Label(self.disklabel)
+        self['listlabel'] = MenuList(self.labList)
+        liczymy = 0
+        for x in lista:
+            self.devlist.append(x)
+            liczymy += 1
+
+        self.sprLabel()
+        self['labelname'] = Label(_('Current partition label:'))
+        self['labeltoset'] = Label(_('Choice label to set:'))
+        self['infoTXT'] = Label(_('Select partition to set label:'))
+        self['key_red'] = Button(_('Exit'))
+        self['key_green'] = Button(_('Set label'))
+        self['key_yellow'] = Button(_('Add label'))
+        self['key_blue'] = Button(_('Delete label'))
+        self['actions'] = ActionMap(['OkCancelActions', 'ColorActions', 'DirectionActions'], {'cancel': self.cancel,
+         'red': self.cancel,
+         'green': self.wlacz,
+         'yellow': self.addlabel,
+         'blue': self.dellabel,
+         'left': self.left,
+         'right': self.right,
+         'up': self.up,
+         'down': self.down}, -2)
+
+    def sprDev(self):
+        global lista
+        lista = ['']
+        if getTunerModel() in ('sf8008', 'sf8008s', 'sf8008t'):
+            blackL = 'mmcblk0'
+        else:
+            blackL = getoutput('cat /etc/udev/mount-helper.sh | grep "BLACKLISTED="')
+            blackL = blackL[13:-1]
+        devL = getoutput('cat /proc/partitions | grep "sd\\|mmc" | awk \'{print $4}\'')
+        devL = devL.split('\n')
+        ilosc = len(devL)
+        i = 0
+        while i < ilosc:
+            if len(devL[i]) == 9 or len(devL[i]) == 4:
+                if devL[i][:7] != blackL:
+                    if self.sprLinux(devL[i]) == True:
+                        lista.append(devL[i])
+            i += 1
+
+        if ilosc > 0:
+            lista.remove('')
+        elif lista[0] == '':
+            lista.remove('')
+            lista.insert(0, 'No Disk')
+
+    def cancel(self):
+        self.close()
+
+    def wlacz(self):
+        self.session.openWithCallback(self.wlaczyes, MessageBox, _('Set label on %s?') % str(self['devlist'].getCurrent()), MessageBox.TYPE_YESNO, default=False)
+
+    def wlaczyes(self, w):
+        if w == True:
+            os.system('e2label /dev/%s "%s"' % (str(self['devlist'].getCurrent()), self['listlabel'].getCurrent()))
+            self.session.open(MessageBox, _('Selected label is set'), type=MessageBox.TYPE_INFO, timeout=10)
+            self.sprLabel()
+
+    def addlabel(self):
+        self.session.openWithCallback(self.addlabeltolist, VirtualKeyBoard, title=_('Add new partition label:'), text=self['disklabel'].getText())
+
+    def dellabel(self):
+        self.session.openWithCallback(self.delabelyes, MessageBox, _('Delete label from %s?') % str(self['devlist'].getCurrent()), MessageBox.TYPE_YESNO, default=False)
+
+    def delabelyes(self, k):
+        if k == True:
+            os.system('e2label /dev/%s ""' % str(self['devlist'].getCurrent()))
+            self.session.open(MessageBox, _('Label is delete'), type=MessageBox.TYPE_INFO, timeout=10)
+            self.sprLabel()
+
+    def zamknij(self, data):
+        self.close()
+
+    def left(self):
+        self['devlist'].up()
+        self.sprLabel()
+
+    def right(self):
+        self['devlist'].down()
+        self.sprLabel()
+
+    def up(self):
+        self['listlabel'].up()
+
+    def down(self):
+        self['listlabel'].down()
+
+    def addlabeltolist(self, z):
+        if z is not None:
+            self.labList.insert(0, z)
+        return
+
+    def sprLabel(self):
+        lab = getoutput('blkid /dev/' + self['devlist'].getCurrent())
+        lab1 = lab.split(' ')
+        licz1 = len(lab1)
+        i = 0
+        while i < licz1:
+            if lab1[i][:5] == 'LABEL':
+                self['disklabel'].setText(lab1[i][7:-1])
+                break
+            else:
+                self['disklabel'].setText(_('No label'))
+            i += 1
+
+    def sprLinux(self, dev):
+        lab = getoutput('blkid /dev/' + dev)
+        lab1 = lab.split(' ')
+        licz1 = len(lab1)
+        jest = False
+        j = 0
+        while j < licz1:
+            if lab1[j][:9] == 'TYPE="ext':
+                jest = True
+                return jest
+            jest = False
+            j += 1
+
+        return jest
+
+
 class DeviceManagerSummary(Screen):
     def __init__(self, session, parent):
         Screen.__init__(self, session, parent=parent)
