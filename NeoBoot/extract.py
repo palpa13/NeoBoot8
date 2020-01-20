@@ -271,7 +271,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
                     out.close()
                     os.rename(filename2, filename)
 
-                    cmd = 'echo "mount -a" >> %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
+                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                     rc = os.system(cmd)
                     cmd = 'echo "exit 0" >> %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                     rc = os.system(cmd)
@@ -281,7 +281,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Mon
             if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
                     cmd = 'echo " " >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)
-                    cmd = 'echo "mount -a" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
+                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)
                     cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
                     rc = os.system(cmd)

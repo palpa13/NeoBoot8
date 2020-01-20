@@ -265,20 +265,26 @@ class NeoBootInstallation(Screen):
         self['config'] = MenuList(self.list)
         self['key_red'] = Label(_('Instruction'))
         self['key_green'] = Label(_('Installation'))
-        self['key_yellow'] = Label(_('Info disc'))
+#        self['key_yellow'] = Label(_('Info disc'))
+        self['key_yellow'] = Label(_('Set Disk Label'))
         self['key_blue'] = Label(_('Device Manager'))
         self['label1'] = Label(_('Welcome to NeoBoot %s Plugin installation.') % PLUGINVERSION)
         self['label3'] = Label(_('WARNING !!! First, mount the device.'))
         self['label2'] = Label(_('Here is the list of mounted devices in Your STB\nPlease choose a device where You would like to install NeoBoot'))
         self['actions'] = ActionMap(['WizardActions', 'ColorActions', 'DirectionActions'], {'red': self.Instrukcja,                  
          'green': self.install,
-         'yellow': self.datadrive,
+#         'yellow': self.datadrive,
+         'yellow': self.SetDiskLabel,         
          'blue': self.devices, 
          'back': self.close})             
         self.updateList()
                 
     def Instrukcja(self):
         self.session.open(MyHelp)
+
+    def SetDiskLabel(self):
+            from Plugins.Extensions.NeoBoot.files.devices import SetDiskLabel
+            self.session.open(SetDiskLabel)
 
     def datadrive(self):
         try:
@@ -384,9 +390,14 @@ class NeoBootInstallation(Screen):
 
     def install(self):
         if checkInternet():
+            system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')   
             if getFSTAB2() != 'OKinstall':
                 self.session.open(MessageBox, _('NeoBot - First use the Device Manager and mount the drives correctly !!!'), MessageBox.TYPE_INFO, 8)
                 self.close()
+            if getLabelDisck() != 'LABEL=':	
+                self.session.open(MessageBox, _('NeoBot - First use yellow button and Set Disk Label  !!!'), MessageBox.TYPE_INFO, 8)
+                self.close()
+
             else:
                 self.first_installation()
         else:
@@ -429,9 +440,7 @@ class NeoBootInstallation(Screen):
             system(cmd2)                                               
             if os.path.isfile('' + LinkNeoBoot + '/.location'): 
                     os.system('rm -f ' + LinkNeoBoot + '/.location' )  
-		
-            system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')                                                                                 
-            
+		                                                                                          
 	    out = open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location', 'w')
             out.write(self.mysel)
             out.close()     
