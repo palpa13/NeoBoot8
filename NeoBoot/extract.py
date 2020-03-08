@@ -883,7 +883,7 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
 
             #Instalacja image nandsim                                     
             os.system('echo "Instalacja - nandsim w toku..."') 
-            rc = os.system('insmod /lib/modules/%s/kernel/drivers/mtd/nand/nandsim.ko cache_file=' + getNeoLocation() + 'image_cache first_id_byte=0x20 second_id_byte=0xaa third_id_byte=0x00 fourth_id_byte=0x15;sleep 5' % getKernelVersion())
+            rc = os.system('insmod /lib/modules/' + getKernelVersion() + '/kernel/drivers/mtd/nand/nandsim.ko cache_file=' + getNeoLocation() + 'image_cache first_id_byte=0x20 second_id_byte=0xaa third_id_byte=0x00 fourth_id_byte=0x15;sleep 5' )#% getKernelVersion())
             cmd = 'dd if=%s of=/dev/mtdblock%s bs=2048' % (rootfname, mtd)
             rc = os.system(cmd)
             cmd = 'ubiattach /dev/ubi_ctrl -m %s -O 2048' % mtd

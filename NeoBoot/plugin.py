@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.01'
-UPDATEVERSION = '8.17'
+UPDATEVERSION = '8.18'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -60,10 +60,37 @@ def Freespace(dev):
 class MyUpgrade(Screen):
     screenwidth = getDesktop(0).size().width()
     if screenwidth and screenwidth == 1920:
-        skin = """<screen position="center,center" size="1280,570" title="Tools Neoboot"><ePixmap position="594,226" zPosition="-2" size="623,313" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" /><widget source="list" render="Listbox" position="33,127" size="1229,82" scrollbarMode="showOnDemand"><convert type="TemplatedMultiContent">\{"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),],"fonts": [gFont("Regular", 40)],"itemHeight": 66}</convert></widget><eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" /><eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" /></screen>"""
+        skin = """<screen position="center,center" size="1280,570" title="Tools Neoboot">
+                  <ePixmap position="594,226" zPosition="-2" size="623,313" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" />
+                  <widget source="list" render="Listbox" position="33,127" size="1229,82" scrollbarMode="showOnDemand">
+                  <convert type="TemplatedMultiContent">\
+                    {"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),
+                                  MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),
+                                 ],
+                                 "fonts": [gFont("Regular", 40)],
+                                 "itemHeight": 66
+                    }
+                  </convert>
+                  </widget>
+                  <eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" />
+                  <eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" />
+                </screen>"""
     else:
-        skin = """<screen position="center,center" size="1127,569" title="Tools NeoBoot"><ePixmap position="492,223" zPosition="-2" size="589,298" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" /><widget source="list" render="Listbox" position="18,122" size="1085,82" scrollbarMode="showOnDemand"><convert type="TemplatedMultiContent">{"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),],"fonts": [gFont("Regular", 40)],"itemHeight": 66}</convert></widget><eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99 wtyczki. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" /><eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" /></screen>"""
-
+        skin = """<screen position="center,center" size="1127,569" title="Tools NeoBoot">
+                  <ePixmap position="492,223" zPosition="-2" size="589,298" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/images/matrix.png" />
+                  <widget source="list" render="Listbox" position="18,122" size="1085,82" scrollbarMode="showOnDemand">
+                    <convert type="TemplatedMultiContent">
+                      {"template": [MultiContentEntryText(pos = (90, 1), size = (920, 66), flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0),
+                                    MultiContentEntryPixmapAlphaTest(pos = (8, 4), size = (66, 66), png = 1),
+                                   ],
+                                   "fonts": [gFont("Regular", 40)],
+                                   "itemHeight": 66
+                      }
+                    </convert>
+                  </widget>
+                  <eLabel text="NeoBoot wykry\xc5\x82 nowsz\xc4\x85 wersj\xc4\x99 wtyczki. " font="Regular; 40" position="27,40" size="1042,70" halign="center" foregroundColor="red" backgroundColor="black" transparent="1" />
+                  <eLabel text="EXIT - Zrezygnuj" font="Regular; 40" position="27,441" size="389,80" halign="center" foregroundColor="yellow" backgroundColor="black" transparent="1" />
+                </screen>"""
     __module__ = __name__
 
     def __init__(self, session):
