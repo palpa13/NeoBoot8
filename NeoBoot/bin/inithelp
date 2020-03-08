@@ -27,7 +27,7 @@ if [ ! -e  $NEODEVICE$IMAGEKATALOG/.neonextboot ]; then
 	            fi
 fi
 
-if [ ! -e $NEOBOOTMOUNT$IMAGE.neonextboot ] ; then    
+if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot ] ; then    
     /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh 
 fi
 
