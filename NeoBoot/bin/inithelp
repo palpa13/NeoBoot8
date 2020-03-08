@@ -3,6 +3,20 @@ TARGET=Flash
 NEODEVICE=`cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`
 IMAGEKATALOG=ImageBoot
 UPLOADKATALOG=ImagesUpload
+
+if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/.control_ok ]; then
+	            echo "No Error - Booting image normal..."
+else 
+    if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/.control_boot_new_image ]; then
+        echo "First start image - The first attempt to launch a new image... "; 
+        rm -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/.control_boot_new_image > /dev/null 2>&1 
+    else               	
+        echo "Wrong kernel. Press number 3"  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$UPLOAD/.kernel/used_flash_kernel
+        ln -sfn /sbin/init.sysvinit /sbin/init
+        echo "Flash "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/.neonextboot  
+        sleep 8; reboot -f              
+    fi
+fi
 		
 if [ ! -e  $NEODEVICE$IMAGEKATALOG/.neonextboot ]; then
 	            mnttest="nouuid"
@@ -27,13 +41,16 @@ if [ ! -e  $NEODEVICE$IMAGEKATALOG/.neonextboot ]; then
 	            fi
 fi
 
-if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot ] ; then    
+if [ ! -e $NEODEVICE$IMAGEKATALOG/.neonextboot ] ; then   
+    /bin/mount -t proc proc /proc > /dev/null 2>&1
+    /bin/mount -t sysfs sysfs /sys > /dev/null 2>&1
+    /sbin/depmod -Ae > /dev/null 2>&1  
     /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh 
 fi
 
 if [ ! -e  $NEODEVICE$IMAGEKATALOG/.neonextboot ]; then
           ln -sfn /sbin/init.sysvinit /sbin/init
-          echo "Flash "  >   $NEODEVICE$IMAGEKATALOG/.neonextboot
+          echo "Flash " > $NEODEVICE$IMAGEKATALOG/.neonextboot
           echo "Error - Back to Flash... "
           sleep 5; #reboot -f
 fi 
