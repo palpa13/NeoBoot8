@@ -1,6 +1,4 @@
-# NeoBoot_VuUltimo4K
-
-Chcesz kupić tuner ? Polecam sklep : http://www.expert-tvsat.com/
+# NeoBoot_8
 
 
 Pierwsza instalacja neoboot-a
