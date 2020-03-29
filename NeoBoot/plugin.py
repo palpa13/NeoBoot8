@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.01'
-UPDATEVERSION = '8.18'
+UPDATEVERSION = '8.19'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -212,6 +212,7 @@ class MyHelp(Screen):
         message += _('5. For proper installation XenoBota receiver must be connected to the Internet.\n\n')
         message += _('6. In the event of a problem with the installation cancel and  inform the author of the plug of a problem.\n\n')
         message += _('Have fun !!!')
+        message += _('Chcesz kupic tuner ? Polecam sklep : http://www.expert-tvsat.com/')                
         self['lab1'].show()
         self['lab1'].setText(message)
 
