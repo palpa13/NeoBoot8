@@ -879,12 +879,28 @@ class NeoBootImageChoose(Screen):
         self.onShow.append(self.updateList)
 
     def DownloadImageOnline(self):				          	
-        if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):            
-            self.messagebox = self.session.open(MessageBox, _('Image Downloader - download plugin not installed!!!!'), MessageBox.TYPE_INFO, 8)
+            if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):
+                    message = _('[NeoBoot] Image Downloader - download plugin not installed!\nZainstalowac wtyczke do pobierania nowych image ? \n---Continue ?--- ' )
+                    ybox = self.session.openWithCallback(self.InstallImageDownloader, MessageBox, message, MessageBox.TYPE_YESNO)
+                    ybox.setTitle(_('Installation with risk '))
+            else:
+                from Plugins.Extensions.ImageDownloader.main import STBmodelsScreen
+                self.session.open(STBmodelsScreen)    
+
+    def InstallImageDownloader(self, yesno):		
+        if yesno:
+            cmd = 'mkdir /tmp/install; touch /tmp/install/plugin.txt; rm -rf /tmp/*.ipk'
+            system(cmd)
+            cmd1 = 'cd /tmp; wget http://read.cba.pl/panel_extra/enigma2-plugin-extensions-imagedownloader_2.6_all.ipk'
+            system(cmd1)
+            cmd2 = 'opkg install --force-overwrite --force-reinstall --force-downgrade /tmp/enigma2-plugin-extensions-imagedownloader_2.6_all.ipk'
+            system(cmd2)
+            self.session.open(MessageBox, _('Wtyczka zosta\xc5\x82a pomy\xc5\x9blnie zainstalowana.'), MessageBox.TYPE_INFO, 5)
             self.close()
         else:
-            from Plugins.Extensions.ImageDownloader.main import STBmodelsScreen
-            self.session.open(STBmodelsScreen)
+                mess = _('[NeoBoot] \nPlease upload the image files in .ZIP or .NFI formats to install. ' )
+                self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)  
+
 
     def chackkernel(self):		
                             message = _('NeoBoot detected a kernel mismatch in flash, \nInstall a kernel for flash image??')
