@@ -49,7 +49,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.01'
-UPDATEVERSION = '8.19'
+UPDATEVERSION = '8.20'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -831,14 +831,15 @@ class NeoBootImageChoose(Screen):
         self['progreso'] = ProgressBar()
         self['linea'] = ProgressBar()
         self['config'] = MenuList(self.list)
-        self['key_red'] = Label(_('Boot Image'))
+#        self['key_red'] = Label(_('Boot Image'))
+        self['key_red'] = Label(_('Download Image'))
         self['key_green'] = Label(_('Installation'))
         self['key_yellow'] = Label(_('Remove Image '))
         self['key_blue'] = Label(_('Info'))
         self['key_menu'] = Label(_('More options'))
         self['key_1'] = Label(_('Update NeoBot'))
         self['key_2'] = Label(_('Reinstall NeoBoot'))
-        self['key_3'] = Label(_('Install Kernel'))
+        self['key_3'] = Label(_('Install Kernel'))               
         self['label1'] = Label(_('Please choose an image to boot'))
         self['label2'] = Label(_('NeoBoot is running from:'))
         self['label3'] = Label('')
@@ -861,7 +862,8 @@ class NeoBootImageChoose(Screen):
          'NumberActionMap',
          'SetupActions',
          'number'], {'ok': self.boot,
-         'red': self.boot,
+#         'red': self.boot,
+         'red': self.DownloadImageOnline,                  
          'green': self.ImageInstall,
          'yellow': self.remove,
          'blue': self.pomoc,
@@ -869,11 +871,20 @@ class NeoBootImageChoose(Screen):
          'menu': self.mytools,
          '1': self.neoboot_update,
          '2': self.ReinstallNeoBoot,
-         '3': self.ReinstallKernel,
+         '3': self.ReinstallKernel,  
+         '5': self.boot,                
          'back': self.close_exit})
         if not fileExists('/etc/name'):
             os.system('touch /etc/name')
         self.onShow.append(self.updateList)
+
+    def DownloadImageOnline(self):				          	
+        if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):            
+            self.messagebox = self.session.open(MessageBox, _('Image Downloader - download plugin not installed!!!!'), MessageBox.TYPE_INFO, 8)
+            self.close()
+        else:
+            from Plugins.Extensions.ImageDownloader.main import STBmodelsScreen
+            self.session.open(STBmodelsScreen)
 
     def chackkernel(self):		
                             message = _('NeoBoot detected a kernel mismatch in flash, \nInstall a kernel for flash image??')
@@ -1008,28 +1019,7 @@ class NeoBootImageChoose(Screen):
         else:
             self.close()
 
-    def installMedia(self):				
-        images = False
-        myimages = os.listdir('%sImagesUpload' % getNeoLocation() )
-        print myimages
-        for fil in myimages:
-            if fil.endswith('.zip'):
-                images = True
-                break
-            if fil.endswith('.tar.xz'):
-                images = True
-                break
-            if fil.endswith('.nfi'):
-                images = True
-                break                
-            else:
-                images = False
-                
-        if images == True:
-            self.ImageInstall()
-        else:
-            mess = _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install. ' % getNeoLocation() )
-            self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
+##############@@@@@@@@@@@@@111
 
     def MBBackup(self):		
         from Plugins.Extensions.NeoBoot.files.tools import MBBackup
@@ -1298,7 +1288,7 @@ class NeoBootImageChoose(Screen):
              'formuler4turbo'
              'formuler3']:                   
                 self.extractImage()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-            else:
+            else: 
                 self.messagebox = self.session.open(MessageBox, _('The tuner is not supported by NeoBoot.\nContact the author.\nNo proper STB for installation !!!!'), MessageBox.TYPE_INFO, 8)
                 self.close()
         else:
@@ -1331,14 +1321,44 @@ class NeoBootImageChoose(Screen):
                 from Plugins.Extensions.NeoBoot.unpack import InstallImage
                 self.session.open(InstallImage)
         else:
-            self.ImageSystem()
 
-    def ImageSystem(self):		
-        if fileExists('%sImageBoot/.neonextboot' % getNeoLocation()):
-                self.messagebox = self.session.open(MessageBox, _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install.\n' % getNeoLocation() ), MessageBox.TYPE_INFO, 8)
-                self.close()   
-        else:
+            self.DownloaderImage()        
+
+#  update 8.20 poczatek
+    def DownloaderImage(self):
+            if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):
+                    message = _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nZainstalowac wtyczke do pobierania nowych image ? \n---Continue ?--- ' % getNeoLocation() )
+                    ybox = self.session.openWithCallback(self.ImageDownloader, MessageBox, message, MessageBox.TYPE_YESNO)
+                    ybox.setTitle(_('Installation with risk '))
+            else:
+                message = _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install. ' % getNeoLocation() )
+                self.session.open(MessageBox, message, MessageBox.TYPE_INFO)
+    
+    def ImageDownloader(self, yesno):		
+        if yesno:
+            cmd = 'mkdir /tmp/install; touch /tmp/install/plugin.txt; rm -rf /tmp/*.ipk'
+            system(cmd)
+            cmd1 = 'cd /tmp; wget http://read.cba.pl/panel_extra/enigma2-plugin-extensions-imagedownloader_2.6_all.ipk'
+            system(cmd1)
+            cmd2 = 'opkg install --force-overwrite --force-reinstall --force-downgrade /tmp/enigma2-plugin-extensions-imagedownloader_2.6_all.ipk'
+            system(cmd2)
+            self.session.open(MessageBox, _('Wtyczka zosta\xc5\x82a pomy\xc5\x9blnie zainstalowana.'), MessageBox.TYPE_INFO, 5)
             self.close()
+        else:
+                mess = _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install. ' % getNeoLocation() )
+                self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)  
+#update 8.20 koniec
+
+
+#            self.ImageSystem()
+
+#    def ImageSystem(self):		
+#        if fileExists('%sImageBoot/.neonextboot' % getNeoLocation()):
+#                self.messagebox = self.session.open(MessageBox, _('[NeoBoot] The %sImagesUpload directory is EMPTY !!!\nPlease upload the image files in .ZIP or .NFI formats to install.\n' % getNeoLocation() ), MessageBox.TYPE_INFO, 8)
+#                self.close()   
+#        else:
+#            self.close()
+
 
     def boot(self):		
         self.mysel = self['config'].getCurrent()
