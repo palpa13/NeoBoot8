@@ -871,8 +871,10 @@ class NeoBootImageChoose(Screen):
          'menu': self.mytools,
          '1': self.neoboot_update,
          '2': self.ReinstallNeoBoot,
-         '3': self.ReinstallKernel,  
-         '5': self.boot,                
+         '3': self.ReinstallKernel, 
+         '4': self.ReinstallKernel,           
+         '5': self.boot,  
+         '0': self.boot,                                                              
          'back': self.close_exit})
         if not fileExists('/etc/name'):
             os.system('touch /etc/name')
@@ -1022,7 +1024,7 @@ class NeoBootImageChoose(Screen):
                     os.system('cd ' + LinkNeoBoot + '/; cp -rf ./bin/neoinitmipsvu /sbin; chmod 755 /sbin/neoinitmipsvu; cp -rf ./bin/neoinitmips /sbin; chmod 755 /sbin/neoinitmips; cd')                    
                 #elif getCPUtype() == 'ARMv7':
                     #os.system('')                                                                
-                os.system('cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh')
+                os.system('cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh')
                 restartbox = self.session.openWithCallback(self.restartGUI, MessageBox, _('Completed update NeoBoot. You need to restart the E2 !!!\nRestart now ?'), MessageBox.TYPE_YESNO)
                 restartbox.setTitle(_('Restart GUI now ?'))
         else:
@@ -1031,6 +1033,7 @@ class NeoBootImageChoose(Screen):
 
     def restartGUI(self, answer):		
         if answer is True:
+            os.system('rm -f ' + LinkNeoBoot + '/.location')       
             self.session.open(TryQuitMainloop, 3)
         else:
             self.close()
