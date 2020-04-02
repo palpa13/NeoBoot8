@@ -529,7 +529,7 @@ class NeoBootInstallation(Screen):
                             os.system('opkg install util-linux-sfdisk') 
                                         
             # ARM - OctagonSF4008 - DM900 - Zgemma h7S - Octagon sf 8008 - AX HD60 4K  #gbquad4k  arm , #osmio4k  arm, #Zgemma h9  arm, #Zgemma h7S  arm , #Octagon SF4008         
-            if getBoxHostName() == 'ax51' or getBoxHostName() == 'dm920' or getBoxHostName() == 'et1x000' or getBoxHostName() == 'ustym4kpro' or getTunerModel() ==  'ustym4kpro' or getCPUSoC() == 'bcm7251' or getBoxHostName() == 'sf4008' or getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7' or getCPUSoC() == 'bcm7252s' or getBoxHostName() == 'gbquad4k' or getBoxHostName == 'osmio4k' or getBoxHostName() == 'zgemmah9s' or getBoxHostName() == 'ax60' or getBoxHostName() == 'sf8008' or getCPUSoC() == 'bcm7251'  or getCPUSoC() == 'BCM97252SSFF' or getBoxHostName() == 'dm900':
+            if getBoxHostName() == 'ax51' or getBoxHostName() == 'dm920' or getBoxHostName() == 'et1x000' or getBoxHostName() == 'ustym4kpro' or getTunerModel() ==  'ustym4kpro' or getCPUSoC() == 'bcm7251' or getBoxHostName() == 'sf4008' or getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7' or getCPUSoC() == 'bcm7252s' or getBoxHostName() == 'gbquad4k' or getBoxHostName == 'osmio4k' or getBoxHostName() == 'zgemmah9s' or getBoxHostName() == 'h9combo' or getBoxHostName() == 'ax60' or getBoxHostName() == 'sf8008' or getCPUSoC() == 'bcm7251'  or getCPUSoC() == 'BCM97252SSFF' or getBoxHostName() == 'dm900':
                         os.system('cp -f ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; chmod 0755 /sbin/neoinitarm; ln -sfn /sbin/neoinitarm /sbin/init; mv ' + LinkNeoBoot + '/target/arm_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                  
             #VUPLUS ARM 
@@ -796,6 +796,10 @@ class NeoBootImageChoose(Screen):
             if os.path.exists('/proc/stb/info/boxtype'):
                 if getBoxHostName() == 'zgemmah9s':   
                     os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p7 /media/mmc')
+                    
+            if os.path.exists('/proc/stb/info/boxtype'):
+                if getBoxHostName() == 'zgemmah9combo':   
+                    os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p7 /media/mmc')                    
 
             if getBoxHostName == 'sf8008':   
                     os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p13 /media/mmc')  
@@ -1263,6 +1267,7 @@ class NeoBootImageChoose(Screen):
     def installation_image(self, yesno):		
         if yesno:
             if getCPUSoC() or getBoxHostName() or getTunerModel() == ['zgemmah9s',
+             'h9combo',
              'osmio4k',
              'bcm7252s',
              'gbquad4k', 
