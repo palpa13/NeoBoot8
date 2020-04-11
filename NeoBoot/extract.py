@@ -121,65 +121,65 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 rc = os.system(cmd)
                 cmd = 'cp -r /lib/firmware %s/ImageBoot/%s/lib > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)
-                os.system('echo "Skopiowano sterowniki systemu. Nie skopiowano kernel.bin dla Ultimo HD - NIE ZALECANE DLA TEGO MODELU."')
+                os.system('echo "Copied system drivers. Not recommended copied kernel.bin for Ultimo HD."')
                           
             elif getBoxHostName() == 'vuultimo' or getCPUSoC() == '7335' or getCPUSoC() == '7325' or getCPUSoC() == '7405' or getCPUSoC() == '7356' or getCPUSoC() == '7424' or getCPUSoC() == '7241' or getCPUSoC() == '7362':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/vuplus/' + getBoxVuModel() + '/kernel_cfe_auto.bin ' + media_target + '/boot/' + getBoxHostName() + '.vmlinux.gz' + dev_null)        
-                os.system('echo "Skopiowano kernel.bin STB-MIPS"')
+                os.system('echo "Copied kernel.bin STB-MIPS"')
 
 #Ultra
             elif getBoxHostName() == 'mbultra' or getCPUSoC() == 'bcm7424':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/miraclebox/ultra/kernel.bin ' + media_target + '/boot/' + getBoxHostName() + '.vmlinux.gz' + dev_null)        
-                os.system('echo "Skopiowano kernel.bin MiracleBoxUltra. Typ stb - MIPS"')
+                os.system('echo "Copied kernel.bin MiracleBoxUltra. Typ stb - MIPS"')
 
 #Edision OS MINI 
             elif getBoxHostName() == 'osmini' or getCPUSoC() == 'BCM7362':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/osmini/kernel.bin ' + media_target + '/boot/' + getBoxHostName() + '.vmlinux.gz' + dev_null)        
-                os.system('echo "Skopiowano kernel.bin Edision OS MINI. Typ stb - MIPS"')
+                os.system('echo "Copied kernel.bin Edision OS MINI. Typ stb - MIPS"')
 #arm octagon
             elif getBoxHostName() == 'sf4008':  #getCPUSoC() == 'bcm7251' or
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM Octagon."')   
+                os.system('echo "Copied kernel.bin STB-ARM Octagon."')   
 
 #arm /uclan/ustym4kpro
             elif getCPUSoC() == '3798mv200' or getBoxHostName() == 'ustym4kpro':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/uclan/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM uclan ustym4kpro."')   
+                os.system('echo "Copied kernel.bin STB-ARM uclan ustym4kpro."')   
 
 
 #arm Galaxy Innvations ET-11000 4K et1x000
             elif getBoxHostName() == 'et1x000': #getCPUSoC() == 'bcm7251' or
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM GI ET-11000 4K."')
+                os.system('echo "Copied kernel.bin STB-ARM GI ET-11000 4K."')
 
 #arm Dreambox dm920
             elif getBoxHostName() == 'dm920': 
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM DM920 4K."')
+                os.system('echo "Copied kernel.bin STB-ARM DM920 4K."')
 
 #arm Dreambox dm920
             elif getBoxHostName() == 'ax51': 
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/hd51/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM AX 4K Box HD51 4K."')
+                os.system('echo "Copied kernel.bin STB-ARM AX 4K Box HD51 4K."')
 
 #arm  Ariva 4K Combo
             elif getBoxHostName() == 'arivatwin': #getCPUSoC() == 'bcm7251' or
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/e2/update/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM Ariva 4K Combo."')
+                os.system('echo "Copied kernel.bin STB-ARM Ariva 4K Combo."')
 
 #arm Zgemma h7
             elif getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/zgemma/' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM Zgemma h7."')   
+                os.system('echo "Copied kernel.bin STB-ARM Zgemma h7."')   
 #arm gbquad4k
             elif getCPUSoC() == 'bcm7252s' or getBoxHostName() == 'gbquad4k':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/gigablue/quad4k' + getBoxHostName() + '/kernel.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM gbquad4k."')                 
+                os.system('echo "Copied kernel.bin STB-ARM gbquad4k."')                 
                          
 #arm vuplus
             elif getCPUSoC() == '7444s' or getCPUSoC() == '7278' or getCPUSoC() == '7376' or getCPUSoC() == '7252s' or getCPUSoC() == '72604':
                 os.system('mv ' + getNeoLocation() + 'ImagesUpload/vuplus/' + getBoxVuModel() + '/kernel_auto.bin ' + media_target + '/boot/zImage.' + getBoxHostName() + '' + dev_null)
-                os.system('echo "Skopiowano kernel.bin STB-ARM"')   
+                os.system('echo "Copied kernel.bin STB-ARM"')   
                                             
     if not os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):           
         if os.path.exists('/usr/sbin/nandwrite'):
@@ -220,7 +220,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         if not os.path.exists('%s/ImageBoot/%s/usr/lib/enigma2/python/boxbranding.so' % (media, target)):
             cmd = 'cp -r /usr/lib/enigma2/python/boxbranding.so %s/ImageBoot/%s/usr/lib/enigma2/python/boxbranding.so > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        os.system('echo "Skopiowano wtyczki."')        
+        os.system('echo "Copied plugins..."')        
         
         if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
                 filename = '%s/ImageBoot/%s/etc/init.d/udev' % (media, target)
@@ -264,7 +264,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             rc = os.system(cmd)
             cmd = 'cp /etc/enigma2/lamedb %s/ImageBoot/%s/etc/enigma2' % (media, target)
             rc = os.system(cmd)
-            os.system('echo "Skopiowano list\xc4\x99 tv."')
+            os.system('echo "Copied TV list..."')
 
         if Sterowniki == 'True':
             if os.path.exists('%s/ImageBoot/%s/lib/modules' % (media, target)):
@@ -281,7 +281,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             rc = os.system(cmd)
             cmd = 'cp -r /lib/firmware %s/ImageBoot/%s/lib > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-            os.system('echo "Skopiowano sterowniki systemu."')
+            os.system('echo "System drivers copied..."')
 
         if InstallSettings == 'True':
             if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
@@ -296,7 +296,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 rc = os.system(cmd)
             cmd = 'cp -a /etc/tuxbox/* %s/ImageBoot/%s/etc/tuxbox' % (media, target)
             rc = os.system(cmd)
-            os.system('echo "Skopiowano ustawienia systemu."')
+            os.system('echo "System settings copied..."')
 
         if RepairFTP == 'True':
             if os.path.exists('%s/ImageBoot/%s/etc/vsftpd.conf' % (media, target)):
@@ -315,7 +315,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                     f.close()
                     out.close()
                     os.rename(filename2, filename)
-            os.system('echo "Naprawa ftp."')
+            os.system('echo "Repair ftp."')
 
         if SoftCam == 'True':
             if os.path.exists('/etc/CCcam.cfg'):
@@ -325,9 +325,9 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)       
                 os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*')  
-                cmd1= 'cp -r /tmp/NeoBoot_CAM.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
+                cmd1= 'cp -af /tmp/NeoBoot_CAM.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd1)                
-            os.system('echo "Przeniesiono pliki softcam do instalowanego image..."')
+            os.system('echo "Copied softcam files to the installed image..."')
 
         if MediaPortal == 'True':
             if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):
@@ -357,7 +357,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 rc = os.system(cmd)
                 cmd = 'cp /etc/enigma2/mp_pluginliste %s/ImageBoot/%s/etc/enigma2' % (media, target)
                 rc = os.system(cmd)                                
-                os.system('echo "Skopiowano MediaPortal z ustawieniami systemowymi."')
+                os.system('echo "Copied MediaPortal..."')
             elif not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):                    
                 os.system('echo "MediaPortal not found."')
 
@@ -605,7 +605,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         os.system('rm -f /tmp/init4; init 3')
 
     os.system('echo "End of installation:"; date +%T')
-    os.system('echo "Nacisnij zielony, by zapisac log.txt procesu instalacji w /tmp"')    
+    os.system('echo "Press green to save of the installation process in /tmp"')    
 
 def RemoveUnpackDirs():
     os.chdir(media + '/ImagesUpload')
@@ -702,7 +702,7 @@ def RemoveUnpackDirs():
 
 def NEOBootExtract(source, target, ZipDelete, BlackHole):
     RemoveUnpackDirs()
-    os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file...\nNacisnij zielony by ukryc Console lub czeerwony by przerwac instalacje"')
+    os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file...\nPress green to hide Console or red to abort the installation"')
 
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
         os.system('rm -f ' + getNeoLocation() + 'ImageBoot/.without_copying') 
