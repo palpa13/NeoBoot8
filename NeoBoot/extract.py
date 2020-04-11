@@ -320,11 +320,11 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         if SoftCam == 'True':
             if os.path.exists('/etc/CCcam.cfg'):
                 cmd = 'cp -r /etc/CCcam.cfg %s/ImageBoot/%s/etc > /dev/null 2>&1' % (media, target)    
-                rc = os.system(cmd)
-            if os.path.exists('/etc/tuxbox/config'):
+                rc = os.system(cmd)                                                                                                                                 
+            if os.path.exists('/etc/tuxbox/config') and os.path.exists('/usr/lib/enigma2/python/PLi') and os.path.exists('%s/ImageBoot/%s/usr/lib/enigma2/python/PLi' % (media, target)):
                 cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)       
-                os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*') > /dev/null 2>&1 
+                os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*')  
                 cmd1= 'cp -r /tmp/NeoBoot_CAM.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd1)                
             os.system('echo "Przeniesiono pliki softcam do instalowanego image..."')
