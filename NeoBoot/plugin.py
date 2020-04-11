@@ -31,7 +31,7 @@ from Components.Pixmap import Pixmap, MultiPixmap
 from Components.config import *
 from Components.ConfigList import ConfigListScreen
 from Tools.LoadPixmap import LoadPixmap
-from Tools.Directories import fileExists, pathExists, createDir, resolveFilename, SCOPE_PLUGINS
+from Tools.Directories import fileExists, fileCheck, pathExists, createDir, resolveFilename, SCOPE_PLUGINS
 from os import system, listdir, mkdir, chdir, getcwd, rename as os_rename, remove as os_remove, popen
 from os.path import dirname, isdir, isdir as os_isdir
 import os
@@ -879,11 +879,18 @@ class NeoBootImageChoose(Screen):
          '3': self.ReinstallKernel, 
          '4': self.ReinstallKernel,           
          '5': self.boot,  
-         '0': self.boot,                                                              
+         '9': self.boot,  
+         '0': self.Cam_Restart,                                                                                               
          'back': self.close_exit})
         if not fileExists('/etc/name'):
             os.system('touch /etc/name')
         self.onShow.append(self.updateList)
+
+    def Cam_Restart(self):  
+        if fileCheck('/etc/init.d/softcam'):
+            os.system('/etc/init.d/softcam stop; sleep 2; /etc/init.d/softcam start||restart')
+            self.session.open(MessageBox, _('SoftCam zosta\xc5\x82a zrestartowany.'), MessageBox.TYPE_INFO, 5)
+            self.close()
 
     def DownloadImageOnline(self):				          	
             if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):
