@@ -15,7 +15,8 @@ from Plugins.Extensions.NeoBoot.plugin import Plugins
 from Plugins.Plugin import PluginDescriptor
 from Screens.Standby import TryQuitMainloop
 from Screens.MessageBox import MessageBox
-from Screens.Console import Console
+#from Screens.Console import Console
+from nConsole import Console
 from Screens.Screen import Screen
 from Tools.LoadPixmap import LoadPixmap
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE, SCOPE_CURRENT_SKIN, fileExists, pathExists, createDir
