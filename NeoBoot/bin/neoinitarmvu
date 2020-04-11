@@ -37,9 +37,10 @@ else
 	fi
 	echo "Mount kernel filesystems ..."	
 	if [ `mount | grep /proc | wc -l` -lt 1 ]; then	
+	        export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 	        /bin/mount -a -t media         	             
-		/bin/mount -t proc proc /proc > /dev/null 2>&1
-		/bin/mount -t sysfs sysfs /sys > /dev/null 2>&1
+		/bin/mount -n -t proc proc /proc > /dev/null 2>&1
+		/bin/mount -n -t sysfs sysfs /sys > /dev/null 2>&1
 		/sbin/depmod -Ae > /dev/null 2>&1                 
 	fi 	
 
