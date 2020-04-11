@@ -321,7 +321,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             if os.path.exists('/etc/CCcam.cfg'):
                 cmd = 'cp -r /etc/CCcam.cfg %s/ImageBoot/%s/etc > /dev/null 2>&1' % (media, target)    
                 rc = os.system(cmd)                                                                                                                                 
-            if os.path.exists('/etc/tuxbox/config') and os.path.exists('/usr/lib/enigma2/python/PLi') and os.path.exists('%s/ImageBoot/%s/usr/lib/enigma2/python/PLi' % (media, target)):
+            if os.path.exists('/etc/tuxbox/config'):
                 cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)       
                 os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*')  
