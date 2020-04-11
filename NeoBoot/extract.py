@@ -51,7 +51,7 @@ def getCPUtype() :
         elif lines.find('mips') != -1:
             cpu='MIPS'
     return cpu   
-    
+               
 def getKernelVersion():
     try:
         return open('/proc/version', 'r').read().split(' ', 4)[2].split('-', 2)[0]
@@ -319,21 +319,16 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
 
         if SoftCam == 'True':
             if os.path.exists('/etc/CCcam.cfg'):
-                cmd = 'cp -r -f /etc/CCcam.cfg %s/ImageBoot/%s/etc > /dev/null 2>&1' % (media, target)    
+                cmd = 'cp -r /etc/CCcam.cfg %s/ImageBoot/%s/etc > /dev/null 2>&1' % (media, target)    
                 rc = os.system(cmd)
             if os.path.exists('/etc/tuxbox/config'):
-                cmd = 'cp -r -f /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
+                cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)       
-            if os.path.exists('/etc/init.d/softcam.oscam'):
-                cmd = 'cp -r -f -p /etc/init.d/softcam.osca* %s/ImageBoot/%s/etc/init.d > /dev/null 2>&1' % (media, target)
-                rc = os.system(cmd) 
-            if os.path.exists('/etc/init.d/softcam.None'):
-                cmd = 'cp -r -f -p /etc/init.d/softcam.None %s/ImageBoot/%s/etc/init.d > /dev/null 2>&1' % (media, target)
-                rc = os.system(cmd) 
-            if os.path.exists('/etc/init.d/softcam.CCcam'):
-                cmd = 'cp -r -f -p /etc/init.d/softcam.softcam.CCcam %s/ImageBoot/%s/etc/init.d > /dev/null 2>&1' % (media, target)
-                rc = os.system(cmd) 
-       
+                os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*') > /dev/null 2>&1 
+                cmd1= 'cp -r /tmp/NeoBoot_CAM.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
+                rc = os.system(cmd1)                
+            os.system('echo "Przeniesiono pliki softcam do instalowanego image..."')
+
         if MediaPortal == 'True':
             if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):
                 cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/MediaPortal %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
@@ -396,12 +391,14 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
             rc = os.system(cmd)
         cmd = 'grep "config.Nims" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-        rc = os.system(cmd)
+        rc = os.system(cmd)        
+        cmd = 'grep "av.videomode.DVI" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)               
         cmd = 'grep "config.OpenWebif" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
         cmd = 'grep "config.osd" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
-        cmd = 'grep "config.timezone" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        cmd = 'grep "config.timezone.val" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
         cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
         rc = os.system(cmd)
@@ -608,6 +605,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         os.system('rm -f /tmp/init4; init 3')
 
     os.system('echo "End of installation:"; date +%T')
+    os.system('echo "Nacisnij zielony, by zapisac log.txt procesu instalacji w /tmp"')    
 
 def RemoveUnpackDirs():
     os.chdir(media + '/ImagesUpload')
@@ -670,6 +668,11 @@ def RemoveUnpackDirs():
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/force_h9combo_READ.ME ' + getNeoLocation() + 'ImagesUpload/h9combo; mv ' + getNeoLocation() + 'ImagesUpload/unforce_h9combo.txt ' + getNeoLocation() + 'ImagesUpload/h9combo')                                                                                                
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h9combo')  
 
+    elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h10'):
+        rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/force_h10_READ.ME ' + getNeoLocation() + 'ImagesUpload/h10; mv ' + getNeoLocation() + 'ImagesUpload/unforce_h10.txt ' + getNeoLocation() + 'ImagesUpload/h10')                                                                                                
+        rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h10')  
+
+
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/uclan'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/uclan') 
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan') 
@@ -699,7 +702,7 @@ def RemoveUnpackDirs():
 
 def NEOBootExtract(source, target, ZipDelete, BlackHole):
     RemoveUnpackDirs()
-    os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file..."')
+    os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file...\nNacisnij zielony by ukryc Console lub czeerwony by przerwac instalacje"')
 
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
         os.system('rm -f ' + getNeoLocation() + 'ImageBoot/.without_copying') 
@@ -1201,6 +1204,11 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
         elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h9combo/rootfs.tar.bz2'):
             os.system('echo "Please wait. System installation Zgemma h9combo ."')
             cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/h9combo/rootfs.tar.bz2; tar -jxf ' + getNeoLocation() + 'ImagesUpload/h9combo/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
+            rc = os.system(cmd) 
+
+        elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h10/rootfs.tar.bz2'):
+            os.system('echo "Please wait. System installation Zgemma h10 ."')
+            cmd = 'chmod 777 ' + getNeoLocation() + 'ImagesUpload/h10/rootfs.tar.bz2; tar -jxf ' + getNeoLocation() + 'ImagesUpload/h10/rootfs.tar.bz2 -C ' + getNeoLocation() + 'ImageBoot/' + target + ' > /dev/null 2>&1'
             rc = os.system(cmd) 
 
         elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/miraclebox/mini4k'):
