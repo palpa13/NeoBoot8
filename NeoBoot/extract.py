@@ -590,7 +590,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
     out.close()                                                                             
     if '.tar.xz' not in source and not os.path.exists('' + getNeoLocation() + '/ImageBoot/%s/etc/issue' %  target):
             os.system('echo ""; echo "No system installed! The reason for the installation error may be badly packed image files or it is not a system for your model."')
-            os.system('echo "The installed system may not start. Check the correctness of the installed image directory!!!"')            
+            os.system('echo "The installed system may not start. Check the correctness of the installed image directory!!!"')
             os.system('rm -r ' + getNeoLocation() + '/ImageBoot/%s' % target )
 
     if os.path.exists('' + getNeoLocation() + 'ubi'):
@@ -605,7 +605,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         os.system('rm -f /tmp/init4; init 3')
 
     os.system('echo "End of installation:"; date +%T')
-    os.system('echo "If you want to save the installation process from the console press green.\nPress green to save of the installation process in /tmp"')    
+    os.system('echo "If you want to save the installation process from the console press green."')    
 
 def RemoveUnpackDirs():
     os.chdir(media + '/ImagesUpload')
