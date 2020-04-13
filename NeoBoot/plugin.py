@@ -866,9 +866,6 @@ class NeoBootImageChoose(Screen):
             #if getBoxHostName == 'osmio4k':
                     #os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p5 /media/mmc')
 
-            if fileCheck('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/filecam.tar.gz'):
-                os.system('rm -r /tmp/*.tar.gz; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/filecam.tar.gz /tmp ; /bin/tar -xzvf /tmp/*.tar.gz -C /; rm -fr /tmp/*.tar.gz; ln -s /usr/lib/libcrypto.so.1.0.2 /usr/lib/libcrypto.so.1.0.0; opkg install install libssl1.0.0')    
-
         self.list = []
         self.setTitle('         NeoBoot  %s  - Menu' % PLUGINVERSION + '          ' + 'Ver. update:  %s' % UPDATEVERSION)
         self['device_icon'] = Pixmap()
@@ -918,19 +915,12 @@ class NeoBootImageChoose(Screen):
          '3': self.ReinstallKernel, 
          '4': self.ReinstallKernel,           
          '5': self.boot,        #hidden option
-         '9': self.boot,        #hidden option
-         '0': self.Cam_Restart, #hidden option                                                                                               
+         '9': self.boot,        #hidden option                                                                                              
          'back': self.close_exit})
         if not fileExists('/etc/name'):
             os.system('touch /etc/name')
         self.onShow.append(self.updateList)
-  
-    def Cam_Restart(self):
-            if fileCheck('/etc/init.d/softcam'):
-                os.system('/etc/init.d/softcam stop; sleep 2; /etc/init.d/softcam start||restart')
-                self.session.open(MessageBox, _('SoftCam zosta\xc5\x82a zrestartowany.'), MessageBox.TYPE_INFO, 5)
-                self.close()
-
+ 
     def DownloadImageOnline(self):				          	
             if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):
                     message = _('[NeoBoot] Image Downloader - download plugin not installed!\nZainstalowac wtyczke do pobierania nowych image ? \n---Continue ?--- ' )
