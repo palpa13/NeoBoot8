@@ -37,7 +37,7 @@ else
 	echo "Mount kernel filesystems ..."	
 	if [ `mount | grep /proc | wc -l` -lt 1 ]; then	
 	        export PATH=/bin:/usr/bin:/sbin:/usr/sbin
-	        /bin/mount -a          	             
+	        /bin/mount -a > /dev/null 2>&1          	             
 		/bin/mount -n -t proc proc /proc > /dev/null 2>&1
 		/bin/mount -n -t sysfs sysfs /sys > /dev/null 2>&1
 		/sbin/depmod -Ae > /dev/null 2>&1                 
@@ -55,16 +55,16 @@ else
 	
 	mnttest="nouuid"
 	if [ -e /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install  ]; then
-        	orgimag1=`mount | sed '/sd/!d' | cut -d" " -f1`
+        	orgimag1=`mount | sed '/sd/!d' | cut -d" " -f1` 
                 hdd=`/bin/mount | sed '/\/sd/!d' | grep 'hdd' | cut -d' ' -f1`
-                usb=`/bin/mount | sed '/\/sd/!d' | grep 'usb' | cut -d' ' -f1`
-                usb1=`/bin/mount | sed '/\/sd/!d' | grep 'usb' | cut -d' ' -f1`                 
-                card=`/bin/mount | sed '/\/sd/!d' | grep 'usb' | cut -d' ' -f1` 
-                cf=`/bin/mount | sed '/\/sd/!d' | grep 'usb' | cut -d' ' -f1`                      	
-		selectinstall=`cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install`
+                usb=`/bin/mount | sed '/\/sd/!d' | grep 'usb' | cut -d' ' -f1` 
+                usb1=`/bin/mount | sed '/\/sd/!d' | grep 'usb1' | cut -d' ' -f1`                  
+                card=`/bin/mount | sed '/\/sd/!d' | grep 'card' | cut -d' ' -f1` 
+                cf=`/bin/mount | sed '/\/sd/!d' | grep 'cf' | cut -d' ' -f1`                       	
+		selectinstall=`cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/install` > /dev/null 2>&1
 		for item in $orgimag1; do        
                         selectmnt=`/bin/mount | sed '/\/sd/!d' | grep '$selectinstall' | cut -d' ' -f1`
-		        mntselect=`blkid | sed "$selectinstall/!d" | cut -d":" -f1`
+		        mntselect=`blkid | sed "$selectinstall/!d" | cut -d":" -f1`  
 			if [ $selectinstall == $hdd ]; then
 				echo "selectinstall=" $selectinstall
                         	mnttest="label"
@@ -94,7 +94,7 @@ else
 			fi				
 			if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`ImageBoot  ]; then
 				echo "NeoBoot hasn't been installed on: " $selectinstall
-				umount -l `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
+				umount `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
 			else
 				echo "NeoBoot has been installed on: " $selectinstall
 				sleep 10
@@ -113,7 +113,7 @@ else
 			fi
 			if [ ! -e `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`ImageBoot  ]; then
 				echo " 4 NeoBoot hasn't been installed on: " $DEVICE
-				umount -l `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
+				umount `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` > /dev/null 2>&1 
 			else
 				echo "2 NeoBoot has been installed on: " $DEVICE
 				break;
@@ -154,13 +154,12 @@ else
 	if [ ! -e $NEODEVICE$IMAGEKATALOG ]; then
                 echo " Sending all processes the TERM- KILL signal..." >> $neoLOG	
                 echo "Error mounting, Return to image Flash..."; echo "Error mounting, Return to image Flash..." >> $neoLOG
-                sleep 2
                 ln -sfn /sbin/init.sysvinit /sbin/init
                 echo "Flash "  > $NEODEVICE$IMAGEKATALOG/.neonextboot 
                 echo "Reinstall kernel -Press number 3"  > $NEODEVICE$UPLOAD/.kernel/used_flash_kernel
                 echo " Sending all processes the TERM- KILL signal..." 
-		/bin/umount -l /media/usb > /dev/null 2>&1
-		/bin/umount -l /media/hdd > /dev/null 2>&1
+		/bin/umount /media/usb > /dev/null 2>&1
+		/bin/umount /media/hdd > /dev/null 2>&1
                 reboot -f
 	fi
 
@@ -216,11 +215,14 @@ else
 	    fi
 	fi
 	    	        
+        HARDWARETYPE=`uname -m` 
 	if [ $TARGET = "Flash" ]; then
 		echo "NEOBOOT is booting image from " $TARGET
-		/bin/umount -l /media/usb > /dev/null 2>&1
-		/bin/umount -l /media/hdd > /dev/null 2>&1				
-		/usr/bin/showiframe /usr/share/bootlogo.mvi > /dev/null 2>&1
+		/bin/umount /media/usb > /dev/null 2>&1
+		/bin/umount /media/hdd > /dev/null 2>&1				
+                if [ $HARDWARETYPE != "armv7l" ]; then
+		    /usr/bin/showiframe /usr/share/bootlogo.mvi > /dev/null 2>&1
+		fi    
 		ln -sfn /sbin/init.sysvinit /sbin/init
                 echo "----------------------------------"
 	        echo "     BOOT UP IMAGE FROM FLASH     "
@@ -228,7 +230,7 @@ else
                 echo "     BOOT UP IMAGE FROM FLASH     " >> $neoLOG
 	else                                                                                                                                             
                 if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/.control_ok ]; then
-	            echo "No Error - Booting image normal..."; 
+	            echo "No Error - Booting image normal..." 
                     echo "No Error - Booting image normal... " >> $neoLOG
 		else 
 		    if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/.control_boot_new_image ]; then
@@ -249,8 +251,8 @@ else
                             echo "Wrong kernel. Press number 3"  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$UPLOAD/.kernel/used_flash_kernel
                             ln -sfn /sbin/init.sysvinit /sbin/init
                             echo "Flash "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/.neonextboot                 	
-		            /bin/umount -l /media/usb > /dev/null 2>&1
-		            /bin/umount -l /media/hdd > /dev/null 2>&1                            
+		            /bin/umount /media/usb > /dev/null 2>&1
+		            /bin/umount /media/hdd > /dev/null 2>&1                            
                             sleep 5; reboot -f              
                         fi
 		    fi
@@ -262,8 +264,7 @@ else
 			if [ -f $NEODEVICE$IMAGEKATALOG/$TARGET/etc/init.d/udev ]; then
 				sed -ie s!"\$4"!"\$3"!g $NEODEVICE$IMAGEKATALOG/$TARGET/etc/init.d/udev
 			fi     			
-
-                        HARDWARETYPE=`uname -m`           
+                                  
 			if [ $HARDWARETYPE != "armv7l" ]; then
 			    echo "NeoBOOT - HARDWARETYPE "
 			    if [ -f $NEODEVICE$IMAGEKATALOG/$TARGET/usr/share/bootlogo.mvi ]; then
@@ -296,8 +297,7 @@ else
                         echo "NeoBOOT created the file enigma2_pre_start.sh " 
 
                         echo " [NEOBOOT] Use chroot ... exec /usr/sbin/chroot..."
-                        cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh                                              
-                                                
+                        cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh                                                                                              
                         #/bin/mount /dev/sda1 `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$TARGET/media/hdd                       
 			if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init.sysvinit ]; then 
                                     echo " -=*[ BOOT UP IMAGE FROM DISK ]*=- " >> $neoLOG
@@ -322,8 +322,8 @@ else
                                     ln -sfn /sbin/init.sysvinit /sbin/init
                                     echo "Flash "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/.neonextboot
                                     echo "Used Kernel: Reinstall kernel !"  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$UPLOAD/.kernel/used_flash_kernel
-		                    /bin/umount -l /media/usb > /dev/null 2>&1
-	                            /bin/umount -l /media/hdd > /dev/null 2>&1
+		                    /bin/umount /media/usb > /dev/null 2>&1
+	                            /bin/umount /media/hdd > /dev/null 2>&1
                                     sleep 15; reboot -f
 
 			fi
@@ -335,7 +335,7 @@ fi
 # boot Flash 
 
 if [ -f /sbin/init.sysvinit ]; then
-		#echo "Running /sbin/init.sysvinit"
+		echo "Running /sbin/init.sysvinit - boot Flash"
 		exec /sbin/init.sysvinit $1
 fi
 
