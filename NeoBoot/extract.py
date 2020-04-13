@@ -323,9 +323,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 rc = os.system(cmd)                                                                                                                                 
             if os.path.exists('/etc/tuxbox/config'):
                 cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
-                rc = os.system(cmd)       
-                cmd1= 'tar -czf /tmp/filecam.tar.gz /usr/bin/*cam* /etc/init.d/softcam*; cp -af /tmp/filecam.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
-                rc = os.system(cmd1)                
+                rc = os.system(cmd)                      
             os.system('echo "Copied softcam files to the installed image..."')
 
         if MediaPortal == 'True':
