@@ -6,7 +6,8 @@ from Plugins.Extensions.NeoBoot.files.stbbranding import getNeoLocation, getKern
 from enigma import getDesktop
 from enigma import eTimer
 from Screens.Screen import Screen                                                                                                                                               
-from Screens.Console import Console
+#from Screens.Console import Console
+from files.nConsole import Console
 from Screens.MessageBox import MessageBox
 from Screens.ChoiceBox import ChoiceBox
 from Screens.VirtualKeyBoard import VirtualKeyBoard

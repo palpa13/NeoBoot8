@@ -50,7 +50,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.01'
-UPDATEVERSION = '8.21'
+UPDATEVERSION = '8.22'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -273,7 +273,7 @@ class Opis(Screen):
             cmd1 = 'rm -R ' + LinkNeoBoot + '' 
             cmd2 = 'rm -R /sbin/neoinit*'                                    
             cmd3 = 'ln -sfn /sbin/init.sysvinit /sbin/init'     
-            cmd4 = 'opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade volatile-media; sleep 10; reboot -f'  
+            cmd4 = 'opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade volatile-media; sleep 10; PATH=/sbin:/bin:/usr/sbin:/usr/bin; echo -n "Rebooting... "; reboot -d -f'  
             self.session.open(Console, _('NeoBot was removed !!! \nThe changes will be visible only after complete restart of the receiver.'), [cmd,
              cmd1,
              cmd2,
@@ -295,25 +295,25 @@ class NeoBootInstallation(Screen):
         self['key_red'] = Label(_('Instruction'))
         self['key_green'] = Label(_('Installation'))
 #        self['key_yellow'] = Label(_('Info disc'))
-        self['key_yellow'] = Label(_('Set Disk Label'))
+        self['key_yellow'] = Label(_('SetDiskLabel'))
         self['key_blue'] = Label(_('Device Manager'))
         self['label1'] = Label(_('Welcome to NeoBoot %s Plugin installation.') % PLUGINVERSION)
         self['label3'] = Label(_('WARNING !!! First, mount the device.'))
         self['label2'] = Label(_('Here is the list of mounted devices in Your STB\nPlease choose a device where You would like to install NeoBoot'))
         self['actions'] = ActionMap(['WizardActions', 'ColorActions', 'DirectionActions'], {'red': self.Instrukcja,                  
-         'green': self.install,
+         'green': self.checkinstall,
 #         'yellow': self.datadrive,
          'yellow': self.SetDiskLabel,         
          'blue': self.devices, 
          'back': self.close})             
         self.updateList()
                 
-    def Instrukcja(self):
-        self.session.open(MyHelp)
-
     def SetDiskLabel(self):
             from Plugins.Extensions.NeoBoot.files.devices import SetDiskLabel
             self.session.open(SetDiskLabel)
+
+    def Instrukcja(self):
+        self.session.open(MyHelp)
 
     def datadrive(self):
         try:
@@ -417,20 +417,51 @@ class NeoBootInstallation(Screen):
         else:
             self.close()
 
-    def install(self):
-        if checkInternet():
-            system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')   
-            if getFSTAB2() != 'OKinstall':
-                self.session.open(MessageBox, _('NeoBot - First use the Device Manager and mount the drives correctly !!!'), MessageBox.TYPE_INFO, 8)
-                self.close()
-            if getLabelDisck() != 'LABEL=':	
-                self.session.open(MessageBox, _('NeoBot - First use yellow button and Set Disk Label  !!!'), MessageBox.TYPE_INFO, 8)
-                self.close()
+    def checkinstall(self):
+        if checkInternet():  
+            self.check_LabelDisck()
+        else:
+            session.open(MessageBox, "Geen internet - Brak internetu", MessageBox.TYPE_INFO)                
 
+    def check_LabelDisck(self):
+            system('blkid -c /dev/null /dev/sd* > ' + LinkNeoBoot + '/bin/reading_blkid; chmod 755 ' + LinkNeoBoot + '/bin/reading_blkid ')   
+            if getLabelDisck() != 'LABEL=':	
+                message = _('NeoBot - First use yellow button and Set Disk Label  !!!') 
+                ybox = self.session.openWithCallback(self.goSetDiskLabel, MessageBox, message, MessageBox.TYPE_YESNO)
+                ybox.setTitle(_('Install Confirmation'))
+            else:
+                self.check_fstabUUID()
+
+    def check_fstabUUID(self):                
+            if getFSTAB2() != 'UUID':
+                message = _('Disk UUID not found\n - Universally unique identifier (UUID) is not required.\nYou can proceed with further installation or give an ID to your disk.\nTo continue ?') 
+                ybox = self.session.openWithCallback(self.SetMountPointFSTAB, MessageBox, message, MessageBox.TYPE_YESNO)
+                ybox.setTitle(_('Install Confirmation'))
             else:
                 self.first_installation()
+
+    def goSetDiskLabel(self, yesno):
+        if yesno:                 
+            from Plugins.Extensions.NeoBoot.files.devices import SetDiskLabel
+            self.session.open(SetDiskLabel)
         else:
-            session.open(MessageBox, "Geen internet - Brak internetu", MessageBox.TYPE_INFO)
+                message = _('NeoBot - choose what you want to do, install or not !!!') 
+                ybox = self.session.openWithCallback(self.goInstall, MessageBox, message, MessageBox.TYPE_YESNO)
+                ybox.setTitle(_('Install Confirmation'))
+
+    def SetMountPointFSTAB(self, yesno):
+        if yesno:                 
+                message = _('Proceed with further installation without providing a unique identifier for the disks ?') 
+                ybox = self.session.openWithCallback(self.goInstall, MessageBox, message, MessageBox.TYPE_YESNO)
+                ybox.setTitle(_('Install Confirmation'))
+        else:
+                self.devices()
+                
+    def goInstall(self, yesno):
+        if yesno:
+            self.first_installation()        
+        else:
+            self.myclose2(_('NeoBoot has not been installed ! :(' ))
 
     def first_installation(self):
         check = False
@@ -462,7 +493,7 @@ class NeoBootInstallation(Screen):
 
     def first_installationNeoBoot(self):
     	    self.mysel = self['config'].getCurrent()	    
-            system('cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*; chmod 0755 ./ex_init.py; chmod 0755 ./target/*.sh; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cp -rf ' + LinkNeoBoot + '/bin/neoini* /sbin cd;')                                    
+            system('cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*; chmod 0755 ./ex_init.py; chmod 0755 ./target/*.sh; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/userscript.sh; cp -rf ' + LinkNeoBoot + '/bin/neoini* /sbin cd;')                                    
             cmd1 = 'mkdir ' + self.mysel + 'ImageBoot;mkdir ' + self.mysel + 'ImagesUpload' 
             system(cmd1)
             cmd2 = 'mkdir ' + self.mysel + 'ImageBoot;mkdir ' + self.mysel + 'ImagesUpload/.kernel' 
@@ -684,43 +715,43 @@ class NeoBootImageChoose(Screen):
         if not fileExists('' + LinkNeoBoot + '/files/mountpoint.sh'):
             os.system('touch ' + LinkNeoBoot + '/files/mountpoint.sh; echo "#!/bin/sh\n#DESCRIPTION=This script by gutosie\n"  >> ' + LinkNeoBoot + '/files/mountpoint.sh; chmod 0755 ' + LinkNeoBoot + '/files/mountpoint.sh') 
             if getNeoMount() == 'hdd_install_/dev/sda1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/hdd\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb1': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/hdd\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/hdd\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sda2': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda2\n/bin/mount /dev/sda2 /media/hdd\n/bin/mount /dev/sda2 /media/sda2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sda2\n/bin/mount /dev/sda2 /media/hdd\n/bin/mount /dev/sda2 /media/sda2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount() == 'hdd_install_/dev/sdb2': 
-                    os.system('echo "umount /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/hdd\n/bin/mount /dev/sdb2 /media/sdb2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/hdd\nmkdir -p /media/hdd\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/hdd\n/bin/mount /dev/sdb2 /media/sdb2"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             if getNeoMount2() == 'usb_install_/dev/sdb1': 
-                    os.system('echo "\numount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/usb\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')      
+                    os.system('echo "\numount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/usb\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')      
             elif getNeoMount2() == 'usb_install_/dev/sda1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/sda1\n/bin/mount /dev/sda1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/sda1\n/bin/mount /dev/sda1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdb2': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/sdb2\n/bin/mount /dev/sdb2 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdb2\n/bin/mount /dev/sdb2 /media/sdb2\n/bin/mount /dev/sdb2 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdc1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdc1\n/bin/mount /dev/sdc1 /media/sdb2\n/bin/mount /dev/sdc1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdc1\n/bin/mount /dev/sdc1 /media/sdb2\n/bin/mount /dev/sdc1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdd1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdd1\n/bin/mount /dev/sdd1 /media/sdd1\n/bin/mount /dev/sdd1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdd1\n/bin/mount /dev/sdd1 /media/sdd1\n/bin/mount /dev/sdd1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sde1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sde1\n/bin/mount /dev/sde1 /media/sde1\n/bin/mount /dev/sde1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sde1\n/bin/mount /dev/sde1 /media/sde1\n/bin/mount /dev/sde1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
             elif getNeoMount2() == 'usb_install_/dev/sdf1': 
-                    os.system('echo "umount /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdf1\n/bin/mount /dev/sdf1 /media/sdf1\n/bin/mount /dev/sdf1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
+                    os.system('echo "umount -l /media/usb\nmkdir -p /media/usb\nmkdir -p /media/sdf1\n/bin/mount /dev/sdf1 /media/sdf1\n/bin/mount /dev/sdf1 /media/usb"  >> ' + LinkNeoBoot + '/files/mountpoint.sh')  
                                               
             elif getNeoMount3() == 'cf_install_/dev/sda1': 
-                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sda1 /media/cf\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sda1 /media/cf\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount3() == 'cf_install_/dev/sdb1': 
-                    os.system('echo "umount /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/cf\nmkdir -p /media/cf\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/cf\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             elif getNeoMount4() == 'card_install_/dev/sda1': 
-                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/card\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/card\nmkdir -p /media/card\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/card\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount4() == 'card_install_/dev/sdb1': 
-                    os.system('echo "umount /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/card\nmkdir -p /media/card\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/card\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
             elif getNeoMount5() == 'mmc_install_/dev/sda1': 
-                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/mmc\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sda1\n/bin/mount /dev/sda1 /media/mmc\n/bin/mount /dev/sda1 /media/sda1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
             elif getNeoMount5() == 'mmc_install_/dev/sdb1': 
-                    os.system('echo "umount /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
+                    os.system('echo "umount -l /media/mmc\nmkdir -p /media/mmc\nmkdir -p /media/sdb1\n/bin/mount /dev/sdb1 /media/mmc\n/bin/mount /dev/sdb1 /media/sdb1"  >> ' + LinkNeoBoot + '/files/mountpoint.sh') 
 
 
         if not fileExists('' + LinkNeoBoot + '/files/neom'):
@@ -767,9 +798,14 @@ class NeoBootImageChoose(Screen):
             system('rm /tmp/.init_reboot')
 
         if fileExists('/.multinfo'):
+            if checkInternet():  
+                pass
+            else:
+                os.system('/etc/init.d/networking stop; sync; /etc/init.d/networking start;')
+
             if not fileExists('/.control_ok'):
                 if fileExists('/.control_boot_new_image'):  
-                    os.system('rm -f /.control_boot_new_image; echo "Image uruchomione OK\nNie kasuj tego pliku. \n\nImage started OK\nDo not delete this file."  > /.control_ok ')          
+                    os.system('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/userscript.sh; rm -f /.control_boot_new_image; echo "Image uruchomione OK\nNie kasuj tego pliku. \n\nImage started OK\nDo not delete this file."  > /.control_ok ')          
                 if not fileExists('/.control_boot_new_image'):  
                     os.system('echo "Image uruchomione OK\nNie kasuj tego pliku. \n\nImage started OK\nDo not delete this file."  > /.control_ok')
                     #os.system('touch /.control_ok ') 
@@ -830,6 +866,9 @@ class NeoBootImageChoose(Screen):
             #if getBoxHostName == 'osmio4k':
                     #os.system('mkdir -p /media/mmc; mount /dev/mmcblk0p5 /media/mmc')
 
+            if fileCheck('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/filecam.tar.gz'):
+                os.system('rm -r /tmp/*.tar.gz; mv /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/filecam.tar.gz /tmp ; /bin/tar -xzvf /tmp/*.tar.gz -C /; rm -fr /tmp/*.tar.gz; ln -s /usr/lib/libcrypto.so.1.0.2 /usr/lib/libcrypto.so.1.0.0; opkg install install libssl1.0.0')    
+
         self.list = []
         self.setTitle('         NeoBoot  %s  - Menu' % PLUGINVERSION + '          ' + 'Ver. update:  %s' % UPDATEVERSION)
         self['device_icon'] = Pixmap()
@@ -878,19 +917,19 @@ class NeoBootImageChoose(Screen):
          '2': self.ReinstallNeoBoot,
          '3': self.ReinstallKernel, 
          '4': self.ReinstallKernel,           
-         '5': self.boot,  
-         '9': self.boot,  
-         '0': self.Cam_Restart,                                                                                               
+         '5': self.boot,        #hidden option
+         '9': self.boot,        #hidden option
+         '0': self.Cam_Restart, #hidden option                                                                                               
          'back': self.close_exit})
         if not fileExists('/etc/name'):
             os.system('touch /etc/name')
         self.onShow.append(self.updateList)
-
-    def Cam_Restart(self):  
-        if fileCheck('/etc/init.d/softcam'):
-            os.system('/etc/init.d/softcam stop; sleep 2; /etc/init.d/softcam start||restart')
-            self.session.open(MessageBox, _('SoftCam zosta\xc5\x82a zrestartowany.'), MessageBox.TYPE_INFO, 5)
-            self.close()
+  
+    def Cam_Restart(self):
+            if fileCheck('/etc/init.d/softcam'):
+                os.system('/etc/init.d/softcam stop; sleep 2; /etc/init.d/softcam start||restart')
+                self.session.open(MessageBox, _('SoftCam zosta\xc5\x82a zrestartowany.'), MessageBox.TYPE_INFO, 5)
+                self.close()
 
     def DownloadImageOnline(self):				          	
             if not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/ImageDownloader/download.py'):
@@ -935,7 +974,7 @@ class NeoBootImageChoose(Screen):
         if answer is True:
             try:
                 cmd = "echo -e '\n\n%s '" % _('NEOBOOT - Please reinstall NeoBoot....\nPlease wait, done...\nrestart systemu...')
-                cmd1 = 'cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; killall -9 enigma2 '                                                                                       
+                cmd1 = 'cd ' + LinkNeoBoot + '/; rm ./bin/install; rm ./.location; rm ./files/mountpoint.sh; rm ./files/neom; rm ./files/neo.sh; sleep 5; PATH=/sbin:/bin:/usr/sbin:/usr/bin; echo -n "Restarting E2... "; init 4; sleep 1; init 3 '                                                                                       
             except:                                 
                 False
             self.session.open(Console, _('NeoBoot ARM....'), [cmd, cmd1])
@@ -1031,7 +1070,7 @@ class NeoBootImageChoose(Screen):
                     if not fileExists('/tmp/neoboot.zip'):
                         self.session.open(MessageBox, _('Unfortunately, at the moment not found an update, try again later.'), MessageBox.TYPE_INFO, 8)
             else:                                                                                                                                                                                                                                                                                                                                                   
-                os.system('cd /tmp/; unzip -qn ./neoboot.zip; rm -f ./neoboot.zip; cp -rf ./NeoBoot8-master/NeoBoot /usr/lib/enigma2/python/Plugins/Extensions; rm -rf /tmp/NeoBoot8-master;  rm ' + LinkNeoBoot + '/ver.txt; cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*;  chmod 0755 ./ex_init.py; chmod 0755 ./target/*; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/S50fat.sh; cd')                    
+                os.system('cd /tmp/; unzip -qn ./neoboot.zip; rm -f ./neoboot.zip; cp -rf ./NeoBoot8-master/NeoBoot /usr/lib/enigma2/python/Plugins/Extensions; rm -rf /tmp/NeoBoot8-master;  rm ' + LinkNeoBoot + '/ver.txt; cd ' + LinkNeoBoot + '/; chmod 0755 ./bin/neoini*;  chmod 0755 ./ex_init.py; chmod 0755 ./target/*; chmod 0755 ./files/NeoBoot.sh; chmod 0755 ./files/userscript.sh; cd')                    
                 if getCPUtype() == 'MIPS':
                     os.system('cd ' + LinkNeoBoot + '/; cp -rf ./bin/neoinitmipsvu /sbin; chmod 755 /sbin/neoinitmipsvu; cp -rf ./bin/neoinitmips /sbin; chmod 755 /sbin/neoinitmips; cd')                    
                 #elif getCPUtype() == 'ARMv7':

@@ -244,13 +244,13 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                     cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
                     rc = os.system(cmd)
                     
-        if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
-                    cmd = 'echo " " >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-                    rc = os.system(cmd)
+#        if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
+#                    cmd = 'echo " " >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
+#                    rc = os.system(cmd)
+#                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
+#                    rc = os.system(cmd)
+#                    cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
+#                    rc = os.system(cmd)
 
         if TvList == 'True':
             if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
@@ -324,8 +324,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             if os.path.exists('/etc/tuxbox/config'):
                 cmd = 'cp -r /etc/tuxbox/config %s/ImageBoot/%s/etc/tuxbox > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)       
-                os.system('tar -czf /tmp/NeoBoot_CAM.tar.gz /usr/bin/*cam* /etc/init.d/softcam*')  
-                cmd1= 'cp -af /tmp/NeoBoot_CAM.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
+                cmd1= 'tar -czf /tmp/filecam.tar.gz /usr/bin/*cam* /etc/init.d/softcam*; cp -af /tmp/filecam.tar.gz  %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd1)                
             os.system('echo "Copied softcam files to the installed image..."')
 
@@ -351,12 +350,15 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
                     cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
                     rc = os.system(cmd)
-                cmd = 'cp /etc/enigma2/mp_2s4p %s/ImageBoot/%s/etc/enigma2' % (media, target)
-                rc = os.system(cmd)
-                cmd = 'cp /etc/enigma2/mp_config %s/ImageBoot/%s/etc/enigma2' % (media, target)
-                rc = os.system(cmd)
-                cmd = 'cp /etc/enigma2/mp_pluginliste %s/ImageBoot/%s/etc/enigma2' % (media, target)
-                rc = os.system(cmd)                                
+                if os.path.exists('/etc/enigma2/mp_2s4p'):
+                    cmd = 'cp /etc/enigma2/mp_2s4p %s/ImageBoot/%s/etc/enigma2' % (media, target)
+                    rc = os.system(cmd)
+                if os.path.exists('/etc/enigma2/mp_config'):
+                    cmd = 'cp /etc/enigma2/mp_config %s/ImageBoot/%s/etc/enigma2' % (media, target)
+                    rc = os.system(cmd)
+                if os.path.exists('/etc/enigma2/mp_pluginliste'):
+                    cmd = 'cp /etc/enigma2/mp_pluginliste %s/ImageBoot/%s/etc/enigma2' % (media, target)
+                    rc = os.system(cmd)                                
                 os.system('echo "Copied MediaPortal..."')
             elif not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):                    
                 os.system('echo "MediaPortal not found."')
@@ -400,8 +402,8 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         rc = os.system(cmd)
         cmd = 'grep "config.timezone.val" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)
-        cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh %s/ImageBoot/%s/etc/rcS.d' % (media, target)
-        rc = os.system(cmd)
+        cmd = 'grep "config.servicelist.startuproot" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+        rc = os.system(cmd)                
         cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
         rc = os.system(cmd)
 
