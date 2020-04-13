@@ -296,7 +296,6 @@ else
                         echo "NeoBOOT created the file enigma2_pre_start.sh " 
 
                         echo " [NEOBOOT] Use chroot ... exec /usr/sbin/chroot..."
-                        cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/S50fat.sh                                              
                         cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh                                              
                                                 
                         #/bin/mount /dev/sda1 `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$TARGET/media/hdd                       
