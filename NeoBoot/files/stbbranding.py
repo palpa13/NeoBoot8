@@ -68,14 +68,14 @@ def getCPUtype():
 #check install
 def getFSTAB():
     install='UNKNOWN'
-    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo'):
-        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/installNeo', 'r') as f:
+    if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid'):
+        with open('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/reading_blkid', 'r') as f:
             lines = f.read()
             f.close()
         if lines.find('UUID') != -1:
-            install='OKinstall'
+            install='UUID'
         elif not lines.find('UUID') != -1:
-            install='NOinstall'
+            install='NOUUID'
     return install 
     
 def getFSTAB2():
@@ -87,7 +87,7 @@ def getFSTAB2():
         if lines.find('UUID') != -1:
             install='OKinstall'
         elif not lines.find('UUID') != -1:
-            install='NOinstall'
+            install='NOUUID'
     return install    
 
 def getINSTALLNeo():
@@ -144,8 +144,7 @@ def getLabelDisck():
             lines = f.read()
             f.close()
         if lines.find('LABEL=') != -1:
-            label='LABEL='
-           
+            label='LABEL='      
     return label   
 
 #checking device  neo      
