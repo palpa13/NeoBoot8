@@ -222,36 +222,6 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             rc = os.system(cmd)
         os.system('echo "Copied plugins..."')        
         
-        if os.path.exists('%s/ImageBoot/%s/etc/init.d/udev' % (media, target)):
-                filename = '%s/ImageBoot/%s/etc/init.d/udev' % (media, target)
-                if os.path.exists(filename):
-                    filename2 = filename + '.tmp'
-                    out = open(filename2, 'w')
-                    f = open(filename, 'r')
-                    for line in f.readlines():
-                        if line.find('exit 0') != -1:
-                            line = '\n'
-                        out.write(line)
-
-                    f.close()
-                    out.close()
-                    os.rename(filename2, filename)
-
-                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'echo "exit 0" >> %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/udev' % (media, target)
-                    rc = os.system(cmd)
-                    
-#        if os.path.exists('%s/ImageBoot/%s/etc/init.d/mdev'% (media, target)):                    
-#                    cmd = 'echo " " >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-#                    rc = os.system(cmd)
-#                    cmd = 'echo "mount -a /media/hdd; mount -a /media/usb" >> %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-#                    rc = os.system(cmd)
-#                    cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/mdev' % (media, target)
-#                    rc = os.system(cmd)
-
         if TvList == 'True':
             if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
                 cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
@@ -363,33 +333,11 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
 
 # for all image:
     if not os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):         
-        if os.path.exists('%s/ImageBoot/%s/etc/init.d' % (media, target)):
-                filename = '%s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
-                if os.path.exists(filename):
-                    filename2 = filename + '.tmp'
-                    out = open(filename2, 'w')
-                    f = open(filename, 'r')
-                    for line in f.readlines():
-                        if line.find('exit 0') != -1:
-                            line = '\n'
-                        out.write(line)
-
-                    f.close()
-                    out.close()
-                    os.rename(filename2, filename)
-
-                    cmd = 'echo "/etc/init.d/networking stop; /etc/init.d/networking start;" >> %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'echo "exit 0" >> %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
-                    rc = os.system(cmd)
-                    cmd = 'chmod 755 %s/ImageBoot/%s/etc/init.d/bootmisc.sh' % (media, target)
-                    rc = os.system(cmd)
-
         if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
-            cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
-            rc = os.system(cmd)
+                cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
+                rc = os.system(cmd)
+                cmd = 'touch %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
+                rc = os.system(cmd)
         cmd = 'grep "config.Nims" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
         rc = os.system(cmd)        
         cmd = 'grep "av.videomode.DVI" /etc/enigma2/settings >> %s/ImageBoot/%s/etc/enigma2/settings' % (media, target)
@@ -405,173 +353,171 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
         rc = os.system(cmd)
 
-        namefile = media + '/ImageBoot/' + target + '/etc/fstab'
-        namefile2 = namefile + '.tmp'
-        if os.path.exists(namefile2):
-            out = open(namefile2, 'w')
-            f = open(namefile, 'r')
-            for line in f.readlines():
+        if getCPUSoC() != '7444s' or getCPUSoC() != '7278' or getCPUSoC() != '7376' or getCPUSoC() != '7252s' or getCPUSoC() != '72604':            
+            namefile = media + '/ImageBoot/' + target + '/etc/fstab'
+            namefile2 = namefile + '.tmp'
+            if os.path.exists(namefile2):
+                out = open(namefile2, 'w')
+                f = open(namefile, 'r')
+                for line in f.readlines():
+                    if line.find('/dev/mmcblk0p1') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mmcblk0p2') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mmcblk0p3') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mmcblk0p4') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mmcblk0p5') != -1:
+                        line = '#' + line                
+                    elif line.find('/dev/mmcblk0p6') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mmcblk0p7') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mmcblk0p8') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mmcblk0p9') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/root') != -1:
+                        line = '#' + line                
+                    elif line.find('/dev/mtdblock1') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mtdblock2') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mtdblock3') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mtdblock4') != -1:
+                        line = '#' + line
+                    elif line.find('/dev/mtdblock5') != -1:
+                        line = '#' + line                
+                    elif line.find('/dev/mtdblock6') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mtdblock7') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mtdblock8') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/mtdblock9') != -1:
+                        line = '#' + line 
+                    elif line.find('/dev/root') != -1:
+                        line = '#' + line
+                    out.write(line)
 
-                if line.find('/dev/mmcblk0p1') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mmcblk0p2') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mmcblk0p3') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mmcblk0p4') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mmcblk0p5') != -1:
-                    line = '#' + line                
-                elif line.find('/dev/mmcblk0p6') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mmcblk0p7') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mmcblk0p8') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mmcblk0p9') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/root') != -1:
-                    line = '#' + line                
-                elif line.find('/dev/mtdblock1') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mtdblock2') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mtdblock3') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mtdblock4') != -1:
-                    line = '#' + line
-                elif line.find('/dev/mtdblock5') != -1:
-                    line = '#' + line                
-                elif line.find('/dev/mtdblock6') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mtdblock7') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mtdblock8') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/mtdblock9') != -1:
-                    line = '#' + line 
-                elif line.find('/dev/root') != -1:
-                    line = '#' + line
-                out.write(line)
-
-            f.close()
-            out.close()
-            os.rename(namefile2, namefile)
-
-        tpmd = media + '/ImageBoot/' + target + '/etc/init.d/tpmd'
-        if os.path.exists(tpmd):
+                f.close()
+                out.close()
+                os.rename(namefile2, namefile)
+                
+            tpmd = media + '/ImageBoot/' + target + '/etc/init.d/tpmd'
+            if os.path.exists(tpmd):
                 os.system('rm ' + tpmd)
 
-        fname = media + '/ImageBoot/' + target + '/usr/lib/enigma2/python/Components/config.py'
-        if os.path.exists(fname):
-            fname2 = fname + '.tmp'
-            out = open(fname2, 'w')
-            f = open(fname, 'r')
-            for line in f.readlines():
-                if line.find('if file(""/proc/stb/info/vumodel")') != -1:
-                    line = '#' + line
-                out.write(line)
-
-            f.close()
-            out.close()
-            os.rename(fname2, fname)
-
-
-        targetfile = media + '/ImageBoot/' + target + '/etc/vsftpd.conf'
-        if os.path.exists(targetfile):
-            targetfile2 = targetfile + '.tmp'
-            out = open(targetfile2, 'w')
-            f = open(targetfile, 'r')
-            for line in f.readlines():
-                if not line.startswith('nopriv_user'):
-                    out.write(line)
-
-            f.close()
-            out.close()
-            os.rename(targetfile2, targetfile)
-
-
-        mypath = media + '/ImageBoot/' + target + '/usr/lib/opkg/info/'
-        cmd = 'mkdir -p %s/ImageBoot/%s/var/lib/opkg/info > /dev/null 2>&1' % (media, target)
-        rc = os.system(cmd)
-        if not os.path.exists(mypath):
-            mypath = media + '/ImageBoot/' + target + '/var/lib/opkg/info/'
-        for fn in os.listdir(mypath):
-            if fn.find('kernel-image') != -1 and fn.find('postinst') != -1:
-                filename = mypath + fn
-                filename2 = filename + '.tmp'
-                out = open(filename2, 'w')
-                f = open(filename, 'r')
+            fname = media + '/ImageBoot/' + target + '/usr/lib/enigma2/python/Components/config.py'
+            if os.path.exists(fname):
+                fname2 = fname + '.tmp'
+                out = open(fname2, 'w')
+                f = open(fname, 'r')
                 for line in f.readlines():
-                    if line.find('/boot') != -1:
-                        line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                    if line.find('if file(""/proc/stb/info/vumodel")') != -1:
+                        line = '#' + line
                     out.write(line)
 
-                if f.close():
+                f.close()
+                out.close()
+                os.rename(fname2, fname)
+
+            targetfile = media + '/ImageBoot/' + target + '/etc/vsftpd.conf'
+            if os.path.exists(targetfile):
+                targetfile2 = targetfile + '.tmp'
+                out = open(targetfile2, 'w')
+                f = open(targetfile, 'r')
+                for line in f.readlines():
+                    if not line.startswith('nopriv_user'):
+                        out.write(line)
+
+                f.close()
+                out.close()
+                os.rename(targetfile2, targetfile)
+
+            mypath = media + '/ImageBoot/' + target + '/usr/lib/opkg/info/'
+            cmd = 'mkdir -p %s/ImageBoot/%s/var/lib/opkg/info > /dev/null 2>&1' % (media, target)
+            rc = os.system(cmd)
+            if not os.path.exists(mypath):
+                mypath = media + '/ImageBoot/' + target + '/var/lib/opkg/info/'
+            for fn in os.listdir(mypath):
+                if fn.find('kernel-image') != -1 and fn.find('postinst') != -1:
+                    filename = mypath + fn
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('/boot') != -1:
+                            line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                        out.write(line)
+
+                    if f.close():
+                        out.close()
+                        os.rename(filename2, filename)
+                        cmd = 'chmod -R 0755 %s' % filename
+                        rc = os.system(cmd)
+                if fn.find('-bootlogo.postinst') != -1:
+                    filename = mypath + fn
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('/boot') != -1:
+                            line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                        out.write(line)
+
+                    f.close()
                     out.close()
                     os.rename(filename2, filename)
                     cmd = 'chmod -R 0755 %s' % filename
                     rc = os.system(cmd)
-            if fn.find('-bootlogo.postinst') != -1:
-                filename = mypath + fn
-                filename2 = filename + '.tmp'
-                out = open(filename2, 'w')
-                f = open(filename, 'r')
-                for line in f.readlines():
-                    if line.find('/boot') != -1:
-                        line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
-                    out.write(line)
+                if fn.find('-bootlogo.postrm') != -1:
+                    filename = mypath + fn
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('/boot') != -1:
+                            line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                        out.write(line)
 
-                f.close()
-                out.close()
-                os.rename(filename2, filename)
-                cmd = 'chmod -R 0755 %s' % filename
-                rc = os.system(cmd)
-            if fn.find('-bootlogo.postrm') != -1:
-                filename = mypath + fn
-                filename2 = filename + '.tmp'
-                out = open(filename2, 'w')
-                f = open(filename, 'r')
-                for line in f.readlines():
-                    if line.find('/boot') != -1:
-                        line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
-                    out.write(line)
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                    cmd = 'chmod -R 0755 %s' % filename
+                    rc = os.system(cmd)
+                if fn.find('-bootlogo.preinst') != -1:
+                    filename = mypath + fn
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('/boot') != -1:
+                            line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                        out.write(line)
 
-                f.close()
-                out.close()
-                os.rename(filename2, filename)
-                cmd = 'chmod -R 0755 %s' % filename
-                rc = os.system(cmd)
-            if fn.find('-bootlogo.preinst') != -1:
-                filename = mypath + fn
-                filename2 = filename + '.tmp'
-                out = open(filename2, 'w')
-                f = open(filename, 'r')
-                for line in f.readlines():
-                    if line.find('/boot') != -1:
-                        line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
-                    out.write(line)
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                    cmd = 'chmod -R 0755 %s' % filename
+                    rc = os.system(cmd)
+                if fn.find('-bootlogo.prerm') != -1:
+                    filename = mypath + fn
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('/boot') != -1:
+                            line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
+                        out.write(line)
 
-                f.close()
-                out.close()
-                os.rename(filename2, filename)
-                cmd = 'chmod -R 0755 %s' % filename
-                rc = os.system(cmd)
-            if fn.find('-bootlogo.prerm') != -1:
-                filename = mypath + fn
-                filename2 = filename + '.tmp'
-                out = open(filename2, 'w')
-                f = open(filename, 'r')
-                for line in f.readlines():
-                    if line.find('/boot') != -1:
-                        line = line.replace('/boot', '/boot > /dev/null 2>\\&1; exit 0')
-                    out.write(line)
-
-                f.close()
-                out.close()
-                os.rename(filename2, filename)
-                cmd = 'chmod -R 0755 %s' % filename
-                rc = os.system(cmd)
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                    cmd = 'chmod -R 0755 %s' % filename
+                    rc = os.system(cmd)
 
     os.system('mkdir -p ' + media_target + '/media/hdd' + dev_null)
     os.system('mkdir -p ' + media_target + '/media/usb' + dev_null)
