@@ -434,7 +434,7 @@ class NeoBootInstallation(Screen):
 
     def check_fstabUUID(self):                
             if getFSTAB2() != 'UUID':
-                message = _('Disk UUID not found\n - Universally unique identifier (UUID) is not required.\nYou can proceed with further installation or give an ID to your disk.\nTo continue ?') 
+                message = _('Disk UUID not found\n - Universally unique identifier (UUID) is not required.\nYou can proceed with further installation or give an ID to your disk.\nTo continue the installation neoboo, press OK or No to abort.\nTo continue ?') 
                 ybox = self.session.openWithCallback(self.SetMountPointFSTAB, MessageBox, message, MessageBox.TYPE_YESNO)
                 ybox.setTitle(_('Install Confirmation'))
             else:
