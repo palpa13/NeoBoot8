@@ -282,16 +282,16 @@ else
                         echo " [NEOBOOT] Use chroot ... exec /usr/sbin/chroot..."
                         cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh                                                                                              
                         #/bin/mount /dev/sda1 `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$TARGET/media/hdd                       
-			if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init.sysvinit ]; then 
+			if [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init ]; then 
                                     echo " -=*[ BOOT UP IMAGE FROM DISK ]*=- " >> $neoLOG
                                     echo "Boot from " `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location` >> $neoLOG 
-                                    echo "start file - init.sysvinit >" $TARGET  >> $neoLOG  
+                                    echo "start file - init >" $TARGET  >> $neoLOG  
                                     echo "----------------------------------------"
 	                            echo "   -=*[ BOOT UP IMAGE FROM DISK ]*=-    "
                                     echo "----------------------------------------" ;                                                                                                                    
                                     exec /usr/sbin/chroot `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET /sbin/init.sysvinit
-			elif [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init ]; then  
-                                    echo " start file - init" >> $neoLOG                       
+			elif [ -f `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/sbin/init.sysvinit ]; then  
+                                    echo " start file - init.sysvinit" >> $neoLOG                       
                                     exec /usr/sbin/chroot `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET /sbin/init                                            
 			else
 			            echo " FATAL ERROR - Back to image Flash..." >> $neoLOG
