@@ -43,8 +43,9 @@ else
 		/sbin/depmod -Ae > /dev/null 2>&1                 
 	fi
 
+        #|| [ $HOSTNAME  = "vusolo4k" ] || [ $HOSTNAME  = "vuuno4kse" ] || [ $HOSTNAME  = "vuuno4k" ] #<<<< no mdev start problem for models#
         HOSTNAME=`cat /etc/hostname`
-	if [ $HOSTNAME  = "vuultimo4k" ] || [ $HOSTNAME  = "vusolo4k" ] || [ $HOSTNAME  = "vuuno4kse" ] || [ $HOSTNAME  = "vuuno4k" ]; then 
+	if [ $HOSTNAME  = "vuultimo4k" ] ; then 
             break;
         else    
 	    echo "NeoBoot is starting mdev fom FLASH..."
