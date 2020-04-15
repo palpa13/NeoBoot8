@@ -1,5 +1,7 @@
 #!/bin/sh -e
-# script gutosie - here you can add your own command to perform
+# script gutosie 
+# here you can add your own command to perform
+# line - Checking internet connection by @j00zek thank you :)
 
 if [ ! -e /usr/bin/ipkg ]; then 
    ln -sfn /usr/bin/opkg /usr/bin/ipkg 
@@ -16,7 +18,16 @@ if [ ! -e /usr/bin/enigma2_pre_start.sh ] ; then
     /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh                
 fi
 
+echo "_(Checking internet connection)..."
+ping -c 1 github.com 1>/dev/null 2>%1 
+if [ $? -gt 0 ]; then 
+      echo -n "_(github server unavailable, update impossible)!!! network restart... " 
+      /etc/init.d/networking stop; sleep 1; /etc/init.d/networking start; 
+else
+    echo "_(github server available)!!!"  
+fi
+
 echo "file used userscript "  
 echo ok 
- 
+
 exit 0                                              
