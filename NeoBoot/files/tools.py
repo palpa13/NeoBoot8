@@ -22,14 +22,14 @@ from Tools.Directories import resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE, 
 from os import system, listdir, mkdir, chdir, getcwd, rename as os_rename, remove as os_remove, popen
 from os.path import dirname, isdir, isdir as os_isdir
 from enigma import eTimer
-from Plugins.Extensions.NeoBoot.files.stbbranding import getNeoLocation, getImageNeoBoot, getKernelVersionString
+from stbbranding import getNeoLocation, getImageNeoBoot, getKernelVersionString, getBoxHostName, getCPUtype
 import os
 import time
 import sys
 import struct, shutil
 LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 
-PLUGINVERSION = '8.00'
+PLUGINVERSION = '8.01'
 
 neoboot = getNeoLocation()
  
@@ -667,16 +667,35 @@ class ReinstallKernel(Screen):
         self['lab1'] = Label('Reinstalacja j\xc4\x85dra.\n\nZainstalowa\xc4\x87 ?')
         self['key_red'] = Label(_('Instalacja'))
         self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'back': self.close,
-         'red': self.kernel_image})
+         'red': self.InfoCheck})
 
-    def kernel_image(self):
-            os.system('echo "Flash "  > ' + getNeoLocation() + 'ImageBoot/.neonextboot')
-            out = open('' + getNeoLocation() + 'ImagesUpload/.kernel/used_flash_kernel', 'w')
-            out.write('Used Kernel:  Flash')
-            out.close()            
-            cmd1 = 'rm -f /home/root/*.ipk; opkg download kernel-image; sleep 2; opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade /home/root/*.ipk; opkg configure update-modules'
-            self.session.open(Console, _('NeoBoot....'), [cmd1])
-            self.close() 
+    def InfoCheck(self):
+        if fileExists('/.multinfo'):
+            if getCPUtype() == 'MIPS':
+                if not fileExists( '/boot/' + getBoxHostName() + '.vmlinux.gz'):
+                    mess = _('Update available only from the image Flash.')
+                    self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
+                else:
+                    self.kernel_update()
+
+            elif getCPUtype() == 'ARMv7':
+                if not fileExists('/boot/zImage.' + getBoxHostName() + ''):
+                    mess = _('Update available only from the image Flash.')
+                    self.session.open(MessageBox, mess, MessageBox.TYPE_INFO)
+                else:
+                    self.kernel_update()                                            
+
+        else:
+            self.kernel_update()
+
+    def kernel_update(self):
+                os.system('echo "Flash "  > ' + getNeoLocation() + 'ImageBoot/.neonextboot')
+                out = open('' + getNeoLocation() + 'ImagesUpload/.kernel/used_flash_kernel', 'w')
+                out.write('Used Kernel:  Flash')
+                out.close()            
+                cmd1 = 'rm -f /home/root/*.ipk; opkg download kernel-image; sleep 2; opkg install --force-maintainer --force-reinstall --force-overwrite --force-downgrade /home/root/*.ipk; opkg configure update-modules'
+                self.session.open(Console, _('NeoBoot....'), [cmd1])
+                self.close() 
 
 class ListTv(Screen):
     __module__ = __name__
