@@ -333,6 +333,53 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                 os.system('echo "MediaPortal not found."')
 
 # for all image:
+
+        if os.path.exists('%s/ImageBoot/%s/etc/rc.local' % (media, target)):
+                filename = '%s/ImageBoot/%s/etc/rc.local' % (media, target)
+                if os.path.exists(filename):
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('exit 0') != -1:
+                            line = '\n'
+                        out.write(line)
+
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+                cmd = 'echo -n "\n\n/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/userscript.sh \n\nexit 0" >> %s/ImageBoot/%s/etc/rc.local' % (media, target)
+                rc = os.system(cmd)
+                cmd = 'chmod 0755 %s/ImageBoot/%s/etc/rc.local' % (media, target)
+                rc = os.system(cmd) 
+
+        if os.path.exists('%s/ImageBoot/%s/etc/init.d/rc.local' % (media, target)):
+                filename = '%s/ImageBoot/%s/etc/init.d/rc.local' % (media, target)
+                if os.path.exists(filename):
+                    filename2 = filename + '.tmp'
+                    out = open(filename2, 'w')
+                    f = open(filename, 'r')
+                    for line in f.readlines():
+                        if line.find('exit 0') != -1:
+                            line = '\n'
+                        out.write(line)
+
+                    f.close()
+                    out.close()
+                    os.rename(filename2, filename)
+
+                cmd = 'echo -n "\n\n/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/userscript.sh \n\nexit 0" >> %s/ImageBoot/%s/etc/init.d/rc.local' % (media, target)
+                rc = os.system(cmd)
+                cmd = 'chmod 0755 %s/ImageBoot/%s/etc/init.d/rc.local' % (media, target)
+                rc = os.system(cmd)
+
+        if not os.path.exists('%s/ImageBoot/%s/etc/init.d/rc.local' % (media, target)) and not os.path.exists('%s/ImageBoot/%s/etc/rc.local' % (media, target)) :           
+            cmd = 'ln -s %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/userscript.sh %s/ImageBoot/%s/etc/init.d/S99neo.local' % (media,
+             target,                 
+             media,
+             target)
+            rc = os.system(cmd)
+
     if not os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):         
         if not os.path.exists('%s/ImageBoot/%s/etc/enigma2' % (media, target)):
                 cmd = 'mkdir -p %s/ImageBoot/%s/etc/enigma2' % (media, target)
@@ -355,12 +402,8 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         rc = os.system(cmd)
 
 
+#####################################
         if not os.path.exists('' + media_target + '/boot/zImage.' + getBoxHostName() + ''):
-            cmd = 'echo -n "#!/bin/sh -e \n# rc.local \n\n' + extensions_path + 'NeoBoot/files/userscript.sh \n\n exit 0" > %s/ImageBoot/%s/etc/rc.local' % (media, target)
-            rc = os.system(cmd)
-            cmd = 'chmod 0755 %s/ImageBoot/%s/etc/rc.local' % (media, target)
-            rc = os.system(cmd)            
-
             namefile = media + '/ImageBoot/' + target + '/etc/fstab'
             namefile2 = namefile + '.tmp'
             if os.path.exists(namefile2):
