@@ -155,7 +155,8 @@ else
 
             echo "Image launched on a base kernel flash. " >> $neoLOG
             echo "Image launched on a base kernel flash. "  > `cat /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/.location`$IMAGEKATALOG/$TARGET/kernel_flash
-            
+            cp -f -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/files/mountpoint.sh $NEODEVICE$IMAGEKATALOG/$TARGET/etc/rcS.d/userscript.sh                                                                                              
+
 	    MODPROBE=/sbin/modprobe
 
 	    echo "Load video and frame buffer modules ..."
