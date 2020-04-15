@@ -131,7 +131,7 @@ class InstallImage(Screen, ConfigListScreen):
         self.list = []
         self.list.append(getConfigListEntry(_('Source Image file'), self.source))
         self.list.append(getConfigListEntry(_('Image Name'), self.target)) 
-        self.list.append(getConfigListEntry(_('Zatrzymać procesy E2 na czas instalacji ?'), self.stopenigma))          
+        self.list.append(getConfigListEntry(_('ZatrzymaÄ‡ procesy E2 na czas instalacji ?'), self.stopenigma))          
         self.list.append(getConfigListEntry(_('Copy files from Flash to the installed image ?'), self.CopyFiles ))         
         self.list.append(getConfigListEntry(_('Copy the kernel of the installed system (recommended ?'), self.CopyKernel ))         
         self.list.append(getConfigListEntry(_('Copy the channel list ?'), self.TvList))          
@@ -265,25 +265,25 @@ class HelpInstall(Screen):
         message += _(' -Wybierz kursorem pilota oprogramowanie do zainstalowania (w lewo lub prawo).\n\n')  
               
         message += _('Image Name')
-        message += _(' -Zmień nazwę image - aby zmienić naciśnij na pilocie niebieski.\n\n')   
+        message += _(' -ZmieĹ„ nazwÄ™ image - aby zmieniÄ‡ naciĹ›nij na pilocie niebieski.\n\n')   
              
         message += _('Do not copy files from Flash to the installed image ?')
         message += _(' - po zaznaczeniu tej opcji nie zostanie nic skopiowane z image flash do instalowanego image w neoboot. \n\n')  
               
         message += _('Copy the kernel of the installed system (recommended ) ?')
-        message += _(' - po zaznaczeniu tej opcji zostanie skopiowany plik jądra (kernel) instalowanego image do neoboota, zalecane tylko dla STB vuplus \n\n')
+        message += _(' - po zaznaczeniu tej opcji zostanie skopiowany plik jÄ…dra (kernel) instalowanego image do neoboota, zalecane tylko dla STB vuplus \n\n')
                 
         message += _('Copy the channel list ?')
-        message += _(' - opcja kopiuje listę kanałów z flasha do instalowanego image w neoboocie.\n\n')
+        message += _(' - opcja kopiuje listÄ™ kanaĹ‚Ăłw z flasha do instalowanego image w neoboocie.\n\n')
                 
         message += _('Copy mounting disks ? (Recommended)')
-        message += _(' - opcja przenosi do instalowanego image w neoboot ustawienia montowania podłaczonych urządzeń do tunera.\n\n')
+        message += _(' - opcja przenosi do instalowanego image w neoboot ustawienia montowania podĹ‚aczonych urzÄ…dzeĹ„ do tunera.\n\n')
                 
         message += _('Copy network settings LAN-WLAN ?')
         message += _(' - opcja przenosi pliki z zawartymi ustawieniami dla sieci lan i wlan. \n\n ')
                 
         message += _('Copy the drivers ? (Recommended only other image.)')  
-        message += _(' - opcja przenosi z flasza sterowniki do instalowanego image w neoboocie, zalecane tylko w przypadku jeśli instalujemy image od innego model niż posiadamy.\n\n') 
+        message += _(' - opcja przenosi z flasza sterowniki do instalowanego image w neoboocie, zalecane tylko w przypadku jeĹ›li instalujemy image od innego model niĹĽ posiadamy.\n\n') 
                       
         message += _('Copy Settings to the new Image')
         message += _(' - opcja kopiuje ustawienia oprogramowania z flasza do instalowanego systemu w neoboocie.\n\n')
@@ -292,13 +292,13 @@ class HelpInstall(Screen):
         message += _(' - po instalacji, opcja kasuje plik zip image z katalogu ImagesUpload. \n\n')
                 
         message += _('Repair FTP ? (Recommended only other image if it does not work.)')
-        message += _(' - opcja w niektórych przypadkach naprawia w instalowanym image polączenie FTP (ang. File Transfer Protocol) \n\n')
+        message += _(' - opcja w niektĂłrych przypadkach naprawia w instalowanym image polÄ…czenie FTP (ang. File Transfer Protocol) \n\n')
                 
         message += _('Copy config SoftCam ?')
-        message += _(' - opcja kopiuje configi oscama i cccam (openpli -domyślnie)\n\n')
+        message += _(' - opcja kopiuje configi oscama i cccam (openpli -domyĹ›lnie)\n\n')
                 
         message += _('Path BlackHole ? (Not recommended for VuPlus)')  
-        message += _(' - opcja przeznaczona dla image blackhole, pomaga uruchomić BH w neoboot \n\n')
+        message += _(' - opcja przeznaczona dla image blackhole, pomaga uruchomiÄ‡ BH w neoboot \n\n')
                      
         self['lab1'].show()
         self['lab1'].setText(message)
