@@ -82,20 +82,21 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         os.system('touch /tmp/init4; init 4')
 
     rc = NEOBootExtract(source, target, ZipDelete, BlackHole)    
+
     if not os.path.exists('%s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions' % (media, target)):
         os.system('mkdir -p %s/ImageBoot/%s/usr/lib/' % (media, target))
         os.system('mkdir -p %s/ImageBoot/%s/usr/lib/enigma2' % (media, target))
         os.system('mkdir -p %s/ImageBoot/%s/usr/lib/enigma2/python' % (media, target))
         os.system('mkdir -p %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins' % (media, target))
         os.system('mkdir -p %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions' % (media, target))
-                
+
+
     list_two = ['mkdir -p ' + media_target + '/media' + dev_null,
      'rm ' + media_target + media + dev_null,
      'rmdir ' + media_target + media + dev_null,
      'mkdir -p ' + media_target + media + dev_null,
      #'cp /etc/passwd ' + media_target + '/etc/passwd' + dev_null,
-     'cp /etc/hostname ' + media_target + '/etc/hostname' + dev_null,       
-     #'cp -rf /etc/init.d/vuplus-platform-util ' + media_target + '/etc/init.d/vuplus-platform-util' + dev_null,       
+     'cp /etc/hostname ' + media_target + '/etc/hostname' + dev_null,              
      'cp -rf ' + extensions_path + 'NeoBoot ' + media_target + extensions_path + 'NeoBoot' + dev_null]
     for command in list_two:
         os.system(command)
@@ -200,22 +201,22 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         if os.path.exists('/usr/lib/enigma2/python/Plugins/SystemPlugins/FanControl'):
             cmd = 'cp -r /usr/lib/enigma2/python/Plugins/SystemPlugins/FanControl %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/SystemPlugins > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/EmuManager'):
-            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/EmuManager %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+        if os.path.exists('' + extensions_path + 'EmuManager'):
+            cmd = 'cp -r ' + extensions_path + 'EmuManager %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/CamdMenager'):
-            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/CamdMenager %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+        if os.path.exists('' + extensions_path + 'CamdMenager'):
+            cmd = 'cp -r ' + extensions_path + 'CamdMenager %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/IPTVPlayer'):
-            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/IPTVPlayer %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+        if os.path.exists('' + extensions_path + 'IPTVPlayer'):
+            cmd = 'cp -r ' + extensions_path + 'IPTVPlayer %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
             cmd = 'cp /usr/lib/python*.*/htmlentitydefs.pyo %s/ImageBoot/%s/usr/lib/python*.* > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/FeedExtra'):
-            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/FeedExtra %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+        if os.path.exists('' + extensions_path + 'FeedExtra'):
+            cmd = 'cp -r ' + extensions_path + 'FeedExtra %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
-        if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MyUpdater'):
-            cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/MyUpdater %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+        if os.path.exists('' + extensions_path + 'MyUpdater'):
+            cmd = 'cp -r ' + extensions_path + 'MyUpdater %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
             rc = os.system(cmd)
         if not os.path.exists('%s/ImageBoot/%s/usr/lib/enigma2/python/boxbranding.so' % (media, target)):
             cmd = 'cp -r /usr/lib/enigma2/python/boxbranding.so %s/ImageBoot/%s/usr/lib/enigma2/python/boxbranding.so > /dev/null 2>&1' % (media, target)
@@ -297,10 +298,10 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
             os.system('echo "Copied softcam files to the installed image..."')
 
         if MediaPortal == 'True':
-            if os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):
-                cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/MediaPortal %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+            if os.path.exists('' + extensions_path + 'MediaPortal'):
+                cmd = 'cp -r ' + extensions_path + 'MediaPortal %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd)            
-                cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/mpgz %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
+                cmd = 'cp -r ' + extensions_path + 'mpgz %s/ImageBoot/%s/usr/lib/enigma2/python/Plugins/Extensions > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd) 
                 cmd = 'cp -r /usr/lib/python2.7/argparse.pyo %s/ImageBoot/%s/usr/lib/python2.7 > /dev/null 2>&1' % (media, target)
                 rc = os.system(cmd) 
@@ -328,7 +329,7 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
                     cmd = 'cp /etc/enigma2/mp_pluginliste %s/ImageBoot/%s/etc/enigma2' % (media, target)
                     rc = os.system(cmd)                                
                 os.system('echo "Copied MediaPortal..."')
-            elif not os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/MediaPortal'):                    
+            elif not os.path.exists('' + extensions_path + 'MediaPortal'):                    
                 os.system('echo "MediaPortal not found."')
 
 # for all image:
@@ -353,7 +354,13 @@ def NEOBootMainEx(source, target, stopenigma, CopyFiles, CopyKernel, TvList, Ste
         cmd = 'grep "UUID=" /etc/fstab >> %s/ImageBoot/%s/etc/fstab' % (media, target)
         rc = os.system(cmd)
 
-        if getCPUSoC() != '7444s' or getCPUSoC() != '7278' or getCPUSoC() != '7376' or getCPUSoC() != '7252s' or getCPUSoC() != '72604':            
+
+        if not os.path.exists('' + media_target + '/boot/zImage.' + getBoxHostName() + ''):
+            cmd = 'echo -n "#!/bin/sh -e \n# rc.local \n\n' + extensions_path + 'NeoBoot/files/userscript.sh \n\n exit 0" > %s/ImageBoot/%s/etc/rc.local' % (media, target)
+            rc = os.system(cmd)
+            cmd = 'chmod 0755 %s/ImageBoot/%s/etc/rc.local' % (media, target)
+            rc = os.system(cmd)            
+
             namefile = media + '/ImageBoot/' + target + '/etc/fstab'
             namefile2 = namefile + '.tmp'
             if os.path.exists(namefile2):
@@ -609,16 +616,12 @@ def RemoveUnpackDirs():
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h9'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/bootargs.bin ' + getNeoLocation() + 'ImagesUpload/h9; mv ' + getNeoLocation() + 'ImagesUpload/fastboot.bin ' + getNeoLocation() + 'ImagesUpload/h9')                                                                                                
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h9')                      
-
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h9combo'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/force_h9combo_READ.ME ' + getNeoLocation() + 'ImagesUpload/h9combo; mv ' + getNeoLocation() + 'ImagesUpload/unforce_h9combo.txt ' + getNeoLocation() + 'ImagesUpload/h9combo')                                                                                                
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h9combo')  
-
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/h10'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/force_h10_READ.ME ' + getNeoLocation() + 'ImagesUpload/h10; mv ' + getNeoLocation() + 'ImagesUpload/unforce_h10.txt ' + getNeoLocation() + 'ImagesUpload/h10')                                                                                                
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/h10')  
-
-
     elif os.path.exists('' + getNeoLocation() + 'ImagesUpload/uclan'):
         rc = os.system('mv ' + getNeoLocation() + 'ImagesUpload/usb_update.bin ' + getNeoLocation() + 'ImagesUpload/uclan') 
         rc = os.system('rm -r ' + getNeoLocation() + 'ImagesUpload/uclan') 
@@ -648,7 +651,7 @@ def RemoveUnpackDirs():
 
 def NEOBootExtract(source, target, ZipDelete, BlackHole):
     RemoveUnpackDirs()
-    os.system('echo "Installation started:"; date +%T;echo "Extracting the installation file...\nPress green to hide Console or red to abort the installation"')
+    os.system('echo "Press green to hide Console or red to abort the installation\nInstallation started:"; date +%T;echo "Extracting the installation file..."')
 
     if os.path.exists('' + getNeoLocation() + 'ImageBoot/.without_copying'):
         os.system('rm -f ' + getNeoLocation() + 'ImageBoot/.without_copying') 
@@ -668,7 +671,7 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
             to = '' + getNeoLocation() + 'ImageBoot/' + target
             cmd = 'chmod -R 0777 %s' % to
             rc = os.system(cmd)
-            cmd = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/nfidump ' + sourcefile2 + ' ' + getNeoLocation() + 'ImageBoot/' + target
+            cmd = '' + extensions_path + 'NeoBoot/bin/nfidump ' + sourcefile2 + ' ' + getNeoLocation() + 'ImageBoot/' + target
             rc = os.system(cmd)
             if ZipDelete == 'True':
                 rc = os.system('rm -rf ' + sourcefile2)
@@ -865,7 +868,7 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
                 os.system('sleep 5; init 4; sleep 5; init 3 ')
 
         #UBI_READER
-        elif os.path.exists('/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ubi_reader/ubi_extract_files.py'):
+        elif os.path.exists('' + extensions_path + 'NeoBoot/ubi_reader/ubi_extract_files.py'):
                 if os.path.exists('' + getNeoLocation() + 'ImagesUpload/venton-hdx'):
                     os.chdir('venton-hdx')
                 if os.path.exists('' + getNeoLocation() + 'ImagesUpload/hde'):
@@ -1037,9 +1040,9 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
                 os.system('echo "Instalacja - ubi_reader w toku..."')            
                 if os.path.exists('' + getNeoLocation() + 'ImagesUpload/vuplus/root_cfe_auto.*'):
                     os.system('mv -f root_cfe_auto.* rootfs.bin') 
-                cmd = 'chmod 777 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ubi_reader/ubi_extract_files.py'
+                cmd = 'chmod 777 ' + extensions_path + 'NeoBoot/ubi_reader/ubi_extract_files.py'
                 rc = os.system(cmd)
-                cmd = 'python /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ubi_reader/ubi_extract_files.py rootfs.bin -o' + getNeoLocation() + 'ubi'
+                cmd = 'python ' + extensions_path + 'NeoBoot/ubi_reader/ubi_extract_files.py rootfs.bin -o' + getNeoLocation() + 'ubi'
                 rc = os.system(cmd)
                 os.chdir('/home/root')
                 os.system('mv ' + getNeoLocation() + 'ubi/rootfs/* ' + getNeoLocation() + 'ImageBoot/%s/' % target)                
@@ -1057,9 +1060,9 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
             os.system('mv -f rootfs.ubi rootfs.bin')                    
             os.system('echo "Instalacja - ubi_reader w toku..."')            
             print '[NeoBoot] Extracting UBIFS image and moving extracted image to our target'
-            cmd = 'chmod 777 /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ubi_reader/ubi_extract_files.py'
+            cmd = 'chmod 777 ' + extensions_path + 'NeoBoot/ubi_reader/ubi_extract_files.py'
             rc = os.system(cmd)
-            cmd = 'python /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/ubi_reader/ubi_extract_files.py rootfs.bin -o ' + getNeoLocation() + 'ubi'
+            cmd = 'python ' + extensions_path + 'NeoBoot/ubi_reader/ubi_extract_files.py rootfs.bin -o ' + getNeoLocation() + 'ubi'
             rc = os.system(cmd)
             os.chdir('/home/root')
             cmd = 'cp -r -p ' + getNeoLocation() + 'ubi/rootfs/* ' + getNeoLocation() + 'ImageBoot/' + target
@@ -1223,11 +1226,11 @@ def NEOBootExtract(source, target, ZipDelete, BlackHole):
                       
             cmd = 'mkdir ' + getNeoLocation() + 'ImageBoot/%s/boot/blackhole' % target
             rc = os.system(cmd)
-            cmd = 'cp -f /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/version ' + getNeoLocation() + 'ImageBoot/%s/boot/blackhole' % target
+            cmd = 'cp -f ' + extensions_path + 'NeoBoot/bin/version ' + getNeoLocation() + 'ImageBoot/%s/boot/blackhole' % target
             rc = os.system(cmd)
             cmd = 'mv ' + getNeoLocation() + 'ImageBoot/%s/usr/lib/enigma2/python/Blackhole/BhUtils.pyo ' + getNeoLocation() + 'ImageBoot/%s/usr/lib/enigma2/python/Blackhole/BhUtils.pyo.org' % (target, target)
             rc = os.system(cmd)
-            cmd = 'cp -rf /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot/bin/utilsbh ' + getNeoLocation() + 'ImageBoot/%s/usr/lib/enigma2/python/Blackhole/BhUtils.py' % target
+            cmd = 'cp -rf ' + extensions_path + 'NeoBoot/bin/utilsbh ' + getNeoLocation() + 'ImageBoot/%s/usr/lib/enigma2/python/Blackhole/BhUtils.py' % target
             rc = os.system(cmd)
             localfile = '' + getNeoLocation() + 'ImageBoot/%s/boot/blackhole/version' % target
             temp_file = open(localfile, 'w')

@@ -50,7 +50,7 @@ LinkNeoBoot = '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
 # warranty, use at YOUR own risk.
 
 PLUGINVERSION = '8.01'
-UPDATEVERSION = '8.23'
+UPDATEVERSION = '8.24'
 
 def Freespace(dev):
     statdev = os.statvfs(dev)
@@ -434,7 +434,7 @@ class NeoBootInstallation(Screen):
 
     def check_fstabUUID(self):                
             if getFSTAB2() != 'UUID':
-                message = _('Disk UUID not found\n - Universally unique identifier (UUID) is not required.\nYou can proceed with further installation or give an ID to your disk.\nTo continue the installation neoboo, press OK or No to abort.\nTo continue ?') 
+                message = _('Disk UUID not found\n - Universally unique identifier (UUID) is not required.\nYou can proceed with further installation or give an ID to your disk.\nTo continue the installation neoboo, press OK or No to abort.') 
                 ybox = self.session.openWithCallback(self.SetMountPointFSTAB, MessageBox, message, MessageBox.TYPE_YESNO)
                 ybox.setTitle(_('Install Confirmation'))
             else:
