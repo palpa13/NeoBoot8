@@ -149,31 +149,30 @@ class MyUpgrade2(Screen):
 
     def startShow(self):		
         self.activityTimer.start(10)
-
+		        
     def updateInfo(self):		
         self.activityTimer.stop()
         f2 = open('%sImageBoot/.neonextboot' % getNeoLocation(), 'r')
         mypath2 = f2.readline().strip()
         f2.close()
-        if fileExists('/.multinfo'):
-            self.myClose(_('Sorry, NeoBoot can installed or upgraded only when booted from Flash.'))
-            self.close()
-        elif mypath2 != 'Flash':
-            self.myClose(_('Sorry, NeoBoot can installed or upgraded only when booted from Flash.'))
+        
+        if mypath2 != 'Flash' or fileExists('/.multinfo'):
+            self.myClose(_('Sorry, NeoBoot can installed or upgraded only when booted from Flash STB'))
             self.close()
         else:
-            for fn in listdir('%sImageBoot' % getNeoLocation() ):
-                dirfile = '%sImageBoot/ ' % getNeoLocation() + fn
+            for fn in listdir('%sImageBoot'  % getNeoLocation() ):
+                dirfile = '%sImageBoot/'  % getNeoLocation() + fn
                 if isdir(dirfile):
-                    target = dirfile + '' + LinkNeoBoot + ''
+                    target = dirfile + '/usr/lib/enigma2/python/Plugins/Extensions/NeoBoot'
                     cmd = 'rm -r ' + target + ' > /dev/null 2>&1'
                     system(cmd)
-                    cmd = 'cp -r ' + LinkNeoBoot + ' ' + target
-                    system(cmd)          
-            out = open('%sImageBoot/.version' % getNeoLocation(), 'w')
+                    cmd = 'cp -r /usr/lib/enigma2/python/Plugins/Extensions/NeoBoot ' + target
+                    system(cmd)
+
+            out = open('%sImageBoot/.version'  % getNeoLocation(), 'w')
             out.write(PLUGINVERSION)
             out.close()
-            self.myClose(_('NeoBoot successfully updated. You can restart the plugin now.\nHave fun !!!'))
+            self.myClose(_('NeoBoot successfully updated. You can restart the plugin now.\nHave fun !!'))
 
     def myClose(self, message):				
         ImageChoose = self.session.open(NeoBootImageChoose)
