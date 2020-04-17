@@ -580,7 +580,7 @@ class NeoBootInstallation(Screen):
                         os.system('cp -Rf ' + LinkNeoBoot + '/bin/neoinitarm /sbin/neoinitarm; cp -Rf ' + LinkNeoBoot + '/bin/neoinitarmvu /sbin/neoinitarmvu; cd')  
                         os.system('chmod 755 /sbin/neoinitarm; chmod 755 /sbin/neoinitarmvu')                  
                         os.system('dd if=/dev/mmcblk0p4 of=%sImagesUpload/.kernel/flash-kernel-%s.bin' % (getNeoLocation(), getBoxHostName()))      
-                        os.system('mv ' + LinkNeoBoot + '/target/vuUno4Kmmcblk0p6.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/zero4k_run.py ' + LinkNeoBoot + '/run.py; cd')                         
+                        os.system('mv ' + LinkNeoBoot + '/target/vuZero4Kmmcblk0p4.sh ' + LinkNeoBoot + '/files/kernel.sh; mv ' + LinkNeoBoot + '/target/zero4k_run.py ' + LinkNeoBoot + '/run.py; cd')                         
                                                                                                                                                                                                                                                                                                                                                                                             
                 #Zgemma h7S  arm  
                 elif getCPUSoC() == 'bcm7251s' or getBoxHostName() == 'h7':
