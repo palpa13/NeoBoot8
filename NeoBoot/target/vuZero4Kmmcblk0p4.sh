@@ -41,17 +41,17 @@ if [ $VUMODEL = "zero4k" ]   ; then
                 if [ $TARGET = $INFOBOOT ] ; then
                                     echo "NEOBOOT is booting image " $TARGET
                 elif [ -e /.multinfo ]; then
-                                [ $PL ] && echo "Instalacja pliku kernel bin /dev/mmcblk0p1......" || echo "Instaling kernel bin file /dev/mmcblk0p1... "                                                                                                              
+                                [ $PL ] && echo "Instalacja pliku kernel bin /dev/mmcblk0p4......" || echo "Instaling kernel bin file /dev/mmcblk0p4... "                                                                                                              
                                 cd /media/mmc; ln -sfn /sbin/init.sysvinit /media/mmc/sbin/init
                                 if [ -e $NEOBOOTMOUNT$UPLOAD/.kernel/flash-kernel-$BOXNAME.bin ] ; then                                                                                                                                                                                                                       
                                     if [ -d /proc/stb ] ; then
                       	    	            dd if=$NEOBOOTMOUNT$UPLOAD/.kernel/flash-kernel-$BOXNAME.bin of=/dev/mmcblk0p4
                                     fi
-                                    echo "Boot - Flash. "                                                                                                                                                                                        
+                                    echo "VUZERO4K - Boot - Flash. "                                                                                                                                                                                        
                                     echo "Start image Flash z dysku hdd lub usb za 5 sekund _RESTART_..." 
                                 fi                                                                                                                              
                 elif [ ! -e /.multinfo ]; then 
-                                    [ $PL ] && echo "Instalacja pliku kernel bin /dev/mmcblk0p1......" || echo "Instaling kernel bin file /dev/mmcblk0p1... "                                   
+                                    [ $PL ] && echo "Instalacja pliku kernel bin /dev/mmcblk0p4......" || echo "Instaling kernel bin file /dev/mmcblk0p4... "                                   
                                     if [ -e $NEOBOOTMOUNT$UPLOAD/.kernel/flash-kernel-$BOXNAME.bin ] ; then
                                         [ $PL ] && echo "Instalacja pliku kernel bin..." || echo "Instaling kernel bin file "                                                                                                                  
                                         if [ -d /proc/stb ] ; then
