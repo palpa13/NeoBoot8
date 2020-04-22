@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh 
 # script gutosie 
 # here you can add your own command to perform
 # line - Checking internet connection by @j00zek thank you :)
