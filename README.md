@@ -1,21 +1,30 @@
 # NeoBoot_8
 
 
+
+
 UWAGA!!!
 
-ZABRANIA się rozpowszenianie lub pisanie na temat wtyczki NeoBoot na forum :
+ZABRANIA się rozpowszechnianie  wtyczki NeoBoot na forum :
 
- https://www.sat-4-all.com
- 
-- zabrania się też zamieszczanie na wspomnianym forum, różnego rodzju ver. neoboota lub linków do wtyczki !
-- proszę o skasowanie wszystkich linków i ver z w/w forum
-- powodem decyzji jest moderator tego forum znany pod nazwą Ping_TM lub riki, z jego powodu projek neoboota zostanie całkowicie 
+https://www.sat-4-all.com
 
-wtrzymany lub zawieszony !!! 
+
+- zakazuje definitywnie wstawianie różnych linków do źródła wtyczki  lub podobnych
+- zabrania się też zamieszczanie na wspomnianym forum, różnego rodzaju ver. neoboota lub linków do wtyczki !
+- proszę o skasowanie wszystkich linków i wersji z w/w forum, najlepiej jak to zrobi ta osoba która lubi kasować, zalecam
+
+powodem decyzji jest moderator tego forum znany pod nazwą Ping_TM lub riki, z jego powodu projekt neoboota zostanie całkowicie
+
+wstrzymany lub zawieszony !!!
 
 Wszelkie pytania o linki neoboota możecie kierować do ADMINA Ping_TM na forum sat-4-all
 
 proszę uszanować moja prośbę i decyzję !!!
+
+ 
+regulamin na tym forum moim zdaniem obowiązuje tylko dla rangi "Użytkownicy" a dla modów i adminów już nie , mogą robić co im się podoba
+
 
 
 
