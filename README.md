@@ -2,12 +2,18 @@
 
 
 UWAGA!!!
+
 ZABRANIA się rozpowszenianie lub pisanie na temat wtyczki NeoBoot na forum :
  https://www.sat-4-all.com
-- zabrania się też zamieszczanie na w/w wspomnianym forum różnego rodzju ver. neoboota lub linków do wtyczki
+ 
+- zabrania się też zamieszczanie na wspomnianym forum, różnego rodzju ver. neoboota lub linków do wtyczki !
 - proszę o skasowanie wszystkich linków i ver z w/w forum
-- powodem decyzji jest moderator tego forum znany pod nazwą Ping_TM lub riki, z jego powodu projek neoboota zostanie całkowicie wtrzymany lub zawieszony !!! 
+- powodem decyzji jest moderator tego forum znany pod nazwą Ping_TM lub riki, z jego powodu projek neoboota zostanie całkowicie 
+
+wtrzymany lub zawieszony !!! 
+
 Wszelkie pytania o linki neoboota możecie kierować do ADMINA Ping_TM na forum sat-4-all
+
 proszę uszanować moja prośbę i decyzję !!!
 
 
