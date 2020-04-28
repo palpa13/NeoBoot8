@@ -17,6 +17,8 @@ Wszelkie pytania o linki neoboota możecie kierować do ADMINA Ping_TM na forum 
 proszę uszanować moja prośbę i decyzję !!!
 
 
+
+
 Pierwsza instalacja neoboot-a
 
 Uruchom poniższą komendę w terminalu wspieranego tunera:
