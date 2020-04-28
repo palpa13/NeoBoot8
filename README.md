@@ -4,6 +4,7 @@
 UWAGA!!!
 
 ZABRANIA się rozpowszenianie lub pisanie na temat wtyczki NeoBoot na forum :
+
  https://www.sat-4-all.com
  
 - zabrania się też zamieszczanie na wspomnianym forum, różnego rodzju ver. neoboota lub linków do wtyczki !
@@ -15,6 +16,8 @@ wtrzymany lub zawieszony !!!
 Wszelkie pytania o linki neoboota możecie kierować do ADMINA Ping_TM na forum sat-4-all
 
 proszę uszanować moja prośbę i decyzję !!!
+
+
 
 
 
